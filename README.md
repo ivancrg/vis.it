@@ -25,3 +25,10 @@ vis&#46;it
 - 48h weather forecast
 - **Important local news and events**
 - **Interesting places to visit**
+
+### Team members
+- Karlo Graf
+- Hana Rut Lerga
+- Vanja Ljubobratović
+- Ivan Rubinić
+- Ivana Štimac
