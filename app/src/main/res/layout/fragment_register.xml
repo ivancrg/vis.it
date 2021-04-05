@@ -2,103 +2,126 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/fragmentRegister"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/login_background"
         tools:context=".ui.login.RegisterFragment">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="35dp"
-            android:backgroundTint="#8FCBFF"
-            android:text="@string/sign_up"
+        <ImageView
+            android:id="@+id/registerFragmentImageView"
+            android:layout_width="409dp"
+            android:layout_height="126dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="95dp"
+            android:contentDescription="@string/logo_description"
+            android:src="@drawable/visitcompass2"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName3"
+            android:id="@+id/registerFragmentFirstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
+            android:autofillHints="personGivenName"
             android:ems="10"
             android:hint="@string/name"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/registerFragmentImageView" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/registerFragmentLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:autofillHints="personFamilyName"
+            android:ems="10"
+            android:hint="@string/surname"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/registerFragmentEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registerFragmentFirstName" />
+
+        <EditText
+            android:id="@+id/registerFragmentEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:autofillHints="emailAddress"
+            android:ems="10"
+            android:hint="@string/prompt_email"
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toTopOf="@+id/registerFragmentUsername"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registerFragmentLastName" />
+
+        <EditText
+            android:id="@+id/registerFragmentUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:autofillHints="newUsername"
             android:ems="10"
             android:hint="@string/prompt_username"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+            app:layout_constraintTop_toBottomOf="@+id/registerFragmentEmail" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/registerFragmentPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:ems="10"
             android:hint="@string/prompt_password"
+            android:autofillHints="newPassword"
             android:inputType="textPassword"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+            app:layout_constraintTop_toBottomOf="@+id/registerFragmentUsername" />
 
         <EditText
-            android:id="@+id/editTextTextPassword2"
+            android:id="@+id/registerFragmentPasswordConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:autofillHints="newPassword"
             android:ems="10"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/registerFragmentPassword" />
 
-        <EditText
-            android:id="@+id/editTextTextPersonName2"
+        <Button
+            android:id="@+id/registerFragmentButton"
+            style="@style/MaterialButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:ems="10"
-            android:hint="@string/surname"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
+            android:layout_height="48dp"
+            android:layout_marginTop="35dp"
+            android:text="@string/sign_up"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="409dp"
-            android:layout_height="126dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="95dp"
-            android:src="@drawable/visitcompass2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/registerFragmentPasswordConfirm" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

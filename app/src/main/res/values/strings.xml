@@ -17,4 +17,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="visitcompass2">logo</string>
     <string name="title_activity_login">LoginActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logo_description">vis.it logo</string>
 </resources>

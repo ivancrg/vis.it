@@ -7,9 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.example.visit.ui.login.LoginFragment;
-import com.example.visit.ui.login.RegisterFragment;
-
 public class MainActivity extends AppCompatActivity implements CallbackFragment{
 
     Fragment fragment;
@@ -26,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements CallbackFragment{
 
     public void addFragment(){
         LoginFragment fragment = new LoginFragment();
-        fragment.setCallbackFragment(this);
+        //getSupportFragmentManager().findFragmentById(R.id.fragmentLogin).setCallbackFragment(this);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragmentLogin, fragment);
