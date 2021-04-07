@@ -1,63 +1,84 @@
 package com.example.visit;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChangePasswordFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.material.textfield.TextInputEditText;
+
+
 public class ChangePasswordFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public ChangePasswordFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChangePasswordFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChangePasswordFragment newInstance(String param1, String param2) {
-        ChangePasswordFragment fragment = new ChangePasswordFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_change_password, container, false);
+        View view = inflater.inflate(R.layout.fragment_change_password, container, false);
+
+        TextView changePasswordText = (TextView) view.findViewById(R.id.changePasswordTextView);
+        TextInputEditText newPassword = (TextInputEditText) view.findViewById(R.id.newPasswordTextInputEditText);
+        TextInputEditText confirmNewPassword = (TextInputEditText) view.findViewById(R.id.confirmNewPasswordTextInputEditText);
+        Button confirm = (Button) view.findViewById(R.id.confirmButton);
+        Button cancel = (Button) view.findViewById(R.id.cancelButton);
+
+
+        confirm.setEnabled(false);
+
+        TextWatcher confirmEnabledWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                confirm.setEnabled(newPassword.getText().length() > 0 && confirmNewPassword.getText().length() > 0);
+            }
+        };
+
+        newPassword.addTextChangedListener(confirmEnabledWatcher);
+        confirmNewPassword.addTextChangedListener(confirmEnabledWatcher);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //change password method
+                 FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentUserInterface, new UserInterfaceFragment());
+                fragmentTransaction.commit();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //back to user interface fragment
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentUserInterface, new UserInterfaceFragment());
+                fragmentTransaction.commit();
+            }
+        });
+        return view;
     }
 }
