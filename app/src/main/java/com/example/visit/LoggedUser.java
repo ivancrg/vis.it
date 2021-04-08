@@ -9,9 +9,9 @@ public class LoggedUser{
         return username;
     }
 
-    public void setUsername(String username)
+    public static void setUsername(String loggedUsername)
     {
-        this.username = username;
+        username = loggedUsername;
     }
 
     public static Boolean getIsLoggedIn()
@@ -19,9 +19,8 @@ public class LoggedUser{
         return isLoggedIn;
     }
 
-    public void setIsLoggedIn(Boolean isLoggedIn)
-    {
-        this.isLoggedIn = isLoggedIn;
+    public static void setIsLoggedIn(Boolean logged){
+        isLoggedIn = logged;
     }
 
 }

@@ -119,7 +119,13 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Check your login details.", Toast.LENGTH_LONG).show();
                 } else if (postResponse.getPassword().equals(password) && postResponse.getFeedback().equals("user_found")) {
                     // Correct password, user found
-                    Toast.makeText(view.getContext(), "Welcome, " + username + "!", Toast.LENGTH_LONG).show();
+                    LoggedUser.setUsername(username);
+                    LoggedUser.setIsLoggedIn(true);
+                    Toast.makeText(view.getContext(), "Welcome, " + username, Toast.LENGTH_LONG).show();
+                    FragmentTransaction fragmentTransaction = getActivity()
+                            .getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
+                    fragmentTransaction.commit();
                 }
             }
 

@@ -123,22 +123,22 @@
 
         <Button
             android:id="@+id/updateButton"
+            style="@style/MaterialButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/emailTextInputLayout"
             android:text="update"
             android:fontFamily="sans-serif"
-            android:backgroundTint="@color/blue"
             android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/changePasswordButton"
+            style="@style/MaterialButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/updateButton"
             android:text="Change password"
             android:fontFamily="sans-serif"
-            android:backgroundTint="@color/blue"
             android:textColor="@color/white" />
 
     </RelativeLayout>

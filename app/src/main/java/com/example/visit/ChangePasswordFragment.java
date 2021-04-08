@@ -3,16 +3,28 @@ package com.example.visit;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.visit.database.Database;
+import com.example.visit.database.HerokuAPI;
+import com.example.visit.database.UpdatePasswordPatch;
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.jetbrains.annotations.NotNull;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 public class ChangePasswordFragment extends Fragment {
@@ -51,7 +63,8 @@ public class ChangePasswordFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                confirm.setEnabled(newPassword.getText().length() > 0 && confirmNewPassword.getText().length() > 0);
+                confirm.setEnabled(newPassword.getText().length() > 0 && confirmNewPassword.getText().length() > 0 &&
+                        newPassword.getText().toString().equals(confirmNewPassword.getText().toString()));
             }
         };
 
@@ -63,9 +76,48 @@ public class ChangePasswordFragment extends Fragment {
             public void onClick(View v) {
                 if(informationValid(newPassword.getText().toString(),confirmNewPassword.getText().toString())) {
                     //change password method
+                    UpdatePasswordPatch updatePasswordPatch = new UpdatePasswordPatch(LoggedUser.getUsername(),newPassword.getText().toString());
+
+                    Retrofit retrofit = Database.getRetrofit();
+                    HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
+
+                    Call<UpdatePasswordPatch> updatePassword = herokuAPI.updatePassword(newPassword.getText().toString(), updatePasswordPatch);
+
+                    updatePassword.enqueue(new Callback<UpdatePasswordPatch>() {
+                        @Override
+                        public void onResponse(@NotNull Call<UpdatePasswordPatch> call, @NotNull Response<UpdatePasswordPatch> response) {
+                            if (!response.isSuccessful()) {
+                                // Not OK
+                                Log.e("/update", "notSuccessful: Something went wrong. " + response.code());
+                                return;
+                            }
+
+                            UpdatePasswordPatch postResponse = response.body();
+                            //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
+
+                            assert postResponse != null;
+                            if (postResponse.getFeedback().equals("database_error")) {
+                                // Database error server-side
+                                Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                            } else if (postResponse.getFeedback().equals("user_not_found")) {
+                                // User not found
+                                Toast.makeText(view.getContext(), "Check your login details.", Toast.LENGTH_LONG).show();
+                            } else if (postResponse.getFeedback().equals("user_found")) {
+                                // User found
+                                Toast.makeText(view.getContext(), "Password successfully changed.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull Call<UpdatePasswordPatch> call, @NotNull Throwable t) {
+                            Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                            Log.e("/update", "onFailure: Something went wrong. " + t.getMessage());
+                        }
+                    });
+
                     FragmentTransaction fragmentTransaction = getActivity()
                             .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentUserInterface, new UserInterfaceFragment());
+                    fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
                     fragmentTransaction.commit();
                 }
             }
@@ -77,7 +129,7 @@ public class ChangePasswordFragment extends Fragment {
                 //back to user interface fragment
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentUserInterface, new UserInterfaceFragment());
+                fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
                 fragmentTransaction.commit();
             }
         });
