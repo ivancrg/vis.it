@@ -1,13 +1,14 @@
 package com.example.visit;
 
-import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity {
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity implements CallbackFragment{
+
     Fragment fragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -21,12 +22,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addFragment(){
-        UserInterfaceFragment fragment = new UserInterfaceFragment();
+        LoginFragment fragment = new LoginFragment();
+        //getSupportFragmentManager().findFragmentById(R.id.fragmentLogin).setCallbackFragment(this);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragmentUserInterface, fragment);
+        fragmentTransaction.add(R.id.fragmentLogin, fragment);
+        fragmentTransaction.commit();
+    }
+
+    public void replaceFragment(){
+        fragment = new RegisterFragment();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.fragmentRegister, fragment);
         fragmentTransaction.commit();
     }
 
 
+    @Override
+    public void changeFragment() {
+        replaceFragment();
+    }
 }
