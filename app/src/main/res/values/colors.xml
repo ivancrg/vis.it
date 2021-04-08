@@ -10,4 +10,5 @@
     <color name="splashBack">#390fd4</color>
     <color name="colorEnabled">#2196f3</color>
     <color name="colorDisabled">#8fcbff</color>
+    <color name="darkBlueTopBar">#0034b8</color>
 </resources>
