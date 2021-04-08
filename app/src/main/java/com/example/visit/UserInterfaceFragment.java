@@ -1,6 +1,8 @@
 package com.example.visit;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +40,39 @@ public class UserInterfaceFragment extends Fragment {
         Button update = (Button) view.findViewById(R.id.updateButton);
         Button changePassword = (Button) view.findViewById(R.id.changePasswordButton);
 
+        //getUsers(view);
+        TextWatcher updateEnableWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                update.setEnabled(firstName.getText().length() > 0 &&
+                        lastName.getText().length() > 0 &&
+                        email.getText().length() > 0 &&
+                        username.getText().length() > 0);
+            }
+        };
+
+        firstName.addTextChangedListener(updateEnableWatcher);
+        lastName.addTextChangedListener(updateEnableWatcher);
+        email.addTextChangedListener(updateEnableWatcher);
+        username.addTextChangedListener(updateEnableWatcher);
+
         update.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-            //update method
+                if (informationValid(firstName.getText().toString(),
+                        lastName.getText().toString(),
+                        email.getText().toString(),
+                        username.getText().toString())) {
+                    //update method
+                }
             }
         });
 
@@ -54,9 +85,16 @@ public class UserInterfaceFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-        //getUsers(view);
+
         return view;
     }
+    private boolean informationValid(String firstName, String lastName, String email, String username) {
+            // TODO CHECK INFO
+            // Setting error example
+            //firstName.setError("You need to enter a name");
+
+            return true;
+       }
 
 
     /*private void getUsers(View view) {

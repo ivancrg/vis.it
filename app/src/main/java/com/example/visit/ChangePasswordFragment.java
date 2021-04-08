@@ -61,11 +61,13 @@ public class ChangePasswordFragment extends Fragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //change password method
-                 FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentUserInterface, new UserInterfaceFragment());
-                fragmentTransaction.commit();
+                if(informationValid(newPassword.getText().toString(),confirmNewPassword.getText().toString())) {
+                    //change password method
+                    FragmentTransaction fragmentTransaction = getActivity()
+                            .getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentUserInterface, new UserInterfaceFragment());
+                    fragmentTransaction.commit();
+                }
             }
         });
 
@@ -80,5 +82,10 @@ public class ChangePasswordFragment extends Fragment {
             }
         });
         return view;
+    }
+    private boolean informationValid(String oldPassword, String newPassword) {
+        // TODO CHECK INFO
+
+        return true;
     }
 }
