@@ -73,52 +73,9 @@ public class ChangePasswordFragment extends Fragment {
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(informationValid(newPassword.getText().toString(),confirmNewPassword.getText().toString())) {
-                    //change password method
-                    UpdatePasswordPatch updatePasswordPatch = new UpdatePasswordPatch(LoggedUser.getUsername(),newPassword.getText().toString());
-
-                    Retrofit retrofit = Database.getRetrofit();
-                    HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
-
-                    Call<UpdatePasswordPatch> updatePassword = herokuAPI.updatePassword(newPassword.getText().toString(), updatePasswordPatch);
-
-                    updatePassword.enqueue(new Callback<UpdatePasswordPatch>() {
-                        @Override
-                        public void onResponse(@NotNull Call<UpdatePasswordPatch> call, @NotNull Response<UpdatePasswordPatch> response) {
-                            if (!response.isSuccessful()) {
-                                // Not OK
-                                Log.e("/update", "notSuccessful: Something went wrong. " + response.code());
-                                return;
-                            }
-
-                            UpdatePasswordPatch postResponse = response.body();
-                            //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
-
-                            assert postResponse != null;
-                            if (postResponse.getFeedback().equals("database_error")) {
-                                // Database error server-side
-                                Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
-                            } else if (postResponse.getFeedback().equals("user_not_found")) {
-                                // User not found
-                                Toast.makeText(view.getContext(), "Check your login details.", Toast.LENGTH_LONG).show();
-                            } else if (postResponse.getFeedback().equals("user_found")) {
-                                // User found
-                                Toast.makeText(view.getContext(), "Password successfully changed.", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NotNull Call<UpdatePasswordPatch> call, @NotNull Throwable t) {
-                            Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
-                            Log.e("/update", "onFailure: Something went wrong. " + t.getMessage());
-                        }
-                    });
-
-                    FragmentTransaction fragmentTransaction = getActivity()
-                            .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
-                    fragmentTransaction.commit();
+            public void onClick(View view) {
+                if(informationValid(newPassword.getText().toString(), confirmNewPassword.getText().toString())){
+                    updatePassword(view, LoggedUser.getUsername(), newPassword.getText().toString());
                 }
             }
         });
@@ -129,15 +86,59 @@ public class ChangePasswordFragment extends Fragment {
                 //back to user interface fragment
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
+                fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment(LoggedUser.getUsername()));
                 fragmentTransaction.commit();
             }
         });
         return view;
     }
+
     private boolean informationValid(String oldPassword, String newPassword) {
         // TODO CHECK INFO
 
         return true;
+    }
+
+    private void updatePassword(View view, String username, String newPassword) {
+        //change password method
+        UpdatePasswordPatch updatePasswordPatch = new UpdatePasswordPatch(username, newPassword);
+
+        Retrofit retrofit = Database.getRetrofit();
+        HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
+
+        Call<UpdatePasswordPatch> call = herokuAPI.updatePassword(username, updatePasswordPatch);
+
+        call.enqueue(new Callback<UpdatePasswordPatch>() {
+            @Override
+            public void onResponse(@NotNull Call<UpdatePasswordPatch> call, @NotNull Response<UpdatePasswordPatch> response) {
+                if (!response.isSuccessful()) {
+                    // Not OK
+                    Log.e("/update", "notSuccessful: Something went wrong. " + response.code());
+                    return;
+                }
+
+                UpdatePasswordPatch postResponse = response.body();
+                //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
+
+                assert postResponse != null;
+
+                if ("password_updated".equals(postResponse.getFeedback())) {// User found
+                    Toast.makeText(view.getContext(), "Password successfully updated.", Toast.LENGTH_LONG).show();
+                } else {// Possible database error server-side, user not found...
+                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<UpdatePasswordPatch> call, @NotNull Throwable t) {
+                Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                Log.e("/updatePassword", "onFailure: Something went wrong. " + t.getMessage());
+            }
+        });
+
+        FragmentTransaction fragmentTransaction = getActivity()
+                .getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment(LoggedUser.getUsername()));
+        fragmentTransaction.commit();
     }
 }

@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.LoginPost;
+import com.example.visit.database.User;
 import com.example.visit.database.Users;
 
 import org.jetbrains.annotations.NotNull;
@@ -80,7 +81,7 @@ public class LoginFragment extends Fragment {
         registerLink.setOnClickListener(view12 -> {
             FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentRegister, new RegisterFragment());
+            fragmentTransaction.replace(R.id.fragmentLogin, new RegisterFragment());
             fragmentTransaction.commit();
         });
 
@@ -119,12 +120,10 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Check your login details.", Toast.LENGTH_LONG).show();
                 } else if (postResponse.getPassword().equals(password) && postResponse.getFeedback().equals("user_found")) {
                     // Correct password, user found
-                    LoggedUser.setUsername(username);
-                    LoggedUser.setIsLoggedIn(true);
                     Toast.makeText(view.getContext(), "Welcome, " + username, Toast.LENGTH_LONG).show();
                     FragmentTransaction fragmentTransaction = getActivity()
                             .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
+                    fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment(username));
                     fragmentTransaction.commit();
                 }
             }
@@ -133,37 +132,6 @@ public class LoginFragment extends Fragment {
             public void onFailure(@NotNull Call<LoginPost> call, @NotNull Throwable t) {
                 Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 Log.e("/login", "onFailure: Something went wrong. " + t.getMessage());
-            }
-        });
-    }
-
-    private void getUsers(View view) {
-        Retrofit retrofit = Database.getRetrofit();
-
-        // Retrofit takes care of interface implementation
-        HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
-
-        // Retrofit implements getMembers() method set in HerokuAPI interface
-        Call<List<Users>> call = herokuAPI.getUsers();
-
-        call.enqueue(new Callback<List<Users>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<Users>> call, @NotNull Response<List<Users>> response) {
-                if (!response.isSuccessful()) {
-                    // Not OK
-                    Log.e("/getUsers", "notSuccessful: Something went wrong. " + response.code());
-                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                assert response.body() != null;
-                Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(@NotNull Call<List<Users>> call, @NotNull Throwable t) {
-                // Communication error, JSON parsing error, class configuration error...
-                Log.e("/getUsers", "onFailure: Something went wrong. " + t.getMessage());
             }
         });
     }
