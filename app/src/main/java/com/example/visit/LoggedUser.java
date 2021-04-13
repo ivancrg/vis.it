@@ -15,7 +15,9 @@ public class LoggedUser {
         return username;
     }
 
-    public static void setUsername(String username) { LoggedUser.username = username; }
+    public static void setUsername(String username) {
+        LoggedUser.username = username;
+    }
 
     public static String getEmail() {
         return email;

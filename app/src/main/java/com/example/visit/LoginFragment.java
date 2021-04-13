@@ -19,11 +19,9 @@ import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.LoginPost;
 import com.example.visit.database.User;
-import com.example.visit.database.Users;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -45,6 +43,14 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        if (LoggedUser.getIsLoggedIn()) {
+            Toast.makeText(view.getContext(), "Welcome, " + LoggedUser.getUsername(), Toast.LENGTH_LONG).show();
+            FragmentTransaction fragmentTransaction = getActivity()
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
+            fragmentTransaction.commit();
+        }
 
         final EditText username = (EditText) view.findViewById(R.id.loginFragmentUsername);
         final EditText password = (EditText) view.findViewById(R.id.loginFragmentPassword);
@@ -121,10 +127,7 @@ public class LoginFragment extends Fragment {
                 } else if (postResponse.getPassword().equals(password) && postResponse.getFeedback().equals("user_found")) {
                     // Correct password, user found
                     Toast.makeText(view.getContext(), "Welcome, " + username, Toast.LENGTH_LONG).show();
-                    FragmentTransaction fragmentTransaction = getActivity()
-                            .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment(username));
-                    fragmentTransaction.commit();
+                    setLoggedUser(view, username);
                 }
             }
 
@@ -132,6 +135,45 @@ public class LoginFragment extends Fragment {
             public void onFailure(@NotNull Call<LoginPost> call, @NotNull Throwable t) {
                 Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 Log.e("/login", "onFailure: Something went wrong. " + t.getMessage());
+            }
+        });
+    }
+
+    private void setLoggedUser(View view, String username) {
+        Retrofit retrofit = Database.getRetrofit();
+        HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
+        Call<User> call = herokuAPI.getUser(username);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NotNull Call<User> call, @NotNull Response<User> response) {
+                if (!response.isSuccessful()) {
+                    // Not OK
+                    Log.e("/getUser", "notSuccessful: Something went wrong. " + response.code());
+                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                assert response.body() != null;
+                User user = response.body();
+
+                if (user.getFeedback().equals("user_found")) {
+                    LoggedUser.setData(user);
+                    LoggedUser.setIsLoggedIn(true);
+
+                    FragmentTransaction fragmentTransaction = getActivity()
+                            .getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
+                    fragmentTransaction.commit();
+                } else {
+                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<User> call, @NotNull Throwable t) {
+                // Communication error, JSON parsing error, class configuration error...
+                Log.e("/getUsers", "onFailure: Something went wrong. " + t.getMessage());
             }
         });
     }

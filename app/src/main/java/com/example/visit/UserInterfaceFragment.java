@@ -28,10 +28,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class UserInterfaceFragment extends Fragment {
-    private String loggedInUsername;
+    public UserInterfaceFragment() {
 
-    public UserInterfaceFragment(String username) {
-        loggedInUsername = username;
     }
 
     @Override
@@ -52,14 +50,18 @@ public class UserInterfaceFragment extends Fragment {
         Button update = (Button) view.findViewById(R.id.updateButton);
         Button changePassword = (Button) view.findViewById(R.id.changePasswordButton);
 
-        if(LoggedUser.getIsLoggedIn()){
+        if (LoggedUser.getIsLoggedIn()) {
             fullName.setText(String.format("%s %s", LoggedUser.getFirstName(), LoggedUser.getLastName()));
             labelUsername.setText(LoggedUser.getUsername());
             firstName.setText(LoggedUser.getFirstName());
             lastName.setText(LoggedUser.getLastName());
             email.setText(LoggedUser.getEmail());
-        } else{
-            setLoggedUser(view, loggedInUsername);
+        } else {
+            fullName.setText("- -");
+            labelUsername.setText("-");
+            firstName.setText("-");
+            lastName.setText("-");
+            email.setText("-");
         }
 
         TextWatcher updateEnableWatcher = new TextWatcher() {
@@ -89,8 +91,6 @@ public class UserInterfaceFragment extends Fragment {
                     email.getText().toString())) {
                 //update method
                 updateUser(view, firstName.getText().toString(), lastName.getText().toString(), email.getText().toString());
-
-                setLoggedUser(view, LoggedUser.getUsername());
             }
         });
 
@@ -137,8 +137,8 @@ public class UserInterfaceFragment extends Fragment {
                 assert updatePatchResponse != null;
                 switch (updatePatchResponse.getFeedback()) {
                     case "user_updated":
-                        // Correct password, user found
                         Toast.makeText(view.getContext(), "Update successful.", Toast.LENGTH_LONG).show();
+                        setLoggedUser(view, username);
                         break;
                     default:
                         // Possible database error server-side, user not found...
@@ -157,11 +157,7 @@ public class UserInterfaceFragment extends Fragment {
 
     private void setLoggedUser(View view, String username) {
         Retrofit retrofit = Database.getRetrofit();
-
-        // Retrofit takes care of interface implementation
         HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
-
-        // Retrofit implements getMembers() method set in HerokuAPI interface
         Call<User> call = herokuAPI.getUser(username);
 
         call.enqueue(new Callback<User>() {
