@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/login_background"
-        tools:context=".ui.login.RegisterFragment">
+        tools:context=".RegisterFragment">
+
 
         <ImageView
             android:id="@+id/registerFragmentImageView"

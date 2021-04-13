@@ -13,9 +13,12 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.LoginPost;
+
 import com.example.visit.database.RegisterPost;
 
 import org.jetbrains.annotations.NotNull;
@@ -148,7 +151,8 @@ public class RegisterFragment extends Fragment {
                         Toast.makeText(view.getContext(), "Sorry, this username is already taken.", Toast.LENGTH_LONG).show();
                         break;
                     case "user_registered":
-                        // Username not available
+
+                        // User is registered
                         Toast.makeText(view.getContext(), "Congratulations, you have been successfully registered.", Toast.LENGTH_LONG).show();
                         break;
                 }
