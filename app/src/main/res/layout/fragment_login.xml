@@ -16,6 +16,7 @@
         android:paddingBottom="@dimen/fragment_vertical_margin"
         tools:context=".LoginFragment">
 
+
         <ImageView
             android:id="@+id/loginFragmentLogo"
             android:layout_width="130dp"

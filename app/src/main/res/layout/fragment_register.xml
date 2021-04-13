@@ -11,6 +11,7 @@
         android:background="@drawable/login_background"
         tools:context=".RegisterFragment">
 
+
         <ImageView
             android:id="@+id/registerFragmentImageView"
             android:layout_width="409dp"

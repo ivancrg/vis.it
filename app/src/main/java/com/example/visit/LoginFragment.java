@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit; 
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,7 +18,11 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.LoginPost;
+
 import com.example.visit.database.User;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -43,6 +47,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
 
         if (LoggedUser.getIsLoggedIn()) {
             Toast.makeText(view.getContext(), "Welcome, " + LoggedUser.getUsername(), Toast.LENGTH_LONG).show();
@@ -126,6 +131,7 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Check your login details.", Toast.LENGTH_LONG).show();
                 } else if (postResponse.getPassword().equals(password) && postResponse.getFeedback().equals("user_found")) {
                     // Correct password, user found
+
                     Toast.makeText(view.getContext(), "Welcome, " + username, Toast.LENGTH_LONG).show();
                     setLoggedUser(view, username);
                 }
@@ -138,6 +144,7 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
 
     private void setLoggedUser(View view, String username) {
         Retrofit retrofit = Database.getRetrofit();
@@ -155,6 +162,7 @@ public class LoginFragment extends Fragment {
                 }
 
                 assert response.body() != null;
+
                 User user = response.body();
 
                 if (user.getFeedback().equals("user_found")) {
