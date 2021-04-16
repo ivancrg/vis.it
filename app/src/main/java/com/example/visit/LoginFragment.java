@@ -53,7 +53,7 @@ public class LoginFragment extends Fragment {
             Toast.makeText(view.getContext(), "Welcome, " + LoggedUser.getUsername(), Toast.LENGTH_LONG).show();
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
+            fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
             fragmentTransaction.commit();
         }
 
@@ -92,7 +92,7 @@ public class LoginFragment extends Fragment {
         registerLink.setOnClickListener(view12 -> {
             FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentLogin, new RegisterFragment());
+            fragmentTransaction.replace(R.id.fragment_container, new RegisterFragment());
             fragmentTransaction.commit();
         });
 
@@ -171,7 +171,7 @@ public class LoginFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity()
                             .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
+                    fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
                     fragmentTransaction.commit();
                 } else {
                     Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();

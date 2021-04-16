@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navigation_header_height"
+    android:background="@color/darkBlueNavigationHeader"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="@dimen/navigation_header_padding"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ImageView
+        android:id="@+id/navigation_picture"
+        android:layout_width="@dimen/navigation_picture_size"
+        android:layout_height="@dimen/navigation_picture_size"
+        android:src="@drawable/visitcompass2" />
+
+    <TextView
+        android:id="@+id/navigation_full_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TextView
+        android:id="@+id/navigation_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="info@vis.it" />
 
 </LinearLayout>

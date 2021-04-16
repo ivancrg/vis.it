@@ -86,7 +86,7 @@ public class ChangePasswordFragment extends Fragment {
                 //back to user interface fragment
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
+                fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
                 fragmentTransaction.commit();
             }
         });
@@ -138,7 +138,7 @@ public class ChangePasswordFragment extends Fragment {
 
         FragmentTransaction fragmentTransaction = getActivity()
                 .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentLogin, new UserInterfaceFragment());
+        fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
         fragmentTransaction.commit();
     }
 }

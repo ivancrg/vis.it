@@ -11,6 +11,7 @@
     <color name="colorEnabled">#2196f3</color>
     <color name="colorDisabled">#8fcbff</color>
     <color name="darkBlueTopBar">#0034b8</color>
+    <color name="darkBlueNavigationHeader">#0034b8</color>
     <color name="blue">#0034b8</color>
 
 </resources>

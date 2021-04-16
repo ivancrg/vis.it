@@ -97,7 +97,7 @@ public class UserInterfaceFragment extends Fragment {
         changePassword.setOnClickListener(v -> {
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentLogin, new ChangePasswordFragment());
+            fragmentTransaction.replace(R.id.fragment_container, new ChangePasswordFragment());
             fragmentTransaction.commit();
         });
 
