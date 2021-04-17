@@ -1,26 +1,29 @@
 <resources>
     <string name="app_name">vis.it</string>
+    <string name="visitcompass2">logo</string>
+    <string name="logo_description">vis.it logo</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">E-mail</string>
-
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="confirm_password">Confirm password</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="login_failed">"Login failed"</string>
+
+    <!-- Strings related to registration -->
     <string name="name">First name</string>
     <string name="surname">Last name</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="register">Not a member? Sign up now!</string>
     <string name="sign_up">Sign up</string>
-    <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="visitcompass2">logo</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="logo_description">vis.it logo</string>
+
+    <!-- Strings related to account information -->
     <string name="change_password">Change password</string>
     <string name="update">Update</string>
     <string name="last_name">Last Name</string>
@@ -32,6 +35,9 @@
     <string name="confirm_new_password">Confirm new password</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+
+
+    <!-- Strings related to navigation drawer -->
     <string name="navigation_explore">Explore</string>
     <string name="navigation_add_plan">Add a new plan</string>
     <string name="navigation_travelling">On the go</string>
@@ -42,4 +48,6 @@
     <string name="navigation_contact">Contact support</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_my_visit">My vis.it</string>
+    <string name="info_vis_it">info@vis.it</string>
 </resources>
