@@ -18,6 +18,7 @@ import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.UpdatePatch;
 import com.example.visit.database.User;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
@@ -50,9 +51,18 @@ public class UserInterfaceFragment extends Fragment {
         Button update = (Button) view.findViewById(R.id.updateButton);
         Button changePassword = (Button) view.findViewById(R.id.changePasswordButton);
 
+        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navigationLabelFullName = (TextView) headerView.findViewById(R.id.navigation_full_name);
+        TextView navigationLabelUsername = (TextView) headerView.findViewById(R.id.navigation_username);
+
+        navigationView.setCheckedItem(R.id.nav_account);
+
         if (LoggedUser.getIsLoggedIn()) {
             fullName.setText(String.format("%s %s", LoggedUser.getFirstName(), LoggedUser.getLastName()));
+            navigationLabelFullName.setText(String.format("%s %s", LoggedUser.getFirstName(), LoggedUser.getLastName()));
             labelUsername.setText(LoggedUser.getUsername());
+            navigationLabelUsername.setText(LoggedUser.getUsername());
             firstName.setText(LoggedUser.getFirstName());
             lastName.setText(LoggedUser.getLastName());
             email.setText(LoggedUser.getEmail());
@@ -97,7 +107,7 @@ public class UserInterfaceFragment extends Fragment {
         changePassword.setOnClickListener(v -> {
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentLogin, new ChangePasswordFragment());
+            fragmentTransaction.replace(R.id.fragment_container, new ChangePasswordFragment());
             fragmentTransaction.commit();
         });
 
@@ -135,15 +145,11 @@ public class UserInterfaceFragment extends Fragment {
                 //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
 
                 assert updatePatchResponse != null;
-                switch (updatePatchResponse.getFeedback()) {
-                    case "user_updated":
-                        Toast.makeText(view.getContext(), "Update successful.", Toast.LENGTH_LONG).show();
-                        setLoggedUser(view, username);
-                        break;
-                    default:
-                        // Possible database error server-side, user not found...
-                        Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
-                        break;
+                if ("user_updated".equals(updatePatchResponse.getFeedback())) {
+                    Toast.makeText(view.getContext(), "Update successful.", Toast.LENGTH_LONG).show();
+                    setLoggedUser(view, username);
+                } else {// Possible database error server-side, user not found...
+                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -183,8 +189,15 @@ public class UserInterfaceFragment extends Fragment {
                     TextInputEditText lastName = (TextInputEditText) view.findViewById(R.id.lastNameTextInputEditText);
                     TextInputEditText email = (TextInputEditText) view.findViewById(R.id.emailTextInputEditText);
 
+                    NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
+                    View headerView = navigationView.getHeaderView(0);
+                    TextView navigationLabelFullName = (TextView) headerView.findViewById(R.id.navigation_full_name);
+                    TextView navigationLabelUsername = (TextView) headerView.findViewById(R.id.navigation_username);
+
                     fullName.setText(String.format("%s %s", LoggedUser.getFirstName(), LoggedUser.getLastName()));
+                    navigationLabelFullName.setText(String.format("%s %s", LoggedUser.getFirstName(), LoggedUser.getLastName()));
                     labelUsername.setText(LoggedUser.getUsername());
+                    navigationLabelUsername.setText(LoggedUser.getUsername());
                     firstName.setText(LoggedUser.getFirstName());
                     lastName.setText(LoggedUser.getLastName());
                     email.setText(LoggedUser.getEmail());

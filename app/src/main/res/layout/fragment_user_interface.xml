@@ -69,7 +69,8 @@
                 android:id="@+id/firstNameTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/first_name">
+                android:text="@string/first_name"
+                android:hint="@string/first_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/firstNameTextInputEditText"
@@ -85,7 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/firstNameTextInputLayout"
-                android:text="@string/last_name">
+                android:text="@string/last_name"
+                android:hint="@string/last_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/lastNameTextInputEditText"
