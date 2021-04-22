@@ -68,4 +68,11 @@
     <string name="trip_planner_date_button">Choose date of departure</string>
     <string name="trip_planner_things_button">Add things to the list</string>
     <string name="trip_planner_participants_button">Add participants</string>
+
+    <!-- Strings related to fragments inside trip planner -->
+    <string name="pick_country_title">PICK DESTINATION COUNTRY</string>
+    <string name="pick_city_title">PICK DESTINATION CITY</string>
+    <string name="button_save">SAVE CHANGES</string>
+    <string name="continue_exploring">Still not sure where to go? Continue exploring...</string>
+
 </resources>
