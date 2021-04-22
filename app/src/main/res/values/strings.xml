@@ -50,4 +50,22 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_my_visit">My vis.it</string>
     <string name="info_vis_it">info@vis.it</string>
+
+    <!-- Strings related to trip planner -->
+    <string name="trip_planner_title">PLAN YOUR TRIP</string>
+    <string name="trip_planner_country">Country:</string>
+    <string name="trip_planner_city">City:</string>
+    <string name="trip_planner_location">Accommodation link or location:</string>
+    <string name="trip_planner_travelling_mode">Travelling mode:</string>
+    <string name="trip_planner_date">Date of departure:</string>
+    <string name="trip_planner_things">Things not to forget:</string>
+    <string name="trip_planner_participants">Participants:</string>
+    <string name="trip_planner_save_trip">save trip</string>
+    <string name="trip_planner_country_button">Choose country</string>
+    <string name="trip_planner_city_button">Choose city</string>
+    <string name="trip_planner_location_button">Add accommodation link or accommodation address</string>
+    <string name="trip_planner_travelling_mode_button">Choose travelling mode</string>
+    <string name="trip_planner_date_button">Choose date of departure</string>
+    <string name="trip_planner_things_button">Add things to the list</string>
+    <string name="trip_planner_participants_button">Add participants</string>
 </resources>
