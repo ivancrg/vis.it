@@ -75,8 +75,12 @@
     <string name="accommodation_title">ACCOMMODATION</string>
     <string name="date_title">DATE OF DEPARTURE</string>
     <string name="travelling_necessities_title">TRAVELLING NECESSITIES</string>
+    <string name="participants_title">ADD PARTICIPANTS</string>
+    <string name="mode_title">TRAVELLING MODE</string>
+    <string name="mode_text">Bus, car, airplane...</string>
     <string name="travelling_necessities_list">List all travelling necessities you should not forget on this trip!</string>
     <string name="link_accommodation">Link/address of accommodation</string>
+    <string name="link_friends">Invite friends!</string>
     <string name="button_save">SAVE CHANGES</string>
     <string name="continue_exploring">Still not sure where to go? Continue exploring...</string>
 

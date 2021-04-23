@@ -28,15 +28,14 @@
             android:layout_marginTop="44dp"
             android:layout_marginEnd="0dp"
             android:fontFamily="sans-serif"
-            android:text="@string/travelling_necessities_title"
+            android:text="@string/mode_title"
             android:textColor="@color/white"
             android:textSize="24sp" />
 
     </RelativeLayout>
 
-
     <Button
-        android:id="@+id/save_necessities"
+        android:id="@+id/save_mode"
         android:layout_width="201dp"
         android:layout_height="42dp"
         android:layout_marginStart="150dp"
@@ -48,23 +47,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader"
-        app:layout_constraintVertical_bias="0.899" />
+        app:layout_constraintVertical_bias="0.687" />
+
 
     <EditText
-        android:id="@+id/list_necessities"
-        android:layout_width="310dp"
-        android:layout_height="184dp"
-        android:layout_marginTop="128dp"
+        android:id="@+id/textView"
+        android:layout_width="303dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="160dp"
         android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="@string/travelling_necessities_list"
-        app:layout_constraintBottom_toTopOf="@+id/save_accommodation"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="@string/mode_text"
+        app:layout_constraintBottom_toTopOf="@+id/save_mode"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.326" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
