@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (itemId == R.id.nav_add_plan) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TripPlannerFragment()).commit();
         } else if (itemId == R.id.nav_travelling) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccommodationFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DateFragment()).commit();
         } else if (itemId == R.id.nav_on_location) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ON_LOCATION_FRAGMENT_CLASS_NAME()).commit();
             return false;
