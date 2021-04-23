@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <TextView
         android:id="@+id/continue_text2"
         android:layout_width="wrap_content"
@@ -58,6 +60,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="373dp" />
+
+    <TextView
+        android:id="@+id/postText"
+        android:layout_width="234dp"
+        android:layout_height="153dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/save_city"
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader"
+        app:layout_constraintVertical_bias="0.477"
+        tools:layout_editor_absoluteX="88dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,24 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    useLibrary 'org.apache.http.legacy'
+
+    configurations {
+        all{
+            exclude group: 'org.apache.httpcomponents'
+        }
+    }
+
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'org/apache/http/version.properties'
+        exclude 'org/apache/http/client/version.properties'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
