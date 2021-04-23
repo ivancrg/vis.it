@@ -74,6 +74,8 @@
     <string name="pick_city_title">PICK DESTINATION CITY</string>
     <string name="accommodation_title">ACCOMMODATION</string>
     <string name="date_title">DATE OF DEPARTURE</string>
+    <string name="travelling_necessities_title">TRAVELLING NECESSITIES</string>
+    <string name="travelling_necessities_list">List all travelling necessities you should not forget on this trip!</string>
     <string name="link_accommodation">Link/address of accommodation</string>
     <string name="button_save">SAVE CHANGES</string>
     <string name="continue_exploring">Still not sure where to go? Continue exploring...</string>

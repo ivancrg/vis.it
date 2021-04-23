@@ -38,11 +38,14 @@ public class CountryFragment extends Fragment {
         Button button = view.findViewById(R.id.save_city);
         TextView continue_exploring = view.findViewById(R.id.continue_text);
 
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 //destination string holds the country user picked
-                String destination = country.getCpViewHelper().getSelectedCountry().toString();
+                String destination_country = country.getCpViewHelper().getSelectedCountry().toString();
+
             }
         });
 

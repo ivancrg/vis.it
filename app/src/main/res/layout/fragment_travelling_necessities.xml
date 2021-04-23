@@ -28,14 +28,14 @@
             android:layout_marginTop="44dp"
             android:layout_marginEnd="0dp"
             android:fontFamily="sans-serif"
-            android:text="@string/accommodation_title"
+            android:text="@string/travelling_necessities_title"
             android:textColor="@color/white"
             android:textSize="24sp" />
 
     </RelativeLayout>
 
     <Button
-        android:id="@+id/save_accommodation"
+        android:id="@+id/save_necessities"
         android:layout_width="201dp"
         android:layout_height="42dp"
         android:layout_marginStart="150dp"
@@ -47,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader"
-        app:layout_constraintVertical_bias="0.687" />
+        app:layout_constraintVertical_bias="0.804" />
 
     <TextView
         android:id="@+id/continue_text"
@@ -56,7 +56,8 @@
         android:layout_marginStart="110dp"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="110dp"
-        android:layout_marginBottom="177dp"
+        android:layout_marginBottom="116dp"
+        android:gravity="center"
         android:text="@string/continue_exploring"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,19 +67,20 @@
 
 
     <EditText
-        android:id="@+id/textView"
-        android:layout_width="303dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="160dp"
+        android:id="@+id/list_necessities"
         android:ems="10"
-        android:gravity="center"
-        android:inputType="textPersonName"
-        android:text="@string/link_accommodation"
-        app:layout_constraintBottom_toTopOf="@+id/save_city"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:layout_width="310dp"
+        android:layout_height="184dp"
+        android:layout_marginTop="84dp"
+        android:text="@string/travelling_necessities_list"
+        app:layout_constraintBottom_toTopOf="@+id/save_accommodation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader"
-        app:layout_constraintVertical_bias="0.663" />
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

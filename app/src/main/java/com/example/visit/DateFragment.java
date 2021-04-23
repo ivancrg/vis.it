@@ -33,7 +33,6 @@ public class DateFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_date, container, false);
 
-
         // initiate the date picker and a button
         DatePicker datePicker = view.findViewById(R.id.datePicker);
         Button submit = view.findViewById(R.id.save_date);
@@ -47,7 +46,6 @@ public class DateFragment extends Fragment {
                 String year = "Year = " + datePicker.getYear();
             }
         });
-
         return view;
     }
 
