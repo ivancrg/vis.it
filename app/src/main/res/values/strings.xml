@@ -72,6 +72,8 @@
     <!-- Strings related to fragments inside trip planner -->
     <string name="pick_country_title">PICK DESTINATION COUNTRY</string>
     <string name="pick_city_title">PICK DESTINATION CITY</string>
+    <string name="accommodation">ACCOMMODATION</string>
+    <string name="link_accommodation">Link/address of accommodation</string>
     <string name="button_save">SAVE CHANGES</string>
     <string name="continue_exploring">Still not sure where to go? Continue exploring...</string>
 
