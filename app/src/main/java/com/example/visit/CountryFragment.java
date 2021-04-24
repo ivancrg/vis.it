@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.hbb20.CountryPickerView;
 
 public class CountryFragment extends Fragment {
@@ -45,6 +47,12 @@ public class CountryFragment extends Fragment {
             public void onClick(View view){
                 //destination string holds the country user picked
                 String destination_country = country.getCpViewHelper().getSelectedCountry().toString();
+                TripPlanning.setCountry(destination_country);
+
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
+                fragmentTransaction.commit();
 
             }
         });
