@@ -57,8 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // and delete return false to make selection in navigation drawer visible
 
         if (itemId == R.id.nav_explore) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NEWS_EXPLORE_FRAGMENT_CLASS_NAME()).commit();
-            return false;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ExploreFragment()).commit();
         } else if (itemId == R.id.nav_add_plan) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ADD_PLAN_FRAGMENT_CLASS_NAME()).commit();
             return false;
@@ -72,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (LoggedUser.getIsLoggedIn()) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new UserInterfaceFragment()).commit();
             } else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new LoginFragment()).commit();
                 Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
-                return false;
             }
         } else if (itemId == R.id.nav_settings) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SETTINGS_FRAGMENT_CLASS_NAME()).commit();

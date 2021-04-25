@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentExplore"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/stars"
+    tools:context=".ExploreFragment">
+
+    <RelativeLayout
+        android:id="@+id/exploreScreenRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/exploreScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="12sp"
+            android:paddingEnd="12sp"
+            android:paddingBottom="8dp"
+            android:text="@string/explore_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/exploreScreenTitleFontSize"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/exploreScreenVerticalRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/exploreScreenTitle"
+            android:padding="4dp"
+            android:paddingTop="16dp"
+            android:scrollbars="vertical" />
+    </RelativeLayout>
+</FrameLayout>
