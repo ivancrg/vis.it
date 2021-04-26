@@ -56,8 +56,8 @@ public class ExploreFragment extends Fragment {
 
         // vertical is used to represent horizontal recycler view items
         ArrayList<VerticalRecyclerViewItem> verticalItems = new ArrayList<>();
-        verticalItems.add(new VerticalRecyclerViewItem("Category Title 1", "Category text 1", horizontalItems));
-        verticalItems.add(new VerticalRecyclerViewItem("Category Title 2", "Category text 2", horizontalItems));
+        verticalItems.add(new VerticalRecyclerViewItem("Category Title 1", "Popular countries", horizontalItems));
+        verticalItems.add(new VerticalRecyclerViewItem("Category Title 2", "Explore vibrant new places", horizontalItems));
         verticalItems.add(new VerticalRecyclerViewItem("Category Title 3", "Category text 3", horizontalItems));
         verticalItems.add(new VerticalRecyclerViewItem("Category Title 4", "Category text 4", horizontalItems));
         verticalItems.add(new VerticalRecyclerViewItem("Category Title 5", "Category text 5", horizontalItems));

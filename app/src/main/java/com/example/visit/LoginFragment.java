@@ -53,7 +53,7 @@ public class LoginFragment extends Fragment {
             Toast.makeText(view.getContext(), "Welcome, " + LoggedUser.getUsername(), Toast.LENGTH_LONG).show();
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
+            fragmentTransaction.replace(R.id.fragment_container, new ExploreFragment());
             fragmentTransaction.commit();
         }
 
@@ -171,7 +171,7 @@ public class LoginFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity()
                             .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
+                    fragmentTransaction.replace(R.id.fragment_container, new ExploreFragment());
                     fragmentTransaction.commit();
                 } else {
                     Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
