@@ -60,7 +60,6 @@
                 android:text="@string/link_accommodation" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
     </RelativeLayout>
 
     <RelativeLayout

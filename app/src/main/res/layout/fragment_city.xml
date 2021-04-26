@@ -60,7 +60,6 @@
                 android:text="@string/city_text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
     </RelativeLayout>
 
     <RelativeLayout

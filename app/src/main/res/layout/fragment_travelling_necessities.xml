@@ -69,7 +69,6 @@
             android:textColor="@color/white"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="381dp" />
-
     </RelativeLayout>
 
     <TextView
