@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,24 +32,30 @@ public class CountryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_country, container, false);
-        picking();
-        return view;
-    }
 
-    public void picking(){
         CountryPickerView country = view.findViewById(R.id.country_picker);
-        Button button = view.findViewById(R.id.save_city);
+
+        Button next = view.findViewById(R.id.next_country);
+        Button cancel = view.findViewById(R.id.cancel_country);
         TextView continue_exploring = view.findViewById(R.id.continue_text);
 
-
-
-        button.setOnClickListener(new View.OnClickListener() {
+        next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 //destination string holds the country user picked
-                String destination_country = country.getCpViewHelper().getSelectedCountry().toString();
+                String destination_country = country.getCpViewHelper().getSelectedCountry().getValue().component3();
                 TripPlanning.setCountry(destination_country);
 
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new CityFragment());
+                fragmentTransaction.commit();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
                 FragmentTransaction fragmentTransaction = getActivity()
                         .getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
@@ -63,8 +70,7 @@ public class CountryFragment extends Fragment {
                 //needs to be forwarded to Explore fragment
             }
         });
-
-
+        return view;
     }
 
     @Override

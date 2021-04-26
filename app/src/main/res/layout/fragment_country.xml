@@ -39,38 +39,63 @@
         android:layout_width="310dp"
         android:layout_height="43dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="140dp"
         android:layout_marginEnd="50dp"
         android:background="@color/colorDisabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader" />
 
-    <Button
-        android:id="@+id/save_city"
-        android:layout_width="201dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="150dp"
-        android:text="@string/button_save"
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/country_picker"
+        android:layout_marginTop="190dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/continue_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/country_picker" />
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader">
+
+        <Button
+            android:id="@+id/next_country"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/next_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="444dp" />
+
+        <Button
+            android:id="@+id/cancel_country"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/next_country"
+            android:fontFamily="sans-serif"
+            android:text="@string/cancel_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="381dp" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/continue_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
         android:layout_marginStart="110dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="400dp"
         android:layout_marginEnd="110dp"
-        android:layout_marginBottom="177dp"
         android:text="@string/continue_exploring"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_city" />
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

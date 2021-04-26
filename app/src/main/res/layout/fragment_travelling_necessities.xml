@@ -35,36 +35,83 @@
     </RelativeLayout>
 
 
-    <Button
-        android:id="@+id/save_necessities"
-        android:layout_width="201dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="130dp"
-        android:text="@string/button_save"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tripPlannerHeader"
+        android:layout_marginTop="280dp"
+        android:orientation="vertical"
+        android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader"
-        app:layout_constraintVertical_bias="0.899" />
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader">
 
-    <EditText
-        android:id="@+id/list_necessities"
-        android:layout_width="310dp"
-        android:layout_height="184dp"
-        android:layout_marginTop="128dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="@string/travelling_necessities_list"
-        app:layout_constraintBottom_toTopOf="@+id/save_accommodation"
+        <Button
+            android:id="@+id/next_necessities"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/next_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="444dp" />
+
+        <Button
+            android:id="@+id/cancel_necessities"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/next_necessities"
+            android:fontFamily="sans-serif"
+            android:text="@string/cancel_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="381dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/continue_text"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="430dp"
+        android:layout_marginEnd="110dp"
+        android:text="@string/continue_exploring"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tripPlannerHeader"
+        android:layout_marginTop="160dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/necessitiesLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="223dp"
+            android:hint="@string/travelling_necessities_text"
+            android:text="@string/travelling_necessities_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/necessitiesEdit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:text="@string/travelling_necessities_list" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

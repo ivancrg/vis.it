@@ -36,40 +36,67 @@
 
     <DatePicker
         android:id="@+id/datePicker"
-        android:layout_width="371dp"
-        android:layout_height="242dp"
-        android:layout_marginTop="84dp"
-        android:datePickerMode="spinner"
+        android:layout_width="341dp"
+        android:layout_height="439dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:datePickerMode="calendar"
+        android:headerBackground="@color/colorEnabled"
+        android:selectableItemBackground="@color/blue"
+        android:colorAccent="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader" />
 
-    <Button
-        android:id="@+id/save_date"
-        android:layout_width="201dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="130dp"
-        android:text="@string/button_save"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tripPlannerHeader"
+        android:layout_marginTop="400dp"
+        android:orientation="vertical"
+        android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader">
+
+        <Button
+            android:id="@+id/next_date"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/next_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="444dp" />
+
+        <Button
+            android:id="@+id/cancel_date"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/next_date"
+            android:fontFamily="sans-serif"
+            android:text="@string/cancel_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="381dp" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/continue_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
         android:layout_marginStart="110dp"
+        android:layout_marginTop="525dp"
         android:layout_marginEnd="110dp"
-        android:layout_marginBottom="116dp"
         android:text="@string/continue_exploring"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_city"
-        app:layout_constraintVertical_bias="1.0" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

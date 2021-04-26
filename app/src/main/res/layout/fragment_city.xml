@@ -6,22 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-    <TextView
-        android:id="@+id/continue_text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="110dp"
-        android:layout_marginBottom="177dp"
-        android:text="@string/continue_exploring"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_city" />
-
     <RelativeLayout
         android:id="@+id/tripPlannerHeader"
         android:layout_width="match_parent"
@@ -50,26 +34,82 @@
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/save_city"
-        android:layout_width="201dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginEnd="150dp"
-        android:text="@string/button_save"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tripPlannerHeader"
+        android:layout_marginTop="240dp"
+        android:orientation="vertical"
+        android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="373dp" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cityLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/city"
+            android:text="@string/city">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cityEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/city_text"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tripPlannerHeader"
+        android:layout_marginTop="200dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader">
+
+        <Button
+            android:id="@+id/next_city"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/next_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="444dp" />
+
+        <Button
+            android:id="@+id/cancel_city"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/next_city"
+            android:fontFamily="sans-serif"
+            android:text="@string/cancel_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="381dp" />
+
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/postText"
-        android:layout_width="234dp"
-        android:layout_height="153dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/save_city"
-        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader"
-        app:layout_constraintVertical_bias="0.477"
-        tools:layout_editor_absoluteX="88dp" />
-
+        android:id="@+id/continue_text"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="110dp"
+        android:text="@string/continue_exploring"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
