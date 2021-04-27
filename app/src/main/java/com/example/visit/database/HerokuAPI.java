@@ -35,7 +35,7 @@ public interface HerokuAPI {
     @PATCH("updatePassword/{username}")
     Call<UpdatePasswordPatch> updatePassword(@Path("username") String username, @Body UpdatePasswordPatch patch);
 
-    @GET("getTrip")
-    Call<Trip> getTrip(@Query("username") String username);
+    @POST("insertTrip")
+    Call<TripPost> postTrip(@Body TripPost tripPost);
 
 }
