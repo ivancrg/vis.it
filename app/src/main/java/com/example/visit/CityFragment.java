@@ -1,19 +1,17 @@
 package com.example.visit;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.textfield.*;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class CityFragment extends Fragment {
 
@@ -40,12 +38,16 @@ public class CityFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_city);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
+        if(TripPlanning.getCity() != null) {
+            city.setText(TripPlanning.getCity());
+        }
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 //destination string holds the city user picked
                 String destination_city = city.getText().toString();
-                if (!destination_city.equals(getString(R.string.city_text))){
+                if (destination_city.length() > 0){
                     TripPlanning.setCity(destination_city);
                     FragmentTransaction fragmentTransaction = getActivity()
                             .getSupportFragmentManager().beginTransaction();

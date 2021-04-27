@@ -38,12 +38,16 @@ public class TravellingNecessitiesFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_necessities);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
+        if(TripPlanning.getNecessities() != null) {
+            necessitiesEdit.setText(TripPlanning.getNecessities());
+        }
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 //destination string holds the city user picked
                 String necessities = necessitiesEdit.getText().toString();
-                if (!necessities.equals(getString(R.string.travelling_necessities_list))){
+                if (necessities.length() > 0){
                     TripPlanning.setNecessities(necessities);
 
                     FragmentTransaction fragmentTransaction = getActivity()

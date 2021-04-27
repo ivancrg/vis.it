@@ -38,12 +38,16 @@ public class AccommodationFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_accommodation);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
+        if(TripPlanning.getLocation() != null) {
+            accommodationEdit.setText(TripPlanning.getLocation());
+        }
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 //destination string holds the city user picked
                 String accommodation = accommodationEdit.getText().toString();
-                if (!accommodation.equals(getString(R.string.link_accommodation))){
+                if (accommodation.length() > 0){
                     TripPlanning.setLocation(accommodation);
 
                     FragmentTransaction fragmentTransaction = getActivity()

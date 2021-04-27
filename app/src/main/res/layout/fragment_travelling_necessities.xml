@@ -96,8 +96,9 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/necessitiesLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="223dp"
+            android:layout_alignParentEnd="true"
             android:hint="@string/travelling_necessities_text"
             android:text="@string/travelling_necessities_text">
 
@@ -105,8 +106,7 @@
                 android:id="@+id/necessitiesEdit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:text="@string/travelling_necessities_list" />
+                android:layout_marginBottom="10dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

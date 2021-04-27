@@ -38,12 +38,16 @@ public class TravellingModeFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_mode);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
+        if(TripPlanning.getTravellingMode() != null) {
+            modeEdit.setText(TripPlanning.getTravellingMode());
+        }
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 //destination string holds the city user picked
                 String mode = modeEdit.getText().toString();
-                if (!mode.equals(getString(R.string.mode_text))){
+                if (mode.length() > 0){
                     TripPlanning.setTravellingMode(mode);
 
                     FragmentTransaction fragmentTransaction = getActivity()

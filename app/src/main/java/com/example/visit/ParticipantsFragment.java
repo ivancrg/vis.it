@@ -38,6 +38,10 @@ public class ParticipantsFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_participants);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
+        if(TripPlanning.getParticipantsDescription() != null) {
+            participantsEdit.setText(TripPlanning.getParticipantsDescription());
+        }
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
