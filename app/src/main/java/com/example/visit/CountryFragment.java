@@ -43,13 +43,16 @@ public class CountryFragment extends Fragment {
             @Override
             public void onClick(View view){
                 //destination string holds the country user picked
-                String destination_country = country.getCpViewHelper().getSelectedCountry().getValue().component3();
-                TripPlanning.setCountry(destination_country);
-
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new CityFragment());
-                fragmentTransaction.commit();
+                if (country.getCpViewHelper().getSelectedCountry().getValue() != null){
+                    String destination_country = country.getCpViewHelper().getSelectedCountry().getValue().component3();
+                    TripPlanning.setCountry(destination_country);
+                    FragmentTransaction fragmentTransaction = getActivity()
+                            .getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, new CityFragment());
+                    fragmentTransaction.commit();
+                } else {
+                    Toast.makeText(view.getContext(), "Choose destination country!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

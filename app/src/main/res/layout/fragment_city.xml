@@ -32,9 +32,11 @@
             android:textColor="@color/white"
             android:textSize="24sp" />
 
+
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tripPlannerHeader"
