@@ -21,7 +21,7 @@ public class CountryFragment extends Fragment {
 
     public static CountryFragment newInstance() {
         CountryFragment fragment = new CountryFragment();
-        Bundle args = new Bundle();
+
         return fragment;
     }
 
@@ -46,9 +46,15 @@ public class CountryFragment extends Fragment {
                 if (country.getCpViewHelper().getSelectedCountry().getValue() != null){
                     String destination_country = country.getCpViewHelper().getSelectedCountry().getValue().component3();
                     TripPlanning.setCountry(destination_country);
+
+                    Bundle args = new Bundle();
+                    args.putString("key", destination_country);
+                    CityFragment fragmentCity = new CityFragment();
+                    fragmentCity.setArguments(args);
+
                     FragmentTransaction fragmentTransaction = getActivity()
                             .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new CityFragment());
+                    fragmentTransaction.replace(R.id.fragment_container, fragmentCity);
                     fragmentTransaction.commit();
                 } else {
                     Toast.makeText(view.getContext(), "Choose destination country!", Toast.LENGTH_LONG).show();

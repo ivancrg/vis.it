@@ -106,9 +106,13 @@ public class TripPlannerFragment extends Fragment {
         });
 
         cityButton.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("key", TripPlanning.getCountry());
+            CityFragment fragmentCity = new CityFragment();
+            fragmentCity.setArguments(args);
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new CityFragment());
+            fragmentTransaction.replace(R.id.fragment_container, fragmentCity);
             fragmentTransaction.commit();
         });
 

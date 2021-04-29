@@ -1,38 +1,26 @@
 package com.example.visit;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.common.api.Status;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.*;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import butterknife.ButterKnife;
 import okhttp3.*;
 
 public class CityFragment extends Fragment {
@@ -43,12 +31,13 @@ public class CityFragment extends Fragment {
 
     public static CityFragment newInstance() {
         CityFragment fragment = new CityFragment();
-        Bundle args = new Bundle();
         return fragment;
     }
 
     View view;
-    TextInputEditText city;
+    Spinner spinner;
+    List<String> cityList;
+    ArrayAdapter<String> catAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,23 +50,73 @@ public class CityFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_city, container, false);
 
-        city = (TextInputEditText) view.findViewById(R.id.cityEdit);
+        TextInputEditText city = (TextInputEditText) view.findViewById(R.id.cityEdit);
         Button next = (Button) view.findViewById(R.id.next_city);
         Button cancel = (Button) view.findViewById(R.id.cancel_city);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
-        String destination_city = city.getText().toString();
 
-        if (!Places.isInitialized()) {
-            Places.initialize(view.getContext(), "AIzaSyA4bTb_BPnktpTpy4ePn6wHCyEY83yoBrA");
+        Bundle args = this.getArguments();
+        String data = args.getString("key");
+
+        if (data == null){
+            data = "";
+            Toast.makeText(view.getContext(), "Please choose destination country first!", Toast.LENGTH_LONG).show();
+            next.setEnabled(false);
+            cancel.setText("Go back");
+        } else {
+            next.setEnabled(true);
+            cancel.setText("Cancel");
         }
 
-        city.setFocusable(false);
-        city.setOnClickListener(new View.OnClickListener() {
+        spinner = new Spinner(this.getContext());
+        spinner = view.findViewById(R.id.spinner);
+        cityList = new ArrayList<String>();
+        catAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, cityList);
+
+
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, "{\r\n   \"country\": \""+ data + "\"\r\n}");
+        Request request = new Request.Builder()
+                .url("https://countriesnow.space/api/v0.1/countries/cities")
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Cookie", "__cfduid=db014f690fb26fc59e5c50092c509f28b1619124682")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onClick(View view) {
-                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.NAME);
-                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(view.getContext());
-                startActivityForResult(intent, 100);
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    final String myResponse = response.body().string();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                JSONObject cities = new JSONObject(myResponse);
+                                JSONArray cityArr = cities.getJSONArray("data");
+
+                                ArrayList<String> list = new ArrayList<String>();
+                                for(int i=0; i<cityArr.length(); i++) {
+                                    list.add(cityArr.getString(i));
+                                }
+                                ArrayAdapter<String> spinnerMenu = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, list);
+                                spinnerMenu.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(spinnerMenu);
+                                catAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -89,8 +128,10 @@ public class CityFragment extends Fragment {
             @Override
             public void onClick(View view){
                 //destination string holds the city user picked
-                if (destination_city.length() > 0){
-                    TripPlanning.setCity(destination_city);
+                String destination_city = city.getText().toString();
+                String city_string = spinner.getSelectedItem().toString();
+                if (city_string.length() > 0){
+                    TripPlanning.setCity(city_string);
                     FragmentTransaction fragmentTransaction = getActivity()
                             .getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.fragment_container, new AccommodationFragment());
@@ -119,17 +160,5 @@ public class CityFragment extends Fragment {
         });
 
         return view;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 100 && resultCode == Activity.RESULT_OK){
-            Place place = Autocomplete.getPlaceFromIntent(data);
-            city.setText(place.getAddress());
-        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-            Status status = Autocomplete.getStatusFromIntent(data);
-            Toast.makeText(view.getContext(), status.getStatusMessage(), Toast.LENGTH_SHORT);
-        }
     }
 }
