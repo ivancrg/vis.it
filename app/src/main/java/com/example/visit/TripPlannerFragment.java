@@ -76,9 +76,7 @@ public class TripPlannerFragment extends Fragment {
                         selectedCityTextView.getText().length() > 0 &&
                         selectedLocationTextView.getText().length() > 0 &&
                         selectedTravellingModeTextView.getText().length() > 0 &&
-                        selectedDateTextView.getText().length() > 0 &&
-                        selectedNecessitiesTextView.getText().length() > 0 &&
-                        selectedParticipantsTextView.getText().length() > 0);
+                        selectedDateTextView.getText().length() > 0);
             }
         };
 
@@ -87,8 +85,6 @@ public class TripPlannerFragment extends Fragment {
         selectedLocationTextView.addTextChangedListener(saveTripEnableWatcher);
         selectedTravellingModeTextView.addTextChangedListener(saveTripEnableWatcher);
         selectedDateTextView.addTextChangedListener(saveTripEnableWatcher);
-        selectedNecessitiesTextView.addTextChangedListener(saveTripEnableWatcher);
-        selectedParticipantsTextView.addTextChangedListener(saveTripEnableWatcher);
 
         selectedCountryTextView.setText((TripPlanning.getCountry() == null) ? ("No country selected.") : (TripPlanning.getCountry()));
         selectedCityTextView.setText((TripPlanning.getCity() == null) ? ("No city selected.") : (TripPlanning.getCity()));
@@ -99,67 +95,88 @@ public class TripPlannerFragment extends Fragment {
         selectedParticipantsTextView.setText((TripPlanning.getParticipantsDescription() == null) ? ("No participants selected.") : (TripPlanning.getParticipantsDescription()));
 
         countryButton.setOnClickListener(v -> {
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new CountryFragment());
-            fragmentTransaction.commit();
+            if (LoggedUser.getIsLoggedIn()) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new CountryFragment());
+                fragmentTransaction.commit();
+            } else {
+                Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
+            }
         });
 
         cityButton.setOnClickListener(v -> {
-            Bundle args = new Bundle();
-            args.putString("key", TripPlanning.getCountry());
-            CityFragment fragmentCity = new CityFragment();
-            fragmentCity.setArguments(args);
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragmentCity);
-            fragmentTransaction.commit();
+            if (LoggedUser.getIsLoggedIn()) {
+                Bundle args = new Bundle();
+                args.putString("key", TripPlanning.getCountry());
+                CityFragment fragmentCity = new CityFragment();
+                fragmentCity.setArguments(args);
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragmentCity);
+                fragmentTransaction.commit();
+            } else {
+                Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
+            }
         });
 
         locationButton.setOnClickListener(v -> {
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new AccommodationFragment());
-            fragmentTransaction.commit();
+            if (LoggedUser.getIsLoggedIn()) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new AccommodationFragment());
+                fragmentTransaction.commit();
+            } else {
+                Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
+            }
         });
 
         travellingModeButton.setOnClickListener(v -> {
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new TravellingModeFragment());
-            fragmentTransaction.commit();
+            if (LoggedUser.getIsLoggedIn()) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new TravellingModeFragment());
+                fragmentTransaction.commit();
+            } else {
+                Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
+            }
         });
 
         dateButton.setOnClickListener(v -> {
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new DateFragment());
-            fragmentTransaction.commit();
+            if (LoggedUser.getIsLoggedIn()) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new DateFragment());
+                fragmentTransaction.commit();
+            } else {
+                Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
+            }
         });
 
         necessitiesButton.setOnClickListener(v -> {
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new TravellingNecessitiesFragment());
-            fragmentTransaction.commit();
+            if (LoggedUser.getIsLoggedIn()) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new TravellingNecessitiesFragment());
+                fragmentTransaction.commit();
+            } else {
+                Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
+            }
         });
 
         participantsButton.setOnClickListener(v -> {
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new ParticipantsFragment());
-            fragmentTransaction.commit();
+            if (LoggedUser.getIsLoggedIn()) {
+                FragmentTransaction fragmentTransaction = getActivity()
+                        .getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new ParticipantsFragment());
+                fragmentTransaction.commit();
+            } else {
+                Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
+            }
         });
 
         saveTripButton.setOnClickListener(view1 -> {
-            if (informationValid(selectedCountryTextView.getText().toString(),
-                    selectedCityTextView.getText().toString(),
-                    selectedLocationTextView.getText().toString(),
-                    selectedTravellingModeTextView.getText().toString(),
-                    selectedDateTextView.getText().toString(),
-                    selectedNecessitiesTextView.getText().toString(),
-                    selectedParticipantsTextView.getText().toString())
-                    && (TripPlanning.getCountry() != null)
+            if ((TripPlanning.getCountry() != null)
                     && (TripPlanning.getCity() != null)
                     && (TripPlanning.getLocation() != null)
                     && (TripPlanning.getTravellingMode() != null)
@@ -179,12 +196,6 @@ public class TripPlannerFragment extends Fragment {
         });
 
         return view;
-    }
-
-    private boolean informationValid(String country, String city, String location, String travellingMode, String date, String necessities, String participants) {
-        // TODO CHECK INFO
-
-        return true;
     }
 
     private void postTrip(View view, String country, String city, String location, String travellingMode, LocalDate date, String necessities, String participants) {
@@ -227,6 +238,9 @@ public class TripPlannerFragment extends Fragment {
                 Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 Log.e("/insertTrip", "onFailure: Something went wrong. " + t.getMessage());
             }
+
+            // TODO
+            // redirect user to another fragment
         });
     }
 }

@@ -41,6 +41,8 @@ public class DateFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_date);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
+        datePicker.setMinDate(System.currentTimeMillis() - 1000);
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

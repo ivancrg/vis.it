@@ -61,9 +61,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NEWS_EXPLORE_FRAGMENT_CLASS_NAME()).commit();
             return false;
         } else if (itemId == R.id.nav_add_plan) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TripPlannerFragment()).commit();
+            if (LoggedUser.getIsLoggedIn()) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TripPlannerFragment()).commit();
+            } else {
+                Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
+                return false;
+            }
         } else if (itemId == R.id.nav_travelling) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TravellingModeFragment()).commit();
+            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NEWS_TRAVELLING_FRAGMENT_CLASS_NAME()).commit();
         } else if (itemId == R.id.nav_on_location) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ON_LOCATION_FRAGMENT_CLASS_NAME()).commit();
             return false;
