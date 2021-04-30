@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +19,21 @@ import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.RegisterPost;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
-
 
 public class RegisterFragment extends Fragment {
+    // Our custom password regex pattern used for validation
+    // No whitespaces, minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
+
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -83,36 +89,55 @@ public class RegisterFragment extends Fragment {
         passwordConfirm.addTextChangedListener(registerEnableWatcher);
 
         register.setOnClickListener(view1 -> {
-            if (informationValid(firstName.getText().toString(),
-                    lastName.getText().toString(),
-                    email.getText().toString(),
-                    username.getText().toString(),
-                    password.getText().toString())) {
+            if (informationValid(firstName, lastName, email, username, password)) {
                 registerUser(view1,
                         firstName.getText().toString(),
                         lastName.getText().toString(),
                         email.getText().toString(),
                         username.getText().toString(),
                         password.getText().toString());
-            }
 
-            firstName.setText("");
-            lastName.setText("");
-            email.setText("");
-            username.setText("");
-            password.setText("");
-            passwordConfirm.setText("");
+                firstName.setText("");
+                lastName.setText("");
+                email.setText("");
+                username.setText("");
+                password.setText("");
+                passwordConfirm.setText("");
+            }
         });
 
         return view;
     }
 
-    private boolean informationValid(String firstName, String lastName, String email, String username, String password) {
-        // TODO CHECK INFO
-        // Setting error example
-        //firstName.setError("You need to enter a name");
+    private boolean informationValid(EditText firstName, EditText lastName, EditText email, EditText username, EditText password) {
+        boolean valid = true;
 
-        return true;
+        if (firstName.getText().toString().isEmpty()) {
+            valid = false;
+            firstName.setError("Please enter your first name.");
+        }
+
+        if (lastName.getText().toString().isEmpty()) {
+            valid = false;
+            lastName.setError("Please enter your last name.");
+        }
+
+        if (email.getText().toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+            valid = false;
+            email.setError("Please enter a valid e-mail address.");
+        }
+
+        if (username.getText().toString().isEmpty()) {
+            valid = false;
+            username.setError("Please enter the wanted username.");
+        }
+
+        if (password.getText().toString().isEmpty() || !PASSWORD_PATTERN.matcher(password.getText().toString()).matches()) {
+            valid = false;
+            password.setError("Please enter a valid password. Should contain uppercase letter, lowercase letter, one number, minimum 8 characters without whitespaces.");
+        }
+
+        return valid;
     }
 
     private void registerUser(View view, String firstName, String lastName, String email, String username, String password) {
