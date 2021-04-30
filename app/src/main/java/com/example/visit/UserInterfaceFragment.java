@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,9 +103,7 @@ public class UserInterfaceFragment extends Fragment {
         email.addTextChangedListener(updateEnableWatcher);
 
         update.setOnClickListener(v -> {
-            if (informationValid(firstName.getText().toString(),
-                    lastName.getText().toString(),
-                    email.getText().toString())) {
+            if (informationValid(firstName, lastName, email)) {
                 // Showing the waiting GIF
                 loadingImageView.setVisibility(View.VISIBLE);
 
@@ -119,12 +121,25 @@ public class UserInterfaceFragment extends Fragment {
         return view;
     }
 
-    private boolean informationValid(String firstName, String lastName, String email) {
-        // TODO CHECK INFO
-        // Setting error example
-        //firstName.setError("You need to enter a name");
+    private boolean informationValid(EditText firstName, EditText lastName, EditText email) {
+        boolean valid = true;
 
-        return true;
+        if(firstName.getText().toString().isEmpty()){
+            valid = false;
+            firstName.setError("Please enter your first name.");
+        }
+
+        if(lastName.getText().toString().isEmpty()){
+            valid = false;
+            lastName.setError("Please enter your last name.");
+        }
+
+        if (email.getText().toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+            valid = false;
+            email.setError("Please enter a valid e-mail address.");
+        }
+
+        return valid;
     }
 
     private void updateUser(View view, String firstName, String lastName, String email) {
