@@ -72,6 +72,7 @@ public class TravellingModeFragment extends Fragment {
         continue_exploring.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                // TODO
                 //needs to be forwarded to Explore fragment
             }
         });

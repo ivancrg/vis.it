@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -47,16 +46,15 @@ public class ParticipantsFragment extends Fragment {
             public void onClick(View view){
                 //destination string holds the city user picked
                 String participants = participantsEdit.getText().toString();
-                if (!participants.equals(getString(R.string.link_friends))){
+                //  if user writes something in textbox, save it, but it is not required
+                if (participants.length() > 0) {
                     TripPlanning.setParticipantsDescription(participants);
+                }
 
                     FragmentTransaction fragmentTransaction = getActivity()
                             .getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
                     fragmentTransaction.commit();
-                } else {
-                    Toast.makeText(view.getContext(), "Add participants!", Toast.LENGTH_LONG).show();
-                }
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +70,7 @@ public class ParticipantsFragment extends Fragment {
         continue_exploring.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                // TODO
                 //needs to be forwarded to Explore fragment
             }
         });

@@ -74,9 +74,9 @@
     <string name="pick_city_title">PICK DESTINATION CITY</string>
     <string name="accommodation_title">ACCOMMODATION</string>
     <string name="date_title">DATE OF DEPARTURE</string>
-    <string name="travelling_necessities_title">TRAVELLING NECESSITIES</string>
+    <string name="travelling_necessities_title">TRAVELLING NECESSITIES (optional)</string>
     <string name="travelling_necessities_text">Travelling necessities</string>
-    <string name="participants_title">ADD PARTICIPANTS</string>
+    <string name="participants_title">ADD PARTICIPANTS (optional)</string>
     <string name="mode_title">TRAVELLING MODE</string>
     <string name="mode">Travelling mode</string>
     <string name="mode_text">Bus, car, airplane...</string>
@@ -89,6 +89,7 @@
     <string name="participants_text">Add participants</string>
     <string name="button_save">SAVE CHANGES</string>
     <string name="continue_exploring">Still not sure where to go? Continue exploring...</string>
+    <string name="continue_exploring_date">Still not sure when to go? Continue exploring...</string>
     <string name="next_button">Next</string>
     <string name="cancel_button">Cancel</string>
 

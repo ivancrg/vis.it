@@ -12,7 +12,7 @@ public class TripPost {
     private String necessities;
     private String creator;
     private String travelling_mode;
-    private Date date_of_departure;
+    private String date_of_departure;
     private String participants_description;
     private String feedback;
 
@@ -26,7 +26,7 @@ public class TripPost {
         this.city = city;
         this.location = location;
         this.travelling_mode = travelling_mode;
-        this.date_of_departure = Date.valueOf(date_of_departure.toString());
+        this.date_of_departure = Date.valueOf(date_of_departure.toString()).toString();
         this.necessities = necessities;
         this.participants_description = participants_description;
         this.creator = creator;

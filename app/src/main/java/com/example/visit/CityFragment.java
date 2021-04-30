@@ -55,10 +55,12 @@ public class CityFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_city);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
+        // data is chosen country
         Bundle args = this.getArguments();
         String data = args.getString("key");
 
         if (data == null){
+            // country is not chosen
             data = "";
             Toast.makeText(view.getContext(), "Please choose destination country first!", Toast.LENGTH_LONG).show();
             next.setEnabled(false);
@@ -73,9 +75,9 @@ public class CityFragment extends Fragment {
         cityList = new ArrayList<String>();
         catAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, cityList);
 
-
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         MediaType mediaType = MediaType.parse("application/json");
+        // requesting cities only from chosen country
         RequestBody body = RequestBody.create(mediaType, "{\r\n   \"country\": \""+ data + "\"\r\n}");
         Request request = new Request.Builder()
                 .url("https://countriesnow.space/api/v0.1/countries/cities")
@@ -102,9 +104,9 @@ public class CityFragment extends Fragment {
                             try {
                                 JSONObject cities = new JSONObject(myResponse);
                                 JSONArray cityArr = cities.getJSONArray("data");
-
+                                // creating list of cities
                                 ArrayList<String> list = new ArrayList<String>();
-                                for(int i=0; i<cityArr.length(); i++) {
+                                for(int i = 0; i < cityArr.length(); i++) {
                                     list.add(cityArr.getString(i));
                                 }
                                 ArrayAdapter<String> spinnerMenu = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, list);
@@ -155,6 +157,7 @@ public class CityFragment extends Fragment {
         continue_exploring.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                // TODO
                 //needs to be forwarded to Explore fragment
             }
         });

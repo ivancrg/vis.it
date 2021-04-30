@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -47,16 +46,15 @@ public class TravellingNecessitiesFragment extends Fragment {
             public void onClick(View view){
                 //destination string holds the city user picked
                 String necessities = necessitiesEdit.getText().toString();
-                if (necessities.length() > 0){
+                //  if user writes something in textbox, save it, but it is not required
+                if (necessities.length() > 0) {
                     TripPlanning.setNecessities(necessities);
+                }
 
                     FragmentTransaction fragmentTransaction = getActivity()
                             .getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.fragment_container, new ParticipantsFragment());
                     fragmentTransaction.commit();
-                } else {
-                    Toast.makeText(view.getContext(), "Input travelling necessities!", Toast.LENGTH_LONG).show();
-                }
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +70,7 @@ public class TravellingNecessitiesFragment extends Fragment {
         continue_exploring.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                // TODO
                 //needs to be forwarded to Explore fragment
             }
         });

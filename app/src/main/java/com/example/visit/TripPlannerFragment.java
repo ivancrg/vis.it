@@ -163,9 +163,7 @@ public class TripPlannerFragment extends Fragment {
                     && (TripPlanning.getCity() != null)
                     && (TripPlanning.getLocation() != null)
                     && (TripPlanning.getTravellingMode() != null)
-                    && (TripPlanning.getDateOfDeparture() != null)
-                    && (TripPlanning.getNecessities() != null)
-                    && (TripPlanning.getParticipantsDescription() != null)) {
+                    && (TripPlanning.getDateOfDeparture() != null)) {
                 postTrip(view1,
                         TripPlanning.getCountry(),
                         TripPlanning.getCity(),
@@ -174,15 +172,17 @@ public class TripPlannerFragment extends Fragment {
                         TripPlanning.getDateOfDeparture(),
                         TripPlanning.getNecessities(),
                         TripPlanning.getParticipantsDescription());
-            }});
+            } else {
+                Toast.makeText(view.getContext(), "You have to choose all required information!", Toast.LENGTH_LONG).show();
+            }
+
+        });
 
         return view;
     }
 
     private boolean informationValid(String country, String city, String location, String travellingMode, String date, String necessities, String participants) {
         // TODO CHECK INFO
-        // Setting error example
-        //firstName.setError("You need to enter a name");
 
         return true;
     }

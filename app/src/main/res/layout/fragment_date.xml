@@ -93,7 +93,7 @@
         android:layout_marginStart="110dp"
         android:layout_marginTop="525dp"
         android:layout_marginEnd="110dp"
-        android:text="@string/continue_exploring"
+        android:text="@string/continue_exploring_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader" />
