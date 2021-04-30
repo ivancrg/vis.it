@@ -20,6 +20,7 @@ import com.example.visit.database.UpdatePasswordPatch;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +50,6 @@ public class ChangePasswordFragment extends Fragment {
         Button confirm = (Button) view.findViewById(R.id.confirmButton);
         Button cancel = (Button) view.findViewById(R.id.cancelButton);
 
-
         confirm.setEnabled(false);
 
         TextWatcher confirmEnabledWatcher = new TextWatcher() {
@@ -74,7 +74,7 @@ public class ChangePasswordFragment extends Fragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(informationValid(newPassword.getText().toString(), confirmNewPassword.getText().toString())){
+                if (informationValid(newPassword.getText().toString(), confirmNewPassword.getText().toString())) {
                     updatePassword(view, LoggedUser.getUsername(), newPassword.getText().toString());
                 }
             }
@@ -100,8 +100,11 @@ public class ChangePasswordFragment extends Fragment {
     }
 
     private void updatePassword(View view, String username, String newPassword) {
+        // Hashing variable newPassword and storing it to newPasswordHashed
+        String newPasswordHashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+
         //change password method
-        UpdatePasswordPatch updatePasswordPatch = new UpdatePasswordPatch(username, newPassword);
+        UpdatePasswordPatch updatePasswordPatch = new UpdatePasswordPatch(username, newPasswordHashed);
 
         Retrofit retrofit = Database.getRetrofit();
         HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);

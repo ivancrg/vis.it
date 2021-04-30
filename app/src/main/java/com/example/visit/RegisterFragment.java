@@ -13,12 +13,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import androidx.fragment.app.FragmentTransaction;
-
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
-import com.example.visit.database.LoginPost;
-
 import com.example.visit.database.RegisterPost;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +23,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 
 public class RegisterFragment extends Fragment {
@@ -118,9 +116,10 @@ public class RegisterFragment extends Fragment {
     }
 
     private void registerUser(View view, String firstName, String lastName, String email, String username, String password) {
-        // TODO PASSWORD HASHING
+        // Hashing variable password and storing it to passwordHashed
+        String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        RegisterPost registerPost = new RegisterPost(username, email, password, firstName, lastName);
+        RegisterPost registerPost = new RegisterPost(username, email, passwordHashed, firstName, lastName);
 
         Retrofit retrofit = Database.getRetrofit();
         HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
@@ -138,7 +137,6 @@ public class RegisterFragment extends Fragment {
                 }
 
                 RegisterPost postResponse = response.body();
-                //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
 
                 assert postResponse != null;
                 switch (postResponse.getFeedback()) {
@@ -151,7 +149,6 @@ public class RegisterFragment extends Fragment {
                         Toast.makeText(view.getContext(), "Sorry, this username is already taken.", Toast.LENGTH_LONG).show();
                         break;
                     case "user_registered":
-
                         // User is registered
                         Toast.makeText(view.getContext(), "Congratulations, you have been successfully registered.", Toast.LENGTH_LONG).show();
                         break;
