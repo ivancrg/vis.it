@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else if (itemId == R.id.nav_travelling) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NEWS_TRAVELLING_FRAGMENT_CLASS_NAME()).commit();
+            return false;
         } else if (itemId == R.id.nav_on_location) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ON_LOCATION_FRAGMENT_CLASS_NAME()).commit();
             return false;
@@ -84,8 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return false;
         } else if (itemId == R.id.nav_share) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SHARE_FRAGMENT_CLASS_NAME()).commit();
+            return false;
         } else if (itemId == R.id.nav_contact_support) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SUPPORT_FRAGMENT_CLASS_NAME()).commit();
+            return false;
         }
 
         return true;

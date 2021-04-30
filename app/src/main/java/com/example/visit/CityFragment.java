@@ -1,6 +1,7 @@
 package com.example.visit;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.WorkerThread;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -58,6 +60,7 @@ public class CityFragment extends Fragment {
         // data is chosen country
         Bundle args = this.getArguments();
         String data = args.getString("key");
+        String country = data;
 
         if (data == null){
             // country is not chosen
@@ -96,11 +99,9 @@ public class CityFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()){
                     final String myResponse = response.body().string();
-
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
                             try {
                                 JSONObject cities = new JSONObject(myResponse);
                                 JSONArray cityArr = cities.getJSONArray("data");
@@ -116,6 +117,17 @@ public class CityFragment extends Fragment {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                        }
+
+                    });
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getContext(), "Country not available, please pick another country!", Toast.LENGTH_SHORT).show();
+                            FragmentTransaction fragmentTransaction = getActivity()
+                                    .getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.fragment_container, new CountryFragment());
+                            fragmentTransaction.commit();
                         }
                     });
                 }
