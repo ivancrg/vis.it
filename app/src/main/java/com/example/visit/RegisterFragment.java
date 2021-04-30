@@ -134,7 +134,7 @@ public class RegisterFragment extends Fragment {
 
         if (password.getText().toString().isEmpty() || !PASSWORD_PATTERN.matcher(password.getText().toString()).matches()) {
             valid = false;
-            password.setError("Please enter a valid password. Should contain uppercase letter, lowercase letter, one number, minimum 8 characters without whitespaces.");
+            password.setError("Please enter a valid password. It should contain uppercase letter, lowercase letter, one number, minimum 8 characters without whitespaces.");
         }
 
         return valid;

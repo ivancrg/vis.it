@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import java.util.regex.Pattern;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,6 +33,9 @@ import retrofit2.Retrofit;
 
 
 public class ChangePasswordFragment extends Fragment {
+    // Our custom password regex pattern used for validation
+    // No whitespaces, minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
 
     public ChangePasswordFragment() {
         // Required empty public constructor
@@ -74,7 +81,7 @@ public class ChangePasswordFragment extends Fragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (informationValid(newPassword.getText().toString(), confirmNewPassword.getText().toString())) {
+                if (informationValid(newPassword, confirmNewPassword)) {
                     updatePassword(view, LoggedUser.getUsername(), newPassword.getText().toString());
                 }
             }
@@ -93,10 +100,20 @@ public class ChangePasswordFragment extends Fragment {
         return view;
     }
 
-    private boolean informationValid(String oldPassword, String newPassword) {
-        // TODO CHECK INFO
+    private boolean informationValid(EditText newPassword, EditText confirmNewPassword) {
+        boolean valid = true;
 
-        return true;
+        if (newPassword.getText().toString().isEmpty() || !PASSWORD_PATTERN.matcher(newPassword.getText().toString()).matches()) {
+            valid = false;
+            newPassword.setError("Please enter a valid password. It should contain uppercase letter, lowercase letter, one number, minimum 8 characters without whitespaces.");
+        }
+
+        if (confirmNewPassword.getText().toString().isEmpty() || !PASSWORD_PATTERN.matcher(confirmNewPassword.getText().toString()).matches()) {
+            valid = false;
+            confirmNewPassword.setError("Please enter a valid password. It should contain uppercase letter, lowercase letter, one number, minimum 8 characters without whitespaces.");
+        }
+
+        return valid;
     }
 
     private void updatePassword(View view, String username, String newPassword) {
