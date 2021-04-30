@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragmentLogin"
         android:layout_width="match_parent"
@@ -16,6 +17,19 @@
         android:paddingBottom="@dimen/fragment_vertical_margin"
         tools:context=".LoginFragment">
 
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/loginFragmentLoading"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/loading"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
 
         <ImageView
             android:id="@+id/loginFragmentLogo"
@@ -36,8 +50,8 @@
             android:layout_width="330dp"
             android:layout_height="0dp"
             android:layout_marginTop="100dp"
-            android:hint="@string/prompt_username"
             android:autofillHints="username"
+            android:hint="@string/prompt_username"
             android:inputType="textEmailAddress"
             android:selectAllOnFocus="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,10 +64,10 @@
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:autofillHints="password"
             android:hint="@string/prompt_password"
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionDone"
-            android:autofillHints="password"
             android:inputType="textPassword"
             android:selectAllOnFocus="true"
             android:textColor="@color/black"

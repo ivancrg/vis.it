@@ -29,6 +29,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class UserInterfaceFragment extends Fragment {
+    private pl.droidsonroids.gif.GifImageView loadingImageView;
+
     public UserInterfaceFragment() {
 
     }
@@ -50,6 +52,7 @@ public class UserInterfaceFragment extends Fragment {
         TextInputEditText email = (TextInputEditText) view.findViewById(R.id.emailTextInputEditText);
         Button update = (Button) view.findViewById(R.id.updateButton);
         Button changePassword = (Button) view.findViewById(R.id.changePasswordButton);
+        loadingImageView = (pl.droidsonroids.gif.GifImageView) view.findViewById(R.id.userInterfaceFragmentLoading);
 
         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
         View headerView = navigationView.getHeaderView(0);
@@ -99,7 +102,9 @@ public class UserInterfaceFragment extends Fragment {
             if (informationValid(firstName.getText().toString(),
                     lastName.getText().toString(),
                     email.getText().toString())) {
-                //update method
+                // Showing the waiting GIF
+                loadingImageView.setVisibility(View.VISIBLE);
+
                 updateUser(view, firstName.getText().toString(), lastName.getText().toString(), email.getText().toString());
             }
         });
@@ -135,6 +140,9 @@ public class UserInterfaceFragment extends Fragment {
         update.enqueue(new Callback<UpdatePatch>() {
             @Override
             public void onResponse(@NotNull Call<UpdatePatch> call, @NotNull Response<UpdatePatch> response) {
+                // Hiding the waiting GIF
+                loadingImageView.setVisibility(View.GONE);
+
                 if (!response.isSuccessful()) {
                     // Not OK
                     Log.e("/update", "notSuccessful: Something went wrong. " + response.code());

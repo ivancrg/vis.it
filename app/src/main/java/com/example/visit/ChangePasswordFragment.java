@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,9 @@ import retrofit2.Retrofit;
 
 
 public class ChangePasswordFragment extends Fragment {
+    // GifImageView for GIF that shows up while waiting for API to respond
+    private pl.droidsonroids.gif.GifImageView loadingImageView;
+
     // Our custom password regex pattern used for validation
     // No whitespaces, minimum eight characters, at least one uppercase letter, one lowercase letter and one number
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
@@ -56,6 +58,7 @@ public class ChangePasswordFragment extends Fragment {
         TextInputEditText confirmNewPassword = (TextInputEditText) view.findViewById(R.id.confirmNewPasswordTextInputEditText);
         Button confirm = (Button) view.findViewById(R.id.confirmButton);
         Button cancel = (Button) view.findViewById(R.id.cancelButton);
+        loadingImageView = (pl.droidsonroids.gif.GifImageView) view.findViewById(R.id.changePasswordFragmentLoading);
 
         confirm.setEnabled(false);
 
@@ -82,6 +85,9 @@ public class ChangePasswordFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (informationValid(newPassword, confirmNewPassword)) {
+                    // Showing the waiting GIF
+                    loadingImageView.setVisibility(View.VISIBLE);
+
                     updatePassword(view, LoggedUser.getUsername(), newPassword.getText().toString());
                 }
             }
@@ -131,6 +137,9 @@ public class ChangePasswordFragment extends Fragment {
         call.enqueue(new Callback<UpdatePasswordPatch>() {
             @Override
             public void onResponse(@NotNull Call<UpdatePasswordPatch> call, @NotNull Response<UpdatePasswordPatch> response) {
+                // Hiding the waiting GIF
+                loadingImageView.setVisibility(View.GONE);
+
                 if (!response.isSuccessful()) {
                     // Not OK
                     Log.e("/update", "notSuccessful: Something went wrong. " + response.code());

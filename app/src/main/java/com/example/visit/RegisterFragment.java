@@ -30,6 +30,9 @@ import retrofit2.Retrofit;
 
 
 public class RegisterFragment extends Fragment {
+    // GifImageView for GIF that shows up while waiting for API to respond
+    private pl.droidsonroids.gif.GifImageView loadingImageView;
+
     // Our custom password regex pattern used for validation
     // No whitespaces, minimum eight characters, at least one uppercase letter, one lowercase letter and one number
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
@@ -55,8 +58,8 @@ public class RegisterFragment extends Fragment {
         final EditText username = (EditText) view.findViewById(R.id.registerFragmentUsername);
         final EditText password = (EditText) view.findViewById(R.id.registerFragmentPassword);
         final EditText passwordConfirm = (EditText) view.findViewById(R.id.registerFragmentPasswordConfirm);
-
         final Button register = (Button) view.findViewById(R.id.registerFragmentButton);
+        loadingImageView = (pl.droidsonroids.gif.GifImageView) view.findViewById(R.id.registerFragmentLoading);
 
         register.setEnabled(false);
 
@@ -90,6 +93,9 @@ public class RegisterFragment extends Fragment {
 
         register.setOnClickListener(view1 -> {
             if (informationValid(firstName, lastName, email, username, password)) {
+                // Showing the waiting GIF
+                loadingImageView.setVisibility(View.VISIBLE);
+
                 registerUser(view1,
                         firstName.getText().toString(),
                         lastName.getText().toString(),
@@ -154,6 +160,9 @@ public class RegisterFragment extends Fragment {
         call.enqueue(new Callback<RegisterPost>() {
             @Override
             public void onResponse(@NotNull Call<RegisterPost> call, @NotNull Response<RegisterPost> response) {
+                // Hiding the waiting GIF
+                loadingImageView.setVisibility(View.GONE);
+
                 if (!response.isSuccessful()) {
                     // Not OK
                     Log.e("/register", "notSuccessful: Something went wrong. " + response.code());
