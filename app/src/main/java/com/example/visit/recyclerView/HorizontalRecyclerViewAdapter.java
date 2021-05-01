@@ -59,7 +59,7 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Horizont
 
         holder.imageView.setImageResource(currentItem.getImageResource());
         holder.title.setText(currentItem.getTitle());
-        holder.title.setText(currentItem.getText());
+        holder.text.setText(currentItem.getText());
     }
 
     @Override

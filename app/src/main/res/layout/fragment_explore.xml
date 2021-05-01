@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentExplore"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/explore_back_adjusted"
+    android:background="@color/black"
     tools:context=".ExploreFragment">
 
-        <TextView
-            android:id="@+id/exploreScreenTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:paddingStart="12sp"
-            android:paddingEnd="12sp"
-            android:paddingBottom="8dp"
-            android:text="@string/explore_title"
-            android:layout_toRightOf="@+id/exploreScreenLogo"
-            android:textColor="@color/white"
-            android:textSize="@dimen/exploreScreenTitleFontSize"
-            android:textStyle="bold"/>
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/exploreScreenLogo"
-            android:layout_above="@+id/exploreScreenVerticalRecyclerView"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/visitcompass2"/>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/exploreScreenVerticalRecyclerView"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/exploreScreenTitle"
-            android:padding="4dp"
-            android:paddingTop="10dp"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <include android:id="@+id/explore_title_layout"
+                            layout="@layout/element_explore_title"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/explore_countries_and_cities_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/explore_title_layout"
+                            android:layout_marginTop="60dp"/>
+
+                        <include android:id="@+id/travel_tips_article"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/explore_countries_and_cities_recycler"
+                            android:layout_marginTop="30dp"
+                            layout="@layout/element_explore_article"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/explore_summer_and_winter_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="60dp"
+                            android:layout_below="@id/travel_tips_article"/>
+
+                        <include android:id="@+id/generic_travel_article"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/explore_summer_and_winter_recycler"
+                            android:layout_marginTop="30dp"
+                            layout="@layout/element_explore_article"/>
+                </RelativeLayout>
+
+        </ScrollView>
 </RelativeLayout>

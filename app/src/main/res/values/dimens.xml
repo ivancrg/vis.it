@@ -8,5 +8,6 @@
     <dimen name="navigation_header_height">176dp</dimen>
     <dimen name="navigation_picture_size">72dp</dimen>
     <dimen name="navigation_header_padding">16dp</dimen>
-    <dimen name="exploreScreenTitleFontSize">36sp</dimen>
+    <dimen name="exploreScreenTitleFontSize">30sp</dimen>
+    <dimen name="articleSubtitleFontSize">20sp</dimen>
 </resources>

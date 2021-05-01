@@ -61,7 +61,7 @@ public class VerticalRecyclerViewAdapter extends RecyclerView.Adapter<VerticalRe
         VerticalRecyclerViewItem currentItem = verticalItemsList.get(position);
 
         holder.title.setText(currentItem.getTitle());
-        holder.title.setText(currentItem.getText());
+        holder.text.setText(currentItem.getText());
 
         // horizontalItems is used to represent horizontal recycler view items
         ArrayList<HorizontalRecyclerViewItem> horizontalItems = currentItem.getHorizontalRecyclerViewItems();

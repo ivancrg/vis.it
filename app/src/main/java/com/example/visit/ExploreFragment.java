@@ -16,14 +16,18 @@ import com.example.visit.recyclerView.VerticalRecyclerViewItem;
 import java.util.ArrayList;
 
 public class ExploreFragment extends Fragment {
-    private RecyclerView verticalRecyclerView;
+    private RecyclerView countryAndCityView;
+    private RecyclerView summerAndWinterView;
 
     // Adapter is a sort of a bridge between our data (verticalItems) and the RV
     // Adapter always provides as many items as we need at the time which means optimal performance
-    private RecyclerView.Adapter verticalRecyclerViewAdapter;
+    private RecyclerView.Adapter countryAndCityAdapter;
+    private RecyclerView.Adapter summerAndWinterAdapter;
+
 
     // Responsible for placing items into our list
-    private RecyclerView.LayoutManager verticalRecyclerViewLayoutManager;
+    private RecyclerView.LayoutManager countryAndCityLayoutManager;
+    private RecyclerView.LayoutManager summerAndWinterLayoutManager;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -55,24 +59,32 @@ public class ExploreFragment extends Fragment {
         horizontalItems.add(new HorizontalRecyclerViewItem(R.drawable.example5, "Title 5", "Text 5"));
 
         // vertical is used to represent horizontal recycler view items
-        ArrayList<VerticalRecyclerViewItem> verticalItems = new ArrayList<>();
-        verticalItems.add(new VerticalRecyclerViewItem("Category Title 1", "Popular countries", horizontalItems));
-        verticalItems.add(new VerticalRecyclerViewItem("Category Title 2", "Explore vibrant new places", horizontalItems));
-        verticalItems.add(new VerticalRecyclerViewItem("Category Title 3", "Category text 3", horizontalItems));
-        verticalItems.add(new VerticalRecyclerViewItem("Category Title 4", "Category text 4", horizontalItems));
-        verticalItems.add(new VerticalRecyclerViewItem("Category Title 5", "Category text 5", horizontalItems));
+        ArrayList<VerticalRecyclerViewItem> countryAndCityCategory = new ArrayList<>();
+        countryAndCityCategory.add(new VerticalRecyclerViewItem("Popular countries", "Text", horizontalItems));
+        countryAndCityCategory.add(new VerticalRecyclerViewItem("Explore vibrant new places", "Text", horizontalItems));
 
+        ArrayList<VerticalRecyclerViewItem> summerAndWinterCategory = new ArrayList<>();
+        summerAndWinterCategory.add(new VerticalRecyclerViewItem("Smell the sea and feel the sky", "Best summer vacation spots", horizontalItems));
+        summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", horizontalItems));
 
-        verticalRecyclerView = view.findViewById(R.id.exploreScreenVerticalRecyclerView);
+        countryAndCityView = view.findViewById(R.id.explore_countries_and_cities_recycler);
+        summerAndWinterView = view.findViewById(R.id.explore_summer_and_winter_recycler);
 
         // Needs to be set to true if recycler view won't change in size for performance gains
-        verticalRecyclerView.setHasFixedSize(true);
+        countryAndCityView.setHasFixedSize(true);
+        summerAndWinterView.setHasFixedSize(true);
 
-        verticalRecyclerViewLayoutManager = new LinearLayoutManager(getContext());
-        verticalRecyclerViewAdapter = new VerticalRecyclerViewAdapter(getContext(), verticalItems);
+        countryAndCityLayoutManager = new LinearLayoutManager(getContext());
+        countryAndCityAdapter = new VerticalRecyclerViewAdapter(getContext(), countryAndCityCategory);
 
-        verticalRecyclerView.setLayoutManager(verticalRecyclerViewLayoutManager);
-        verticalRecyclerView.setAdapter(verticalRecyclerViewAdapter);
+        countryAndCityView.setLayoutManager(countryAndCityLayoutManager);
+        countryAndCityView.setAdapter(countryAndCityAdapter);
+
+        summerAndWinterLayoutManager = new LinearLayoutManager(getContext());
+        summerAndWinterAdapter = new VerticalRecyclerViewAdapter(getContext(), summerAndWinterCategory);
+
+        summerAndWinterView.setLayoutManager(summerAndWinterLayoutManager);
+        summerAndWinterView.setAdapter(summerAndWinterAdapter);
 
         return view;
     }
