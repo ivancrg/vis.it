@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/tripPlannerHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:gravity="bottom"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="391dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="0dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/pick_city_title"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tripPlannerHeader"
+        android:layout_marginTop="240dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorDisabled"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cityLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:hint="@string/city"
+            android:text="@string/city">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cityEdit"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tripPlannerHeader"
+        android:layout_marginTop="200dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader">
+
+        <Button
+            android:id="@+id/next_city"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="@string/next_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="444dp" />
+
+        <Button
+            android:id="@+id/cancel_city"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/next_city"
+            android:fontFamily="sans-serif"
+            android:text="@string/cancel_button"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="381dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/continue_text"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="110dp"
+        android:text="@string/continue_exploring"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

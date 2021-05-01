@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentTransaction fragmentTransaction;
     private DrawerLayout drawerLayout;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +61,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NEWS_EXPLORE_FRAGMENT_CLASS_NAME()).commit();
             return false;
         } else if (itemId == R.id.nav_add_plan) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ADD_PLAN_FRAGMENT_CLASS_NAME()).commit();
-            return false;
+            if (LoggedUser.getIsLoggedIn()) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TripPlannerFragment()).commit();
+            } else {
+                Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
+                return false;
+            }
         } else if (itemId == R.id.nav_travelling) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TRAVELLING_FRAGMENT_CLASS_NAME()).commit();
+            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NEWS_TRAVELLING_FRAGMENT_CLASS_NAME()).commit();
             return false;
         } else if (itemId == R.id.nav_on_location) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ON_LOCATION_FRAGMENT_CLASS_NAME()).commit();
@@ -80,8 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return false;
         } else if (itemId == R.id.nav_share) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SHARE_FRAGMENT_CLASS_NAME()).commit();
+            return false;
         } else if (itemId == R.id.nav_contact_support) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SUPPORT_FRAGMENT_CLASS_NAME()).commit();
+            return false;
         }
 
         return true;
