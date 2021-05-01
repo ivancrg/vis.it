@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,9 @@ import com.example.visit.database.UpdatePasswordPatch;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +32,12 @@ import retrofit2.Retrofit;
 
 
 public class ChangePasswordFragment extends Fragment {
+    // GifImageView for GIF that shows up while waiting for API to respond
+    private pl.droidsonroids.gif.GifImageView loadingImageView;
+
+    // Our custom password regex pattern used for validation
+    // No whitespaces, minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
 
     public ChangePasswordFragment() {
         // Required empty public constructor
@@ -48,7 +58,7 @@ public class ChangePasswordFragment extends Fragment {
         TextInputEditText confirmNewPassword = (TextInputEditText) view.findViewById(R.id.confirmNewPasswordTextInputEditText);
         Button confirm = (Button) view.findViewById(R.id.confirmButton);
         Button cancel = (Button) view.findViewById(R.id.cancelButton);
-
+        loadingImageView = (pl.droidsonroids.gif.GifImageView) view.findViewById(R.id.changePasswordFragmentLoading);
 
         confirm.setEnabled(false);
 
@@ -74,7 +84,10 @@ public class ChangePasswordFragment extends Fragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(informationValid(newPassword.getText().toString(), confirmNewPassword.getText().toString())){
+                if (informationValid(newPassword, confirmNewPassword)) {
+                    // Showing the waiting GIF
+                    loadingImageView.setVisibility(View.VISIBLE);
+
                     updatePassword(view, LoggedUser.getUsername(), newPassword.getText().toString());
                 }
             }
@@ -93,15 +106,28 @@ public class ChangePasswordFragment extends Fragment {
         return view;
     }
 
-    private boolean informationValid(String oldPassword, String newPassword) {
-        // TODO CHECK INFO
+    private boolean informationValid(EditText newPassword, EditText confirmNewPassword) {
+        boolean valid = true;
 
-        return true;
+        if (newPassword.getText().toString().isEmpty() || !PASSWORD_PATTERN.matcher(newPassword.getText().toString()).matches()) {
+            valid = false;
+            newPassword.setError("Please enter a valid password. It should contain uppercase letter, lowercase letter, one number, minimum 8 characters without whitespaces.");
+        }
+
+        if (confirmNewPassword.getText().toString().isEmpty() || !PASSWORD_PATTERN.matcher(confirmNewPassword.getText().toString()).matches()) {
+            valid = false;
+            confirmNewPassword.setError("Please enter a valid password. It should contain uppercase letter, lowercase letter, one number, minimum 8 characters without whitespaces.");
+        }
+
+        return valid;
     }
 
     private void updatePassword(View view, String username, String newPassword) {
+        // Hashing variable newPassword and storing it to newPasswordHashed
+        String newPasswordHashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+
         //change password method
-        UpdatePasswordPatch updatePasswordPatch = new UpdatePasswordPatch(username, newPassword);
+        UpdatePasswordPatch updatePasswordPatch = new UpdatePasswordPatch(username, newPasswordHashed);
 
         Retrofit retrofit = Database.getRetrofit();
         HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
@@ -111,6 +137,9 @@ public class ChangePasswordFragment extends Fragment {
         call.enqueue(new Callback<UpdatePasswordPatch>() {
             @Override
             public void onResponse(@NotNull Call<UpdatePasswordPatch> call, @NotNull Response<UpdatePasswordPatch> response) {
+                // Hiding the waiting GIF
+                loadingImageView.setVisibility(View.GONE);
+
                 if (!response.isSuccessful()) {
                     // Not OK
                     Log.e("/update", "notSuccessful: Something went wrong. " + response.code());

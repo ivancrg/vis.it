@@ -1,4 +1,4 @@
-package com.example.visit; 
+package com.example.visit;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,13 +18,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.LoginPost;
-
 import com.example.visit.database.User;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.Objects;
 
@@ -34,6 +31,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class LoginFragment extends Fragment {
+    private EditText usernameEditText, passwordEditText;
+
+    // GifImageView for GIF that shows up while waiting for API to respond
+    private pl.droidsonroids.gif.GifImageView loadingImageView;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -62,6 +64,11 @@ public class LoginFragment extends Fragment {
         final Button login = (Button) view.findViewById(R.id.loginFragmentButton);
         final TextView registerLink = (TextView) view.findViewById(R.id.loginFragmentRegisterLink);
 
+        // LoginFragment.java level variables - to enable access inside of loginUser method
+        usernameEditText = username;
+        passwordEditText = password;
+        loadingImageView = (pl.droidsonroids.gif.GifImageView) view.findViewById(R.id.loginFragmentLoading);
+
         login.setEnabled(false);
 
         TextWatcher loginEnabledWatcher = new TextWatcher() {
@@ -84,9 +91,10 @@ public class LoginFragment extends Fragment {
 
         login.setOnClickListener(view1 -> {
             loginUser(view1, username.getText().toString(), password.getText().toString());
-
-            username.setText("");
-            password.setText("");
+            // Disabling input of username and password fields, showing the waiting GIF
+            usernameEditText.setEnabled(false);
+            passwordEditText.setEnabled(false);
+            loadingImageView.setVisibility(View.VISIBLE);
         });
 
         registerLink.setOnClickListener(view12 -> {
@@ -110,6 +118,11 @@ public class LoginFragment extends Fragment {
         call.enqueue(new Callback<LoginPost>() {
             @Override
             public void onResponse(@NotNull Call<LoginPost> call, @NotNull Response<LoginPost> response) {
+                // Enabling input to username and password fields and removing loading GIF
+                usernameEditText.setEnabled(true);
+                passwordEditText.setEnabled(true);
+                loadingImageView.setVisibility(View.GONE);
+
                 if (!response.isSuccessful()) {
                     // Not OK
                     Log.e("/login", "notSuccessful: Something went wrong. " + response.code());
@@ -126,19 +139,36 @@ public class LoginFragment extends Fragment {
                 } else if (postResponse.getFeedback().equals("user_not_found")) {
                     // User not found
                     Toast.makeText(view.getContext(), "Check your login details.", Toast.LENGTH_LONG).show();
-                } else if (!postResponse.getPassword().equals(password)) {
-                    // Incorrect password, user found
-                    Toast.makeText(view.getContext(), "Check your login details.", Toast.LENGTH_LONG).show();
-                } else if (postResponse.getPassword().equals(password) && postResponse.getFeedback().equals("user_found")) {
-                    // Correct password, user found
+                } else {
+                    boolean loggedIn = false;
 
-                    Toast.makeText(view.getContext(), "Welcome, " + username, Toast.LENGTH_LONG).show();
-                    setLoggedUser(view, username);
+                    try {
+                        // Checks whether inserted password corresponds to the password in the database
+                        // true --> correct password
+                        // false --> incorrect password
+
+                        loggedIn = BCrypt.checkpw(password, postResponse.getPassword());
+                    } catch (Exception e) {
+                        Toast.makeText(view.getContext(), "Exception. Sorry. " + e.getMessage() + ".", Toast.LENGTH_LONG).show();
+                    }
+
+                    // If statements intentionally left out of try block to give user the feedback whatsoever
+                    if (!loggedIn) {
+                        // Incorrect password, user found
+                        Toast.makeText(view.getContext(), "Check your login details.", Toast.LENGTH_LONG).show();
+                    } else if (loggedIn && postResponse.getFeedback().equals("user_found")) {
+                        // Correct password, user found
+                        usernameEditText.setText("");
+                        passwordEditText.setText("");
+                        Toast.makeText(view.getContext(), "Welcome, " + username, Toast.LENGTH_LONG).show();
+                        setLoggedUser(view, username);
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<LoginPost> call, @NotNull Throwable t) {
+                loadingImageView.setVisibility(View.GONE);
                 Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 Log.e("/login", "onFailure: Something went wrong. " + t.getMessage());
             }

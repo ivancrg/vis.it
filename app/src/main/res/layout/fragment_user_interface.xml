@@ -6,11 +6,11 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/fragmentUserInterface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/fragmentUserInterface"
         android:background="@color/white"
+        android:orientation="vertical"
         tools:context=".UserInterfaceFragment">
 
         <RelativeLayout
@@ -53,9 +53,7 @@
                     android:text="@string/prompt_username"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
-
             </RelativeLayout>
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -69,8 +67,8 @@
                 android:id="@+id/firstNameTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/first_name"
-                android:hint="@string/first_name">
+                android:hint="@string/first_name"
+                android:text="@string/first_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/firstNameTextInputEditText"
@@ -78,7 +76,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="@string/first_name" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -86,8 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/firstNameTextInputLayout"
-                android:text="@string/last_name"
-                android:hint="@string/last_name">
+                android:hint="@string/last_name"
+                android:text="@string/last_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/lastNameTextInputEditText"
@@ -95,7 +92,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="@string/last_name" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -111,7 +107,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/prompt_email" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -133,8 +128,16 @@
                 android:fontFamily="sans-serif"
                 android:text="@string/change_password"
                 android:textColor="@color/white" />
-
         </RelativeLayout>
 
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/userInterfaceFragmentLoading"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/loading"
+            android:visibility="gone" />
     </RelativeLayout>
 </ScrollView>

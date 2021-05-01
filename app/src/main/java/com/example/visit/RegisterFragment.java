@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +14,14 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import androidx.fragment.app.FragmentTransaction;
-
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
-import com.example.visit.database.LoginPost;
-
 import com.example.visit.database.RegisterPost;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +30,13 @@ import retrofit2.Retrofit;
 
 
 public class RegisterFragment extends Fragment {
+    // GifImageView for GIF that shows up while waiting for API to respond
+    private pl.droidsonroids.gif.GifImageView loadingImageView;
+
+    // Our custom password regex pattern used for validation
+    // No whitespaces, minimum eight characters, at least one uppercase letter, one lowercase letter and one number
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
+
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -51,8 +58,8 @@ public class RegisterFragment extends Fragment {
         final EditText username = (EditText) view.findViewById(R.id.registerFragmentUsername);
         final EditText password = (EditText) view.findViewById(R.id.registerFragmentPassword);
         final EditText passwordConfirm = (EditText) view.findViewById(R.id.registerFragmentPasswordConfirm);
-
         final Button register = (Button) view.findViewById(R.id.registerFragmentButton);
+        loadingImageView = (pl.droidsonroids.gif.GifImageView) view.findViewById(R.id.registerFragmentLoading);
 
         register.setEnabled(false);
 
@@ -85,42 +92,65 @@ public class RegisterFragment extends Fragment {
         passwordConfirm.addTextChangedListener(registerEnableWatcher);
 
         register.setOnClickListener(view1 -> {
-            if (informationValid(firstName.getText().toString(),
-                    lastName.getText().toString(),
-                    email.getText().toString(),
-                    username.getText().toString(),
-                    password.getText().toString())) {
+            if (informationValid(firstName, lastName, email, username, password)) {
+                // Showing the waiting GIF
+                loadingImageView.setVisibility(View.VISIBLE);
+
                 registerUser(view1,
                         firstName.getText().toString(),
                         lastName.getText().toString(),
                         email.getText().toString(),
                         username.getText().toString(),
                         password.getText().toString());
-            }
 
-            firstName.setText("");
-            lastName.setText("");
-            email.setText("");
-            username.setText("");
-            password.setText("");
-            passwordConfirm.setText("");
+                firstName.setText("");
+                lastName.setText("");
+                email.setText("");
+                username.setText("");
+                password.setText("");
+                passwordConfirm.setText("");
+            }
         });
 
         return view;
     }
 
-    private boolean informationValid(String firstName, String lastName, String email, String username, String password) {
-        // TODO CHECK INFO
-        // Setting error example
-        //firstName.setError("You need to enter a name");
+    private boolean informationValid(EditText firstName, EditText lastName, EditText email, EditText username, EditText password) {
+        boolean valid = true;
 
-        return true;
+        if (firstName.getText().toString().isEmpty()) {
+            valid = false;
+            firstName.setError("Please enter your first name.");
+        }
+
+        if (lastName.getText().toString().isEmpty()) {
+            valid = false;
+            lastName.setError("Please enter your last name.");
+        }
+
+        if (email.getText().toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+            valid = false;
+            email.setError("Please enter a valid e-mail address.");
+        }
+
+        if (username.getText().toString().isEmpty()) {
+            valid = false;
+            username.setError("Please enter the wanted username.");
+        }
+
+        if (password.getText().toString().isEmpty() || !PASSWORD_PATTERN.matcher(password.getText().toString()).matches()) {
+            valid = false;
+            password.setError("Please enter a valid password. It should contain uppercase letter, lowercase letter, one number, minimum 8 characters without whitespaces.");
+        }
+
+        return valid;
     }
 
     private void registerUser(View view, String firstName, String lastName, String email, String username, String password) {
-        // TODO PASSWORD HASHING
+        // Hashing variable password and storing it to passwordHashed
+        String passwordHashed = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        RegisterPost registerPost = new RegisterPost(username, email, password, firstName, lastName);
+        RegisterPost registerPost = new RegisterPost(username, email, passwordHashed, firstName, lastName);
 
         Retrofit retrofit = Database.getRetrofit();
         HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
@@ -130,6 +160,9 @@ public class RegisterFragment extends Fragment {
         call.enqueue(new Callback<RegisterPost>() {
             @Override
             public void onResponse(@NotNull Call<RegisterPost> call, @NotNull Response<RegisterPost> response) {
+                // Hiding the waiting GIF
+                loadingImageView.setVisibility(View.GONE);
+
                 if (!response.isSuccessful()) {
                     // Not OK
                     Log.e("/register", "notSuccessful: Something went wrong. " + response.code());
@@ -138,7 +171,6 @@ public class RegisterFragment extends Fragment {
                 }
 
                 RegisterPost postResponse = response.body();
-                //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
 
                 assert postResponse != null;
                 switch (postResponse.getFeedback()) {
@@ -151,7 +183,6 @@ public class RegisterFragment extends Fragment {
                         Toast.makeText(view.getContext(), "Sorry, this username is already taken.", Toast.LENGTH_LONG).show();
                         break;
                     case "user_registered":
-
                         // User is registered
                         Toast.makeText(view.getContext(), "Congratulations, you have been successfully registered.", Toast.LENGTH_LONG).show();
                         break;
