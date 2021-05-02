@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     app:cardBackgroundColor="@android:color/transparent"
-    app:cardCornerRadius="4dp"
     app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,17 +17,18 @@
             android:id="@+id/article_background_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/example3" />
+            android:src="@drawable/example3"
+            android:background="@android:color/transparent"/>
 
         <TextView
             android:id="@+id/article_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_rounded_black_transparent"
-            android:text="Article Title"
-            android:layout_marginHorizontal="10dp"
-            android:padding="5dp"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="5dp"
+            android:background="@drawable/background_rounded_black_transparent"
+            android:padding="5dp"
+            android:text="Article Title"
             android:textColor="@color/white"
             android:textSize="@dimen/exploreScreenTitleFontSize"
             android:textStyle="bold"
@@ -36,12 +36,12 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:background="@drawable/background_rounded_black_transparent"
             android:id="@+id/article_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/background_rounded_black_transparent"
             android:padding="5dp"
             android:text="Article Subtitle"
             android:textColor="@color/white"
