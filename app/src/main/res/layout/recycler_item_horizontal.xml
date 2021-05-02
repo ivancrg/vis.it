@@ -21,12 +21,12 @@ They consist of card views which will be scrollable horizontally.
 
         <ImageView
             android:id="@+id/horizontalRecyclerViewItemImage"
-            android:layout_width="fill_parent"
-            android:layout_height="100dp"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:adjustViewBounds="true"
-            android:scaleType="fitStart" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/horizontalRecyclerViewItemTitle"

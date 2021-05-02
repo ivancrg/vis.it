@@ -4,43 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:background="@android:color/transparent"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="4dp"
     app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/article_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="250dp">
 
         <ImageButton
+            android:id="@+id/article_background_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/article_background_button"
-            android:src="@drawable/example3"/>
+            android:src="@drawable/example3" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/article_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/background_rounded_black_transparent"
             android:text="Article Title"
+            android:layout_marginHorizontal="10dp"
+            android:padding="5dp"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/white"
             android:textSize="@dimen/exploreScreenTitleFontSize"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
-            android:layout_marginStart="10dp"/>
+            app:layout_constraintBottom_toTopOf="@+id/article_subtitle"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
+            android:background="@drawable/background_rounded_black_transparent"
+            android:id="@+id/article_subtitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginHorizontal="10dp"
+            android:padding="5dp"
             android:text="Article Subtitle"
             android:textColor="@color/white"
             android:textSize="@dimen/articleSubtitleFontSize"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/article_background_button"
-            tools:layout_editor_absoluteX="-16dp" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
