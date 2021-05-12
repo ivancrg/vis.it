@@ -128,6 +128,16 @@
                 android:fontFamily="sans-serif"
                 android:text="@string/change_password"
                 android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/myTripsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/MaterialButtonStyle"
+                android:fontFamily="sans-serif"
+                android:text="@string/my_trips"
+                android:layout_below="@+id/changePasswordButton"/>
+
         </RelativeLayout>
 
         <pl.droidsonroids.gif.GifImageView

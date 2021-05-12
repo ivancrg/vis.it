@@ -35,6 +35,7 @@
     <string name="confirm_new_password">Confirm new password</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="my_trips">my trips</string>
 
 
     <!-- Strings related to navigation drawer -->
