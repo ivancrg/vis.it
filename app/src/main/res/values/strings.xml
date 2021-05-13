@@ -94,4 +94,8 @@
     <string name="next_button">Next</string>
     <string name="cancel_button">Cancel</string>
 
+    <!-- Strings related to my trips fragment and row for recycler view -->
+    <string name="my_trips_title">MY TRIPS</string>
+    <string name="trip_details">View details</string>
+
 </resources>
