@@ -1,5 +1,6 @@
 package com.example.visit;
 
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,58 +8,50 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TravellingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.gms.maps.MapView;
+
 public class TravellingFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public TravellingFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TravellingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TravellingFragment newInstance(String param1, String param2) {
-        TravellingFragment fragment = new TravellingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_travelling, container, false);
+        View view = inflater.inflate(R.layout.fragment_travelling, container, false);
+
+        MapView mapView = (MapView) view.findViewById(R.id.travellingFragmentMapView);
+        Button arrivedButton = (Button) view.findViewById(R.id.travellingFragmentArrivedButton);
+        ImageView weatherIcon = (ImageView) view.findViewById(R.id.travellingFragmentWeatherIcon);
+        ImageView musicIcon = (ImageView) view.findViewById(R.id.travellingFragmentMusicIcon);
+        ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
+
+        arrivedButton.setOnClickListener(view1 -> {
+            Toast.makeText(getContext(), "TEMP_TEXT_NOT_IMPLEMENTED Congrats!", Toast.LENGTH_SHORT).show();
+        });
+
+        weatherIcon.setOnClickListener(view12 -> {
+            Toast.makeText(getContext(), "You need to switch fragments now. Line 44 TravellingFragment.java", Toast.LENGTH_LONG).show();
+        });
+
+        musicIcon.setOnClickListener(view13 -> {
+            Toast.makeText(getContext(), "You need to switch fragments now. Line 48 TravellingFragment.java", Toast.LENGTH_LONG).show();
+        });
+
+        clockIcon.setOnClickListener(view14 -> {
+            Toast.makeText(getContext(), "You need to switch fragments now. Line 52 TravellingFragment.java", Toast.LENGTH_LONG).show();
+        });
+
+        return view;
     }
 }

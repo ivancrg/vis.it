@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.transition.Slide;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -68,8 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         } else if (itemId == R.id.nav_travelling) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NEWS_TRAVELLING_FRAGMENT_CLASS_NAME()).commit();
-            return false;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TravellingFragment()).commit();
         } else if (itemId == R.id.nav_on_location) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ON_LOCATION_FRAGMENT_CLASS_NAME()).commit();
             return false;
@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SUPPORT_FRAGMENT_CLASS_NAME()).commit();
             return false;
         }
+
+        // Automatically hides navigation drawer after clicking a link
+        drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
     }

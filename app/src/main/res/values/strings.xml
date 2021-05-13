@@ -92,5 +92,6 @@
     <string name="continue_exploring_date">Still not sure when to go? Continue exploring...</string>
     <string name="next_button">Next</string>
     <string name="cancel_button">Cancel</string>
+    <string name="on_destination">On destination!</string>
 
 </resources>
