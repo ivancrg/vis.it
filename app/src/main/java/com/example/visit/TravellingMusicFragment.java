@@ -99,7 +99,60 @@ public class TravellingMusicFragment extends Fragment {
     }
 
     public void getMusicAPI(){
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url("https://shazam.p.rapidapi.com/songs/list-recommendations?key=484129036")
+                .method("GET", null)
+                .addHeader("X-RapidAPI-Key", "e31191fb39mshee4aaa6d7f532c7p1091f7jsn9e94e37d2f84")
+                .addHeader("X-RapidAPI-Host", "shazam.p.rapidapi.com")
+                .build();
 
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    String myResponse = response.body().string();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                JSONObject music = new JSONObject(myResponse);
+                                JSONArray musicArr = music.getJSONArray("tracks");
+                                //gets random song from list
+                                int rand = ThreadLocalRandom.current().nextInt(0, 20);
+                                JSONObject song = musicArr.getJSONObject(rand);
+                                track = song.getJSONObject("hub").getJSONArray("actions")
+                                        .getJSONObject(1).getString("uri");
+
+                                //change image of player to the artist
+                                String image = song.getJSONObject("share").getString("avatar");
+
+                                //show song title
+                                String title = song.getJSONObject("share").getString("subject");
+                                name.setText(title);
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run(){
+                            Toast.makeText(getContext(), "Sorry! Music is not available right now, please come back later!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @SuppressLint("DefaultLocale")
