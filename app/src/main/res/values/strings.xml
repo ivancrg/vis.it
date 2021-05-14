@@ -94,4 +94,10 @@
     <string name="cancel_button">Cancel</string>
     <string name="on_destination">On destination!</string>
 
+    <!-- Strings related to fragments inside travelling screen -->
+    <string name="music_title">Music</string>
+    <string name="weather_title">Weather</string>
+    <string name="time_title">Time</string>
+    <string name="next_song">Next song</string>
+
 </resources>
