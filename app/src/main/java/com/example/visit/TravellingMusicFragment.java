@@ -137,7 +137,96 @@ public class TravellingMusicFragment extends Fragment {
                                 String title = song.getJSONObject("share").getString("subject");
                                 name.setText(title);
 
+                                //Initialize media player
+                                player = MediaPlayer.create(getContext(), Uri.parse(track));
 
+                                //Initialize runnable
+                                Runnable runnable = new Runnable(){
+                                    @Override
+                                    public void run(){
+                                        //Set progress on seek bar
+                                        seekBar.setProgress(player.getCurrentPosition());
+                                        handler.postDelayed(this, 500);
+                                    }
+                                };
+
+                                //getDuration
+                                int duration = player.getDuration();
+                                String stringDuration = convertFormat(duration);
+                                playerDuration.setText(stringDuration);
+
+                                play.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        play.setVisibility(View.GONE);
+                                        pause.setVisibility(View.VISIBLE);
+                                        player.start();
+                                        seekBar.setMax(player.getDuration());
+                                        handler.postDelayed(runnable, 0);
+                                    }
+                                });
+
+                                pause.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        pause.setVisibility(View.GONE);
+                                        play.setVisibility(View.VISIBLE);
+                                        player.pause();
+                                        handler.removeCallbacks(runnable);
+                                    }
+                                });
+
+                                fastForward.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        int currentPosition = player.getCurrentPosition();
+                                        int duration = player.getDuration();
+                                        if (player.isPlaying() && currentPosition != duration){
+                                            currentPosition = currentPosition + 5000;
+                                            playerPosition.setText(convertFormat(currentPosition));
+                                            player.seekTo(currentPosition);
+                                        }
+                                    }
+                                });
+
+                                rewind.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        int currentPosition = player.getCurrentPosition();
+                                        if (player.isPlaying() && currentPosition > 5000){
+                                            currentPosition = currentPosition - 5000;
+                                            playerPosition.setText(convertFormat(currentPosition));
+                                            player.seekTo(currentPosition);
+                                        }
+                                    }
+                                });
+
+                                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                                    @Override
+                                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                        if (fromUser){
+                                            player.seekTo(progress);
+                                        }
+                                        playerPosition.setText(convertFormat(player.getCurrentPosition()));
+                                    }
+
+                                    @Override
+                                    public void onStartTrackingTouch(SeekBar seekBar) {
+                                    }
+
+                                    @Override
+                                    public void onStopTrackingTouch(SeekBar seekBar) {
+                                    }
+                                });
+
+                                player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                    @Override
+                                    public void onCompletion(MediaPlayer mp) {
+                                        pause.setVisibility(View.GONE);
+                                        play.setVisibility(View.VISIBLE);
+                                        player.seekTo(0);
+                                    }
+                                });
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
