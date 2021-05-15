@@ -119,7 +119,6 @@ public class TravellingWeatherFragment extends Fragment {
                                     default:
                                         image.setImageResource(R.drawable.rain);
                                 }
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -129,10 +128,10 @@ public class TravellingWeatherFragment extends Fragment {
                 } else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(getContext(), "Country not available, please pick another country!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Sorry, the weather forecast is not available.", Toast.LENGTH_SHORT).show();
                             FragmentTransaction fragmentTransaction = getActivity()
                                     .getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.fragment_container, new CountryFragment());
+                            fragmentTransaction.replace(R.id.fragment_container, new TravellingFragment());
                             fragmentTransaction.commit();
                         }
                     });
