@@ -23,8 +23,8 @@
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/travellingFragmentMapView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
                 app:layout_constraintEnd_toEndOf="@id/travellingFragmentScrollableConstraintLayout"
                 app:layout_constraintStart_toStartOf="@id/travellingFragmentScrollableConstraintLayout"
                 app:layout_constraintTop_toTopOf="@id/travellingFragmentScrollableConstraintLayout" />
@@ -33,7 +33,7 @@
                 android:id="@+id/travellingFragmentArrivedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/on_destination"
                 app:layout_constraintEnd_toEndOf="@id/travellingFragmentScrollableConstraintLayout"
                 app:layout_constraintStart_toStartOf="@id/travellingFragmentScrollableConstraintLayout"
