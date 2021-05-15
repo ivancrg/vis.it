@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/tripDetailsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@color/blue"
+        android:gravity="bottom"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/titleDetailsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/trip_details_title"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/tripDetailsCountryLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:minHeight="64dp"
+        android:layout_below="@+id/tripDetailsHeader">
+
+        <TextView
+            android:id="@+id/tripDetailsCountryString"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:text="@string/trip_details_country"/>
+
+        <TextView
+            android:id="@+id/tripDetailsCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tripDetailsCountryString"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="16dp"
+            android:maxLines="2"
+            android:textAppearance="?attr/textAppearanceBody2" />
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/tripDetailsCityLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:minHeight="64dp"
+        android:layout_below="@+id/tripDetailsCountryLayout">
+
+        <TextView
+            android:id="@+id/tripDetailsCityString"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:text="@string/trip_details_city"/>
+
+        <TextView
+            android:id="@+id/tripDetailsCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tripDetailsCityString"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="16dp"
+            android:maxLines="2"
+            android:textAppearance="?attr/textAppearanceBody2" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/tripDetailsDateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:minHeight="64dp"
+        android:layout_below="@+id/tripDetailsCityLayout">
+
+        <TextView
+            android:id="@+id/tripDetailsDateString"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:text="@string/trip_details_date"/>
+
+        <TextView
+            android:id="@+id/tripDetailsDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tripDetailsDateString"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="16dp"
+            android:maxLines="2"
+            android:textAppearance="?attr/textAppearanceBody2" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/startTripButton"
+            style="@style/MaterialButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tripDetailsDateLayout"
+            android:fontFamily="sans-serif"
+            android:text="@string/trip_details_start_trip"
+            android:textColor="@color/white" />
+
+</RelativeLayout>

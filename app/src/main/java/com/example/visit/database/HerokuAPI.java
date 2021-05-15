@@ -1,11 +1,13 @@
 package com.example.visit.database;
 
+import com.example.visit.RecyclerViewItemMyTrips;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -37,5 +39,8 @@ public interface HerokuAPI {
 
     @POST("insertTrip")
     Call<TripPost> postTrip(@Body TripPost tripPost);
+
+    @GET(" getUsersTrips/{username}")
+    Call<ArrayList<RecyclerViewItemMyTrips>> getTrips(@Path("username") String username);
 
 }

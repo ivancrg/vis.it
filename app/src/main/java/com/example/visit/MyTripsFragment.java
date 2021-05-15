@@ -33,17 +33,46 @@ public class MyTripsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_trips, container, false);
 
         ArrayList<RecyclerViewItemMyTrips> trips = new ArrayList<>();
-        trips.add(new RecyclerViewItemMyTrips("Croatia", "Rijeka", "2021-15-5"));
-        trips.add(new RecyclerViewItemMyTrips("Croatia", "Zagreb", "2021-15-5"));
-        trips.add(new RecyclerViewItemMyTrips("Croatia", "Split", "2021-15-5"));
+        trips.add(new RecyclerViewItemMyTrips("Croatia", "Rijeka", "2021-05-20"));
+        trips.add(new RecyclerViewItemMyTrips("Croatia", "Zagreb", "2021-05-20"));
+        trips.add(new RecyclerViewItemMyTrips("Croatia", "Split", "2021-05-20"));
+
+        /*
+        Retrofit retrofit = Database.getRetrofit();
+        HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
+        Call<ArrayList<RecyclerViewItemMyTrips>> call = herokuAPI.getTrips(LoggedUser.getUsername());
+
+        call.enqueue(new Call<ArrayList<RecyclerViewItemMyTrips>>() {
+                         @Override
+                         public void onResponse(@NotNull Call<ArrayList<RecyclerViewItemMyTrips>> call, @NotNull Response<ArrayList<RecyclerViewItemMyTrips>> response) {
+                             if (!response.isSuccessful()) {
+                                 // Not OK
+                                 Log.e("/getTrips", "notSuccessful: Something went wrong. " + response.code());
+                                 Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                                 return;
+                             }
+
+                             assert response.body() != null;
+
+                             ArrayList<RecyclerViewItemMyTrips> myTrips = response.body();
+
+                             if (myTrips.getFeedback().equals("trips_found")) {
+                                 trips = myTrips;
+
+                                 FragmentTransaction fragmentTransaction = getActivity()
+                                         .getSupportFragmentManager().beginTransaction();
+                                 fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
+                                 fragmentTransaction.commit();
+                             } else {
+                                 Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                             }
+                         }
+                     }*/
 
         recyclerView = view.findViewById(R.id.myTripsScreenVerticalRecyclerView);
 
-        // ??
-        //recyclerView.setHasFixedSize(true);
-
         recyclerViewLayoutManager = new LinearLayoutManager(getContext());
-        recyclerViewAdapter = new RecyclerViewAdapterMyTrips(getContext(), trips);
+        recyclerViewAdapter = new RecyclerViewAdapterMyTrips(this, trips);
 
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);

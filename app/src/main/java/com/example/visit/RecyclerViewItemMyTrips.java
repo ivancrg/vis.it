@@ -5,6 +5,7 @@ public class RecyclerViewItemMyTrips {
     private String country;
     private String city;
     private String date;
+    private String feedback;
 
     public RecyclerViewItemMyTrips(String country, String city, String date) {
         this.country = country;
@@ -22,5 +23,9 @@ public class RecyclerViewItemMyTrips {
 
     public String getDate() {
         return date;
+    }
+
+    public String getFeedback() {
+        return feedback;
     }
 }

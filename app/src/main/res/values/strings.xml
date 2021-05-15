@@ -98,4 +98,11 @@
     <string name="my_trips_title">MY TRIPS</string>
     <string name="trip_details">View details</string>
 
+    <!-- String related to trip details fragment -->
+    <string name="trip_details_title">CHOSEN TRIP</string>
+    <string name="trip_details_country">Country:</string>
+    <string name="trip_details_city">City:</string>
+    <string name="trip_details_date">Date:</string>
+    <string name="trip_details_start_trip">start trip</string>
+
 </resources>
