@@ -95,6 +95,6 @@
     <string name="on_destination">On destination!</string>
 
     <string name="loading_location">Loading location...</string>
-    <string name="loading_temperature">Loading temperature...</string>
+    <string name="loading">Loading...</string>
 
 </resources>
