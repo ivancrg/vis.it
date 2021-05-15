@@ -4,6 +4,7 @@ import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,11 @@ public class TravellingFragment extends Fragment {
         });
 
         weatherIcon.setOnClickListener(view12 -> {
-            Toast.makeText(getContext(), "You need to switch fragments now. Line 44 TravellingFragment.java", Toast.LENGTH_LONG).show();
+            FragmentTransaction fragmentTransaction = getActivity()
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new TravellingWeatherFragment());
+            fragmentTransaction.commit();
+            //Toast.makeText(getContext(), "You need to switch fragments now. Line 44 TravellingFragment.java", Toast.LENGTH_LONG).show();
         });
 
         musicIcon.setOnClickListener(view13 -> {
