@@ -53,6 +53,7 @@ public class TravellingTimeFragment extends Fragment {
 
     View view;
     TextView homeTime, currentTime, destinationTime;
+    double latitude, longitude;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,16 +86,16 @@ public class TravellingTimeFragment extends Fragment {
             if(listOfAddress != null && !listOfAddress.isEmpty()){
                 Address address = listOfAddress.get(0);
 
-                double latitude = address.getLatitude();
-                double longitude = address.getLongitude();
+                latitude = address.getLatitude();
+                longitude = address.getLongitude();
 
                 Log.d("koordinate Rijeke", latitude + " " + longitude);
             }
         } catch (IOException e) {
+            latitude = 45;
+            longitude = 14;
             e.printStackTrace();
         }
-
-        L
 
         getTimeZoneAPI();
 
@@ -105,7 +106,7 @@ public class TravellingTimeFragment extends Fragment {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://maps.googleapis.com/maps/api/timezone/json?location=39.6034810,-119.6822510&timestamp=1331161200&key=AIzaSyArpz0rGtzrmJHGxEz-FB71GhnasO2wz0I")
+                .url("https://api.timezonedb.com/v2.1/get-time-zone?key=I7JVY5MYINC6&format=json&by=position&lat="+latitude+"&lng="+longitude+"")
                 .method("GET", null)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -122,8 +123,9 @@ public class TravellingTimeFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                JSONObject timeZone = new JSONObject(myResponse);
-                                Log.d("zona", timeZone.toString());
+                                JSONObject timeObject = new JSONObject(myResponse);
+                                String time = timeObject.get("formatted").toString();
+                                Log.d("VREME", time);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
