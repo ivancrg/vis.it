@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.GnssAntennaInfo;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -24,11 +27,14 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.SphericalUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,6 +51,10 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     private boolean locationPermissionGranted = true;
     private MapView mapView;
     private GoogleMap googleMap;
+    private LatLng homeCoordinates, deviceCoordinates, destinationCoordinates;
+    private Double distanceToDestination;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
 
     public TravellingFragment() {
         // Required empty public constructor
@@ -66,7 +76,12 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         ImageView musicIcon = (ImageView) view.findViewById(R.id.travellingFragmentMusicIcon);
         ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
 
+        // TODO: Implement real destination data
+        destinationCoordinates = new LatLng(45.34306, 14.40917);
+
         initGoogleMap(savedInstanceState);
+
+        initGeolocation();
 
         arrivedButton.setOnClickListener(view1 -> {
             Toast.makeText(getContext(), "TEMP_TEXT_NOT_IMPLEMENTED Congrats!", Toast.LENGTH_SHORT).show();
@@ -87,13 +102,32 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
-    // Pretty self-explanatory, gets the whole checking process rolling
-    private boolean checkMapServices() {
-        if (isGoogleServicesAvailable() && isGPSEnabled()) {
-            return true;
+    private void initGeolocation() {
+        locationManager = (LocationManager) Objects.requireNonNull(getActivity()).getSystemService(Context.LOCATION_SERVICE);
+        locationListener = location -> {
+            // TODO: Implement real destination data
+            deviceCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
+
+            // Retrieves distance in meters
+            distanceToDestination = SphericalUtil.computeDistanceBetween(deviceCoordinates, destinationCoordinates);
+
+            Toast.makeText(getContext(), distanceToDestination / 1000.0 + "km", Toast.LENGTH_SHORT).show();
+        };
+
+        if (locationPermissionGranted) {
+            getLocationPermission();
         }
 
-        return false;
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        locationManager.requestLocationUpdates("gps", 5 * 1000, 10, locationListener);
+    }
+
+    // Pretty self-explanatory, gets the whole checking process rolling
+    private boolean checkMapServices() {
+        return isGoogleServicesAvailable() && isGPSEnabled();
     }
 
     // Returns true if the device is able to use Google services (GMaps API etc.)
@@ -254,7 +288,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
 
         // TODO show destination location instead of Rijeka
         map.addMarker(new MarkerOptions()
-                .position(new LatLng(45.34306, 14.40917))
+                .position(destinationCoordinates)
                 .title("Trip destination"));
 
         // TODO show current location
