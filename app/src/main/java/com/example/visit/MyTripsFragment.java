@@ -18,6 +18,7 @@ import com.example.visit.database.TripsGet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,55 +47,57 @@ public class MyTripsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_trips, container, false);
 
-       /* trips.add(new RecyclerViewItemMyTrips("Croatia", "Rijeka", "2021-05-20"));
-        trips.add(new RecyclerViewItemMyTrips("Croatia", "Zagreb", "2021-05-20"));
-        trips.add(new RecyclerViewItemMyTrips("Croatia", "Split", "2021-05-20")); */
+        recyclerView = view.findViewById(R.id.myTripsScreenVerticalRecyclerView);
+        tripsToRecyclerView(view);
+
+        return view;
+    }
+
+    private void tripsToRecyclerView(View view) {
+        // Request towards vis.it API for getting user's trips data
 
         Retrofit retrofit = Database.getRetrofit();
         HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
         Call<TripsGet> call = herokuAPI.getUsersTrips(LoggedUser.getUsername());
 
         call.enqueue(new Callback<TripsGet>() {
-                         @Override
-                         public void onResponse(@NotNull Call<TripsGet> call, @NotNull Response<TripsGet> response) {
-                             if (!response.isSuccessful()) {
-                                 // Not OK
-                                 Log.e("/getTrips", "notSuccessful: Something went wrong. " + response.code());
-                                 Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
-                                 return;
-                             }
+            @Override
+            public void onResponse(@NotNull Call<TripsGet> call, @NotNull Response<TripsGet> response) {
+                // Response received
 
-                             assert response.body() != null;
+                if (!response.isSuccessful()) {
+                    // Not OK
+                    Log.e("/getTrips", "notSuccessful: Something went wrong. " + response.code());
+                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
-                             TripsGet tripsGet = response.body();
+                // Response code marks the completion of request as successful
+                assert response.body() != null;
+                TripsGet tripsGet = response.body();
 
-                             // ovdje uopće ne ispisuje podatke iz baze
+                if (tripsGet.getFeedback().equals("trips_found")) {
+                    // API returned an array of trips
+                    trips = tripsGet.getTrips();
 
-                             Log.i("", "" + response.body());
+                    recyclerViewLayoutManager = new LinearLayoutManager(getContext());
+                    recyclerViewAdapter = new RecyclerViewAdapterMyTrips(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), trips);
 
-                             if (tripsGet.getFeedback().equals("trips_found")) {
-                                 trips = tripsGet.getTrips();
-                             } else {
-                                 Toast.makeText(view.getContext(), "Sorry, there was an error." + tripsGet.getFeedback(), Toast.LENGTH_LONG).show();
-                             }
-                         }
+                    recyclerView.setLayoutManager(recyclerViewLayoutManager);
+                    recyclerView.setAdapter(recyclerViewAdapter);
+                } else {
+                    // API did not return any trip data (because of a database error or because the user has no trips saved)
+                    Toast.makeText(view.getContext(), "No trips available.", Toast.LENGTH_LONG).show();
+                }
+            }
 
-                        @Override
-                        public void onFailure(@NotNull Call<TripsGet> call, @NotNull Throwable t) {
-                            Toast.makeText(view.getContext(), "Sorry! there was an error.", Toast.LENGTH_LONG).show();
-                            Log.e("/getUsersTrips", "onFailure: Something went wrong. " + t.getMessage());
-                         }
+            @Override
+            public void onFailure(@NotNull Call<TripsGet> call, @NotNull Throwable t) {
+                // Request towards vis.it API could not be completed
 
-                     });
-
-        recyclerView = view.findViewById(R.id.myTripsScreenVerticalRecyclerView);
-
-        recyclerViewLayoutManager = new LinearLayoutManager(getContext());
-        recyclerViewAdapter = new RecyclerViewAdapterMyTrips(this, trips);
-
-        recyclerView.setLayoutManager(recyclerViewLayoutManager);
-        recyclerView.setAdapter(recyclerViewAdapter);
-
-        return view;
+                Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                Log.e("/getUsersTrips", "onFailure: Something went wrong. " + t.getMessage());
+            }
+        });
     }
 }

@@ -9,17 +9,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerViewAdapterMyTrips.RecyclerViewHolderMyTrips> {
     private ArrayList<RecyclerViewItemMyTrips> tripsList;
-    private static Fragment context;
+    private static FragmentManager fragmentManager;
 
-    public RecyclerViewAdapterMyTrips(Fragment context, ArrayList<RecyclerViewItemMyTrips> tripsList) {
-        this.context = context;
+    public RecyclerViewAdapterMyTrips(FragmentManager fragmentManager, ArrayList<RecyclerViewItemMyTrips> tripsList) {
+        RecyclerViewAdapterMyTrips.fragmentManager = fragmentManager;
         this.tripsList = tripsList;
     }
 
@@ -27,9 +29,8 @@ public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerVie
     @Override
     public RecyclerViewHolderMyTrips onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_trips_recycler_view_row, parent, false);
-        RecyclerViewHolderMyTrips recyclerViewHolderMyTrips = new RecyclerViewHolderMyTrips(view);
 
-        return recyclerViewHolderMyTrips;
+        return new RecyclerViewHolderMyTrips(view);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerVie
 
         holder.countryTextView.setText(currentItem.getCountry());
         holder.cityTextView.setText(currentItem.getCity());
-        holder.dateTextView.setText(currentItem.getDateOfDeparture().toString());
+        holder.dateTextView.setText(currentItem.getDateOfDeparture());
 
         holder.position = position;
         holder.trip = currentItem;
@@ -69,19 +70,18 @@ public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerVie
             this.dateTextView = itemView.findViewById(R.id.tripDateTextView);
             this.detailsButton = itemView.findViewById(R.id.detailsButton);
 
-            detailsButton.setOnClickListener(v ->  {
-                    ChosenTrip.setCountry(countryTextView.getText().toString());
-                    ChosenTrip.setCity(cityTextView.getText().toString());
-                    ChosenTrip.setDate(dateTextView.getText().toString());
+            detailsButton.setOnClickListener(v -> {
+                ChosenTrip.setCountry(countryTextView.getText().toString());
+                ChosenTrip.setCity(cityTextView.getText().toString());
+                ChosenTrip.setDate(dateTextView.getText().toString());
 
-                    if (LoggedUser.getIsLoggedIn()) {
-                        FragmentTransaction fragmentTransaction = context.getActivity()
-                                .getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_container, new TripDetailsFragment());
-                        fragmentTransaction.commit();
-                    } else {
-                        Toast.makeText(itemView.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
-                    }
+                if (LoggedUser.getIsLoggedIn()) {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, new TripDetailsFragment());
+                    fragmentTransaction.commit();
+                } else {
+                    Toast.makeText(itemView.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
+                }
             });
         }
     }

@@ -4,6 +4,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class RecyclerViewItemMyTrips {
 
+    public RecyclerViewItemMyTrips() {
+
+    }
+
+    public RecyclerViewItemMyTrips(int id, String country, String city, String location, String necessities, String creator, String travellingMode, String dateOfDeparture, String participantsDescription) {
+        this.id = id;
+        this.country = country;
+        this.city = city;
+        this.location = location;
+        this.necessities = necessities;
+        this.creator = creator;
+        this.travellingMode = travellingMode;
+        this.dateOfDeparture = dateOfDeparture;
+        this.participantsDescription = participantsDescription;
+    }
+
     private int id;
     private String country;
     private String city;
@@ -54,5 +70,20 @@ public class RecyclerViewItemMyTrips {
 
     public String getDateOfDeparture() {
         return dateOfDeparture;
+    }
+
+    @Override
+    public String toString() {
+        return "RecyclerViewItemMyTrips{" +
+                "id=" + id +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", location='" + location + '\'' +
+                ", necessities='" + necessities + '\'' +
+                ", creator='" + creator + '\'' +
+                ", travellingMode='" + travellingMode + '\'' +
+                ", dateOfDeparture='" + dateOfDeparture + '\'' +
+                ", participantsDescription='" + participantsDescription + '\'' +
+                '}';
     }
 }

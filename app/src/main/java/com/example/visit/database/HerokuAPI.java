@@ -27,7 +27,6 @@ public interface HerokuAPI {
     @POST("register")
     Call<RegisterPost> register(@Body RegisterPost post);
 
-
     @PATCH("updateUser/{username}")
     Call<UpdatePatch> updateData(@Path("username") String username, @Body UpdatePatch patch);
 
@@ -39,5 +38,4 @@ public interface HerokuAPI {
 
     @GET("getUsersTrips")
     Call<TripsGet> getUsersTrips(@Query("username") String username);
-
 }

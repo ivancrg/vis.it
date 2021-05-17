@@ -17,4 +17,11 @@ public class TripsGet {
         return feedback;
     }
 
+    @Override
+    public String toString() {
+        return "TripsGet{" +
+                "trips=" + trips +
+                ", feedback='" + feedback + '\'' +
+                '}';
+    }
 }
