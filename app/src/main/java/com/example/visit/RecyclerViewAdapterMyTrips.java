@@ -39,7 +39,7 @@ public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerVie
 
         holder.countryTextView.setText(currentItem.getCountry());
         holder.cityTextView.setText(currentItem.getCity());
-        holder.dateTextView.setText(currentItem.getDate());
+        holder.dateTextView.setText(currentItem.getDateOfDeparture().toString());
 
         holder.position = position;
         holder.trip = currentItem;

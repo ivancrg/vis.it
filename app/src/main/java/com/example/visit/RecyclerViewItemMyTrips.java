@@ -1,16 +1,27 @@
 package com.example.visit;
 
+import com.google.gson.annotations.SerializedName;
+
 public class RecyclerViewItemMyTrips {
 
+    private int id;
     private String country;
     private String city;
-    private String date;
-    private String feedback;
+    private String location;
+    private String necessities;
+    private String creator;
 
-    public RecyclerViewItemMyTrips(String country, String city, String date) {
-        this.country = country;
-        this.city = city;
-        this.date = date;
+    @SerializedName("travelling_mode")
+    private String travellingMode;
+
+    @SerializedName("date_of_departure")
+    private String dateOfDeparture;
+
+    @SerializedName("participants_description")
+    private String participantsDescription;
+
+    public int getId() {
+        return id;
     }
 
     public String getCountry() {
@@ -21,11 +32,27 @@ public class RecyclerViewItemMyTrips {
         return city;
     }
 
-    public String getDate() {
-        return date;
+    public String getLocation() {
+        return location;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public String getNecessities() {
+        return necessities;
+    }
+
+    public String getParticipantsDescription() {
+        return participantsDescription;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public String getTravellingMode() {
+        return travellingMode;
+    }
+
+    public String getDateOfDeparture() {
+        return dateOfDeparture;
     }
 }
