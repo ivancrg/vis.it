@@ -28,7 +28,6 @@ public interface HerokuAPI {
     @POST("register")
     Call<RegisterPost> register(@Body RegisterPost post);
 
-
     @PATCH("updateUser/{username}")
     Call<UpdatePatch> updateData(@Path("username") String username, @Body UpdatePatch patch);
 
