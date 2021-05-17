@@ -13,5 +13,6 @@
     <color name="darkBlueTopBar">#0034b8</color>
     <color name="darkBlueNavigationHeader">#0034b8</color>
     <color name="blue">#0034b8</color>
+    <color name="weather">#034C75</color>
 
 </resources>

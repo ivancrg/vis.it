@@ -95,4 +95,7 @@
     <string name="on_destination">On destination!</string>
     <string name="on_the_go">On the go…</string>
 
+    <string name="loading_location">Loading location...</string>
+    <string name="loading">Loading...</string>
+
 </resources>
