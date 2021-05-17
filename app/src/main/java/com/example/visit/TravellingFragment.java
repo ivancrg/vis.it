@@ -101,7 +101,11 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         });
 
         musicIcon.setOnClickListener(view13 -> {
-            Toast.makeText(getContext(), "You need to switch fragments now. Line 48 TravellingFragment.java", Toast.LENGTH_LONG).show();
+            FragmentTransaction fragmentTransaction = getActivity()
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new TravellingMusicFragment());
+            fragmentTransaction.commit();
+            //Toast.makeText(getContext(), "You need to switch fragments now. Line 48 TravellingFragment.java", Toast.LENGTH_LONG).show();
         });
 
         clockIcon.setOnClickListener(view14 -> {

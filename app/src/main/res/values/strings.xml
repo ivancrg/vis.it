@@ -98,4 +98,10 @@
     <string name="loading_location">Loading location...</string>
     <string name="loading">Loading...</string>
 
+    <!-- Strings related to fragments inside travelling screen -->
+    <string name="music_title">Music</string>
+    <string name="weather_title">Weather</string>
+    <string name="time_title">Time</string>
+    <string name="next_song">Next song</string>
+
 </resources>
