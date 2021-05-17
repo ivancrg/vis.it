@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Visit">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB4qdi8lo8E5aBiYKTRSb77Wb3bq79XQDY" />
+            android:value="AIzaSyArpz0rGtzrmJHGxEz-FB71GhnasO2wz0I" />
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity

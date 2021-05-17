@@ -79,8 +79,8 @@
     <string name="participants_title">ADD PARTICIPANTS (optional)</string>
     <string name="mode_title">TRAVELLING MODE</string>
     <string name="mode">Travelling mode</string>
-    <string name="mode_text">Bus, car, airplane...</string>
-    <string name="city_text">Destination city...</string>
+    <string name="mode_text">Bus, car, airplane…</string>
+    <string name="city_text">Destination city…</string>
     <string name="city">City</string>
     <string name="accommodation">Accommodation</string>
     <string name="travelling_necessities_list">List all travelling necessities you should not forget on this trip!</string>
@@ -88,11 +88,15 @@
     <string name="link_friends">Invite friends!</string>
     <string name="participants_text">Add participants</string>
     <string name="button_save">SAVE CHANGES</string>
-    <string name="continue_exploring">Still not sure where to go? Continue exploring...</string>
-    <string name="continue_exploring_date">Still not sure when to go? Continue exploring...</string>
+    <string name="continue_exploring">Still not sure where to go? Continue exploring…</string>
+    <string name="continue_exploring_date">Still not sure when to go? Continue exploring…</string>
     <string name="next_button">Next</string>
     <string name="cancel_button">Cancel</string>
     <string name="on_destination">On destination!</string>
+    <string name="on_the_go">On the go…</string>
+
+    <string name="loading_location">Loading location...</string>
+    <string name="loading">Loading...</string>
 
     <!-- Strings related to fragments inside travelling screen -->
     <string name="music_title">Music</string>
