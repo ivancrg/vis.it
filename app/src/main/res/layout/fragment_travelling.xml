@@ -8,38 +8,61 @@
     tools:context=".TravellingFragment">
 
 
-    <!-- ScrollView's layout_height is equivalent to MATCH_CONSTRAINT-->
+    <!-- ScrollView's layout_height is equivalent to MATCH_CONSTRAINT
     <ScrollView
         android:id="@+id/travellingFragmentScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/travellingFragmentTableLayout"
         app:layout_constraintTop_toTopOf="@id/travellingFragmentRootConstraintLayout">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/travellingFragmentScrollableConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/travellingFragmentMapView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/travellingFragmentScrollableConstraintLayout"
-                app:layout_constraintStart_toStartOf="@id/travellingFragmentScrollableConstraintLayout"
-                app:layout_constraintTop_toTopOf="@id/travellingFragmentScrollableConstraintLayout" />
-
-            <Button
-                android:id="@+id/travellingFragmentArrivedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:text="@string/on_destination"
-                app:layout_constraintEnd_toEndOf="@id/travellingFragmentScrollableConstraintLayout"
-                app:layout_constraintStart_toStartOf="@id/travellingFragmentScrollableConstraintLayout"
-                app:layout_constraintTop_toBottomOf="@+id/travellingFragmentMapView" />
+            MapView and Button goes here if you want them to be scrollable
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </ScrollView>-->
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/travellingFragmentBottomMapGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".75" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:text="@string/on_the_go"
+        android:background="@color/darkBlueTopBar"
+        android:id="@+id/travellingFragmentTitle"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:gravity="bottom"
+        android:paddingStart="10dp"
+        app:layout_constraintStart_toStartOf="@id/travellingFragmentRootConstraintLayout"
+        app:layout_constraintEnd_toEndOf="@id/travellingFragmentRootConstraintLayout"
+        app:layout_constraintTop_toTopOf="@id/travellingFragmentRootConstraintLayout"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/travellingFragmentMapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="@id/travellingFragmentRootConstraintLayout"
+        app:layout_constraintStart_toStartOf="@id/travellingFragmentRootConstraintLayout"
+        app:layout_constraintTop_toBottomOf="@id/travellingFragmentTitle"
+        app:layout_constraintBottom_toBottomOf="@id/travellingFragmentBottomMapGuideline" />
+
+    <Button
+        android:id="@+id/travellingFragmentArrivedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/on_destination"
+        app:layout_constraintEnd_toEndOf="@id/travellingFragmentRootConstraintLayout"
+        app:layout_constraintStart_toStartOf="@id/travellingFragmentRootConstraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/travellingFragmentMapView" />
 
     <TableLayout
         android:id="@+id/travellingFragmentTableLayout"
