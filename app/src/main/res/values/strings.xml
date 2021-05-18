@@ -35,6 +35,7 @@
     <string name="confirm_new_password">Confirm new password</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="my_trips">my trips</string>
 
 
     <!-- Strings related to navigation drawer -->
@@ -107,5 +108,21 @@
     <string name="home_time">Time at home</string>
     <string name="local_time">Time at current location</string>
     <string name="destination_time">Time at destination</string>
+
+    <!-- Strings related to my trips fragment and row for recycler view -->
+    <string name="my_trips_title">MY TRIPS</string>
+    <string name="trip_details">View details</string>
+
+    <!-- String related to trip details fragment -->
+    <string name="trip_details_title">CHOSEN TRIP</string>
+    <string name="trip_details_country">Country:</string>
+    <string name="trip_details_city">City:</string>
+    <string name="trip_details_date">Date:</string>
+    <string name="trip_details_location">Location:</string>
+    <string name="trip_details_necessities">Necessities:</string>
+    <string name="trip_details_travelling_mode">Travelling mode:</string>
+    <string name="trip_details_participants">Participants:</string>
+    <string name="trip_details_start_trip">start trip</string>
+    <string name="trip_details_return_button">return to trips preview</string>
 
 </resources>

@@ -56,6 +56,7 @@ public class UserInterfaceFragment extends Fragment {
         TextInputEditText email = (TextInputEditText) view.findViewById(R.id.emailTextInputEditText);
         Button update = (Button) view.findViewById(R.id.updateButton);
         Button changePassword = (Button) view.findViewById(R.id.changePasswordButton);
+        Button myTrips = (Button) view.findViewById(R.id.myTripsButton);
         loadingImageView = (pl.droidsonroids.gif.GifImageView) view.findViewById(R.id.userInterfaceFragmentLoading);
 
         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
@@ -115,6 +116,13 @@ public class UserInterfaceFragment extends Fragment {
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, new ChangePasswordFragment());
+            fragmentTransaction.commit();
+        });
+
+        myTrips.setOnClickListener(v -> {
+            FragmentTransaction fragmentTransaction = getActivity()
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new MyTripsFragment());
             fragmentTransaction.commit();
         });
 
