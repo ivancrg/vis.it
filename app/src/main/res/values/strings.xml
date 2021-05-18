@@ -103,6 +103,11 @@
     <string name="trip_details_country">Country:</string>
     <string name="trip_details_city">City:</string>
     <string name="trip_details_date">Date:</string>
+    <string name="trip_details_location">Location:</string>
+    <string name="trip_details_necessities">Necessities:</string>
+    <string name="trip_details_travelling_mode">Travelling mode:</string>
+    <string name="trip_details_participants">Participants:</string>
     <string name="trip_details_start_trip">start trip</string>
+    <string name="trip_details_return_button">return to trips preview</string>
 
 </resources>

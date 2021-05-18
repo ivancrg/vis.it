@@ -8,17 +8,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerViewAdapterMyTrips.RecyclerViewHolderMyTrips> {
     private ArrayList<RecyclerViewItemMyTrips> tripsList;
     private static FragmentManager fragmentManager;
+    private String dateDisplay;
 
     public RecyclerViewAdapterMyTrips(FragmentManager fragmentManager, ArrayList<RecyclerViewItemMyTrips> tripsList) {
         RecyclerViewAdapterMyTrips.fragmentManager = fragmentManager;
@@ -33,6 +32,7 @@ public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerVie
         return new RecyclerViewHolderMyTrips(view);
     }
 
+    // fills every row of recycler view with data
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolderMyTrips holder, int position) {
 
@@ -40,7 +40,9 @@ public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerVie
 
         holder.countryTextView.setText(currentItem.getCountry());
         holder.cityTextView.setText(currentItem.getCity());
-        holder.dateTextView.setText(currentItem.getDateOfDeparture());
+
+        dateDisplay = currentItem.getDateOfDeparture().split("T")[0];
+        holder.dateTextView.setText(dateDisplay);
 
         holder.position = position;
         holder.trip = currentItem;
@@ -71,9 +73,7 @@ public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerVie
             this.detailsButton = itemView.findViewById(R.id.detailsButton);
 
             detailsButton.setOnClickListener(v -> {
-                ChosenTrip.setCountry(countryTextView.getText().toString());
-                ChosenTrip.setCity(cityTextView.getText().toString());
-                ChosenTrip.setDate(dateTextView.getText().toString());
+                ChosenTrip.setData(trip);
 
                 if (LoggedUser.getIsLoggedIn()) {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
