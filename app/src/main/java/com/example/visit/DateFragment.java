@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-
 import androidx.fragment.app.FragmentTransaction;
 
 import java.time.LocalDate;
@@ -47,7 +45,8 @@ public class DateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 int day = datePicker.getDayOfMonth();
-                int month = datePicker.getMonth();
+                // datePicker indexes months from 0
+                int month = datePicker.getMonth() + 1;
                 int year = datePicker.getYear();
 
                 LocalDate date = LocalDate.of(year, month, day);
