@@ -50,8 +50,18 @@ public class TripDetailsFragment extends Fragment {
         participants.setText((ChosenTrip.getParticipantsDescription() == null) ? ("No participants selected") : (ChosenTrip.getParticipantsDescription()));
 
         start.setOnClickListener(v -> {
-            // TODO
-            // connect to travelling fragment
+            // Sending city and country name to TravellingFragment
+            Bundle args = new Bundle();
+            args.putString("country", country.toString());
+            args.putString("city", city.toString());
+
+            TravellingFragment fragmentTravelling = new TravellingFragment();
+            fragmentTravelling.setArguments(args);
+
+            FragmentTransaction fragmentTransaction = getActivity()
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragmentTravelling);
+            fragmentTransaction.commit();
         });
 
         returnButton.setOnClickListener(v -> {

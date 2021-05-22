@@ -81,6 +81,11 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         ImageView musicIcon = (ImageView) view.findViewById(R.id.travellingFragmentMusicIcon);
         ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
 
+        // Receiving city and country name from TripDetailsFragment
+        Bundle args = this.getArguments();
+        String destinationCity = args.getString("city");
+        String destinationCountry = args.getString("country");
+
         // TODO: Implement real destination data
         destinationCoordinates = new LatLng(45.34306, 14.40917);
 
@@ -93,25 +98,36 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         });
 
         weatherIcon.setOnClickListener(view12 -> {
+            // Sending destinationCity and destinationCountry to TravellingWeatherFragment
+            TravellingWeatherFragment fragmentWeatherTravelling = new TravellingWeatherFragment();
+            fragmentWeatherTravelling.setArguments(args);
+
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new TravellingWeatherFragment());
+            fragmentTransaction.replace(R.id.fragment_container, fragmentWeatherTravelling);
             fragmentTransaction.commit();
-            //Toast.makeText(getContext(), "You need to switch fragments now. Line 44 TravellingFragment.java", Toast.LENGTH_LONG).show();
         });
 
         musicIcon.setOnClickListener(view13 -> {
+            // Sending destinationCity and destinationCountry to TravellingMusicFragment
+            TravellingMusicFragment fragmentMusicTravelling = new TravellingMusicFragment();
+            fragmentMusicTravelling.setArguments(args);
+
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new TravellingMusicFragment());
+            fragmentTransaction.replace(R.id.fragment_container, fragmentMusicTravelling);
             fragmentTransaction.commit();
             //Toast.makeText(getContext(), "You need to switch fragments now. Line 48 TravellingFragment.java", Toast.LENGTH_LONG).show();
         });
 
         clockIcon.setOnClickListener(view14 -> {
+            // Sending destinationCity and destinationCountry to TravellingTimeFragment
+            TravellingTimeFragment fragmentTimeTravelling = new TravellingTimeFragment();
+            fragmentTimeTravelling.setArguments(args);
+
             FragmentTransaction fragmentTransaction = getActivity()
                     .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new TravellingTimeFragment());
+            fragmentTransaction.replace(R.id.fragment_container, fragmentTimeTravelling);
             fragmentTransaction.commit();
             //Toast.makeText(getContext(), "You need to switch fragments now. Line 52 TravellingFragment.java", Toast.LENGTH_LONG).show();
         });
