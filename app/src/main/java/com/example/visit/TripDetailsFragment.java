@@ -1,5 +1,7 @@
 package com.example.visit;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,10 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class TripDetailsFragment extends Fragment {
 
@@ -23,6 +29,9 @@ public class TripDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    double lat = 0;
+    double lng = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,11 +58,33 @@ public class TripDetailsFragment extends Fragment {
         travellingMode.setText(ChosenTrip.getTravellingMode());
         participants.setText((ChosenTrip.getParticipantsDescription() == null) ? ("No participants selected") : (ChosenTrip.getParticipantsDescription()));
 
+        String destinationCity = city.getText().toString();
+        String destinationCountry = country.getText().toString();
+
         start.setOnClickListener(v -> {
             // Sending city and country name to TravellingFragment
             Bundle args = new Bundle();
-            args.putString("country", country.toString());
-            args.putString("city", city.toString());
+            args.putString("destinationCity", destinationCity);
+            args.putString("destinationCountry", destinationCountry);
+
+            //Get destination city lat and long from name
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+            List<Address> listOfAddress;
+            try {
+                listOfAddress = geocoder.getFromLocationName(destinationCity, 1);
+                if(listOfAddress != null && !listOfAddress.isEmpty()){
+                    Address address = listOfAddress.get(0);
+
+                    lat = address.getLatitude();
+                    lng = address.getLongitude();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Sending city lat and lng to Travelling Fragment
+            args.putDouble("destinationCityLat", lat);
+            args.putDouble("destinationCityLng", lng);
 
             TravellingFragment fragmentTravelling = new TravellingFragment();
             fragmentTravelling.setArguments(args);

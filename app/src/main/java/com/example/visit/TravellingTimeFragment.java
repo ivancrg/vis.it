@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -24,14 +25,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,6 +59,8 @@ public class TravellingTimeFragment extends Fragment {
 
     View view;
     TextView homeTime, currentTime, destinationTime;
+    String time = "00:00";
+    String currentTimeDate;
     double latitude, longitude;
 
     @Override
@@ -65,39 +73,31 @@ public class TravellingTimeFragment extends Fragment {
         currentTime = view.findViewById(R.id.local_time);
         destinationTime = view.findViewById(R.id.destination_time);
 
+        //Getting destination city from TravellingFragment
+        Bundle args = this.getArguments();
+        String destinationCity = args.getString("destinationCity");
+        latitude = args.getDouble("destinationCityLat");
+        longitude = args.getDouble("destinationCityLng");
 
-        //get current city name from lat and long
-        Geocoder geocoder1 = new Geocoder(getContext(), Locale.getDefault());
-        List<Address> addresses;
-        try {
-            addresses = geocoder1.getFromLocation(32, 75, 1);
-            String city = addresses.get(0).getLocality();
-            Log.d("grad", city);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //get current city lat and long from name
-        Geocoder geocoder2 = new Geocoder(getContext(), Locale.getDefault());
-        List<Address> listOfAddress;
-        try {
-            listOfAddress = geocoder2.getFromLocationName("Rijeka", 1);
-            if(listOfAddress != null && !listOfAddress.isEmpty()){
-                Address address = listOfAddress.get(0);
-
-                latitude = address.getLatitude();
-                longitude = address.getLongitude();
-
-                Log.d("koordinate Rijeke", latitude + " " + longitude);
+        //Update destination and current time every 10 seconds
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //Setting current time
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        currentTimeDate = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+                        currentTime.setText(currentTimeDate);
+                    }
+                });
+                //Setting destination time
+                getTimeZoneAPI();
             }
-        } catch (IOException e) {
-            latitude = 45;
-            longitude = 14;
-            e.printStackTrace();
-        }
+        }, 0, 10000);
 
-        getTimeZoneAPI();
+        //TODO set home time
 
         return view;
     }
@@ -119,24 +119,22 @@ public class TravellingTimeFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()){
                     final String myResponse = response.body().string();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
                             try {
                                 JSONObject timeObject = new JSONObject(myResponse);
-                                String time = timeObject.get("formatted").toString();
-                                Log.d("VREME", time);
+                                time = timeObject.get("formatted").toString();
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        destinationTime.setText(time.substring(time.length() - 8, time.length() - 3));
+                                    }
+                                });
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        }
-
-                    });
                 } else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(getContext(), "Time not available!", Toast.LENGTH_SHORT).show();
-
                         }
                     });
                 }

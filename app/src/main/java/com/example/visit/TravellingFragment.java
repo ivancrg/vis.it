@@ -6,22 +6,29 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.*;
 import android.location.GnssAntennaInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.Settings;
+import android.text.Layout;
 import android.util.Log;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -44,6 +51,8 @@ import com.google.maps.android.SphericalUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
+import jp.wasabeef.blurry.Blurry;
 
 public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     // TODO: move to local.properties (so it becomes a hidden variable)
@@ -71,6 +80,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    Bundle args;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,14 +90,30 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         ImageView weatherIcon = (ImageView) view.findViewById(R.id.travellingFragmentWeatherIcon);
         ImageView musicIcon = (ImageView) view.findViewById(R.id.travellingFragmentMusicIcon);
         ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
-
+        DrawerLayout drawerLayout = view.findViewById(R.id.main_drawer_layout);
         // Receiving city and country name from TripDetailsFragment
-        Bundle args = this.getArguments();
-        String destinationCity = args.getString("city");
-        String destinationCountry = args.getString("country");
+        args = this.getArguments();
+        String destinationCity, destinationCountry;
+        double destinationCityLat = 0;
+        double destinationCityLng = 0;
+
+
+        // Stop user from entering into "On the go" part of the app without choosing the trip first
+        if (args == null){
+            Toast.makeText(getContext(), "Choose the trip you want to start first!", Toast.LENGTH_SHORT).show();
+            FragmentTransaction fragmentTransaction = getActivity()
+                    .getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new MyTripsFragment());
+            fragmentTransaction.commit();
+        } else {
+            destinationCity = args.getString("destinationCity");
+            destinationCountry = args.getString("destinationCountry");
+            destinationCityLat = args.getDouble("destinationCityLat");
+            destinationCityLng = args.getDouble("destinationCityLng");
+        }
 
         // TODO: Implement real destination data
-        destinationCoordinates = new LatLng(45.34306, 14.40917);
+        destinationCoordinates = new LatLng(destinationCityLat, destinationCityLng);
 
         initGoogleMap(savedInstanceState);
 
@@ -144,7 +170,9 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
             // Retrieves distance in meters
             distanceToDestination = SphericalUtil.computeDistanceBetween(deviceCoordinates, destinationCoordinates);
 
-            Toast.makeText(getContext(), distanceToDestination / 1000.0 + "km", Toast.LENGTH_SHORT).show();
+            if (args != null){
+                Toast.makeText(getContext(), distanceToDestination / 1000.0 + "km", Toast.LENGTH_SHORT).show();
+            }
         };
 
         if (locationPermissionGranted) {
