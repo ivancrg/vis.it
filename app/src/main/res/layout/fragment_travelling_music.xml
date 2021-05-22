@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/galaxy">
 
     <RelativeLayout
         android:id="@+id/travellingHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
+        android:background="#A3000000"
         android:gravity="bottom"
         android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,15 +41,14 @@
         android:id="@+id/musicImageAndTime"
         android:layout_width="250dp"
         android:layout_height="300dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/galaxy"
+        android:background="#A3000000"
         android:gravity="center"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/travellingHeader">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/name"
@@ -78,9 +78,9 @@
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="120dp"
             app:srcCompat="@drawable/ic_note2"
+            app:tint="@color/white"
             tools:layout_editor_absoluteX="183dp"
-            tools:layout_editor_absoluteY="257dp"
-            app:tint="@color/white" />
+            tools:layout_editor_absoluteY="257dp" />
 
 
         <TextView
@@ -188,6 +188,7 @@
         android:id="@+id/next_song"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#A3000000"
         android:text="@string/next_song"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
