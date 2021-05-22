@@ -44,8 +44,8 @@ public class TravellingWeatherFragment extends Fragment {
     View view;
     TextView location, temperature, humidity, pressure, wind;
     ImageView image;
-    String lat, lon;
-    String icon;
+    double lat, lng;
+    String icon, destinationCity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,9 +59,11 @@ public class TravellingWeatherFragment extends Fragment {
         wind = view.findViewById(R.id.wind);
         image = view.findViewById(R.id.image);
 
-        //get lat and lon from destination city
-        lat = "21.75";
-        lon = "46.3333";
+        // Get lat and lng from destination city from bundle
+        Bundle args = this.getArguments();
+        destinationCity = args.getString("destinationCity");
+        lat = args.getDouble("destinationCityLat");
+        lng = args.getDouble("destinationCityLng");
 
         getWeatherAPI();
 
@@ -72,7 +74,7 @@ public class TravellingWeatherFragment extends Fragment {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude=daily&appid=498a9c26d96534a84e001c916b65855c&units=metric")
+                .url("https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lng+"&exclude=daily&appid=498a9c26d96534a84e001c916b65855c&units=metric")
                 .method("GET", null)
                 .build();
 
@@ -101,7 +103,7 @@ public class TravellingWeatherFragment extends Fragment {
                                 wind.setText("Wind speed: " + current.getString("wind_speed"));
 
                                 //set location to destination city
-                                location.setText("Rijeka");
+                                location.setText(destinationCity);
 
                                 //set image according to weather forecast
                                 icon = current.getJSONArray("weather").getJSONObject(0).getString("icon");
