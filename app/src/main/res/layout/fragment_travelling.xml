@@ -5,6 +5,7 @@
     android:id="@+id/travellingFragmentRootConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fragment_background_color"
     tools:context=".TravellingFragment">
 
 
@@ -32,27 +33,27 @@
         app:layout_constraintGuide_percent=".75" />
 
     <TextView
+        android:id="@+id/travellingFragmentTitle"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:text="@string/on_the_go"
         android:background="@color/darkBlueTopBar"
-        android:id="@+id/travellingFragmentTitle"
-        android:textColor="@color/white"
-        android:textSize="30sp"
         android:gravity="bottom"
         android:paddingStart="10dp"
-        app:layout_constraintStart_toStartOf="@id/travellingFragmentRootConstraintLayout"
+        android:text="@string/on_the_go"
+        android:textColor="@color/white"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="@id/travellingFragmentRootConstraintLayout"
-        app:layout_constraintTop_toTopOf="@id/travellingFragmentRootConstraintLayout"/>
+        app:layout_constraintStart_toStartOf="@id/travellingFragmentRootConstraintLayout"
+        app:layout_constraintTop_toTopOf="@id/travellingFragmentRootConstraintLayout" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/travellingFragmentMapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/travellingFragmentBottomMapGuideline"
         app:layout_constraintEnd_toEndOf="@id/travellingFragmentRootConstraintLayout"
         app:layout_constraintStart_toStartOf="@id/travellingFragmentRootConstraintLayout"
-        app:layout_constraintTop_toBottomOf="@id/travellingFragmentTitle"
-        app:layout_constraintBottom_toBottomOf="@id/travellingFragmentBottomMapGuideline" />
+        app:layout_constraintTop_toBottomOf="@id/travellingFragmentTitle" />
 
     <Button
         android:id="@+id/travellingFragmentArrivedButton"

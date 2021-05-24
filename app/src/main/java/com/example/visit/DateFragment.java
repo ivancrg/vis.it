@@ -9,9 +9,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 public class DateFragment extends Fragment {
@@ -41,39 +41,25 @@ public class DateFragment extends Fragment {
 
         datePicker.setMinDate(System.currentTimeMillis() - 1000);
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int day = datePicker.getDayOfMonth();
-                // datePicker indexes months from 0
-                int month = datePicker.getMonth() + 1;
-                int year = datePicker.getYear();
+        next.setOnClickListener(view -> {
+            int day = datePicker.getDayOfMonth();
+            // datePicker indexes months from 0
+            int month = datePicker.getMonth() + 1;
+            int year = datePicker.getYear();
 
-                LocalDate date = LocalDate.of(year, month, day);
-                TripPlanning.setDateOfDeparture(date);
+            LocalDate date = LocalDate.of(year, month, day);
+            TripPlanning.setDateOfDeparture(date);
 
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new TravellingNecessitiesFragment());
-                fragmentTransaction.commit();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
-                fragmentTransaction.commit();
-            }
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingNecessitiesFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                // TODO
-                //needs to be forwarded to Explore fragment
-            }
+        cancel.setOnClickListener(view -> {
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+        });
+
+        continue_exploring.setOnClickListener(view -> {
+            // TODO
+            //needs to be forwarded to Explore fragment
         });
 
         return view;

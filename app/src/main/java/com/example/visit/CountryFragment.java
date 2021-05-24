@@ -9,20 +9,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.hbb20.CountryPickerView;
+
+import java.util.Objects;
 
 public class CountryFragment extends Fragment {
 
     public CountryFragment() {
         // Required empty public constructor
-    }
-
-    public static CountryFragment newInstance() {
-        CountryFragment fragment = new CountryFragment();
-
-        return fragment;
     }
 
     View view;
@@ -39,46 +34,30 @@ public class CountryFragment extends Fragment {
         Button cancel = view.findViewById(R.id.cancel_country);
         TextView continue_exploring = view.findViewById(R.id.continue_text);
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                //destination string holds the country user picked
-                if (country.getCpViewHelper().getSelectedCountry().getValue() != null){
-                    String destination_country = country.getCpViewHelper().getSelectedCountry().getValue().component3();
-                    TripPlanning.setCountry(destination_country);
+        next.setOnClickListener(view -> {
+            //destination string holds the country user picked
+            if (country.getCpViewHelper().getSelectedCountry().getValue() != null) {
+                String destination_country = country.getCpViewHelper().getSelectedCountry().getValue().component3();
+                TripPlanning.setCountry(destination_country);
 
-                    Bundle args = new Bundle();
-                    args.putString("key", destination_country);
-                    CityFragment fragmentCity = new CityFragment();
-                    fragmentCity.setArguments(args);
+                Bundle args = new Bundle();
+                args.putString("key", destination_country);
+                CityFragment fragmentCity = new CityFragment();
+                fragmentCity.setArguments(args);
 
-                    FragmentTransaction fragmentTransaction = getActivity()
-                            .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, fragmentCity);
-                    fragmentTransaction.commit();
-                } else {
-                    Toast.makeText(view.getContext(), "Choose destination country!", Toast.LENGTH_LONG).show();
-                }
+                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentCity, true);
+            } else {
+                Toast.makeText(view.getContext(), "Choose destination country!", Toast.LENGTH_LONG).show();
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
-                fragmentTransaction.commit();
-
-            }
+        cancel.setOnClickListener(view -> {
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                // TODO
-                //needs to be forwarded to Explore fragment
-            }
+        continue_exploring.setOnClickListener(view -> {
+            // TODO
+            //needs to be forwarded to Explore fragment
         });
         return view;
     }

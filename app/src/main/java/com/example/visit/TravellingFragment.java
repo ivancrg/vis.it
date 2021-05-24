@@ -6,41 +6,26 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.*;
-import android.location.GnssAntennaInfo;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.provider.Settings;
-import android.text.Layout;
 import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -51,8 +36,6 @@ import com.google.maps.android.SphericalUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-
-import jp.wasabeef.blurry.Blurry;
 
 public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     // TODO: move to local.properties (so it becomes a hidden variable)
@@ -81,6 +64,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     }
 
     Bundle args;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -99,12 +83,10 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
 
 
         // Stop user from entering into "On the go" part of the app without choosing the trip first
-        if (args == null){
+        if (args == null) {
             Toast.makeText(getContext(), "Choose the trip you want to start first!", Toast.LENGTH_SHORT).show();
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new MyTripsFragment());
-            fragmentTransaction.commit();
+
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), false);
         } else {
             destinationCity = args.getString("destinationCity");
             destinationCountry = args.getString("destinationCountry");
@@ -128,10 +110,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
             TravellingWeatherFragment fragmentWeatherTravelling = new TravellingWeatherFragment();
             fragmentWeatherTravelling.setArguments(args);
 
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragmentWeatherTravelling);
-            fragmentTransaction.commit();
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentWeatherTravelling, true);
         });
 
         musicIcon.setOnClickListener(view13 -> {
@@ -139,11 +118,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
             TravellingMusicFragment fragmentMusicTravelling = new TravellingMusicFragment();
             fragmentMusicTravelling.setArguments(args);
 
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragmentMusicTravelling);
-            fragmentTransaction.commit();
-            //Toast.makeText(getContext(), "You need to switch fragments now. Line 48 TravellingFragment.java", Toast.LENGTH_LONG).show();
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentMusicTravelling, true);
         });
 
         clockIcon.setOnClickListener(view14 -> {
@@ -151,11 +126,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
             TravellingTimeFragment fragmentTimeTravelling = new TravellingTimeFragment();
             fragmentTimeTravelling.setArguments(args);
 
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragmentTimeTravelling);
-            fragmentTransaction.commit();
-            //Toast.makeText(getContext(), "You need to switch fragments now. Line 52 TravellingFragment.java", Toast.LENGTH_LONG).show();
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentTimeTravelling, true);
         });
 
         return view;
@@ -170,7 +141,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
             // Retrieves distance in meters
             distanceToDestination = SphericalUtil.computeDistanceBetween(deviceCoordinates, destinationCoordinates);
 
-            if (args != null){
+            if (args != null) {
                 Toast.makeText(getContext(), distanceToDestination / 1000.0 + "km", Toast.LENGTH_SHORT).show();
             }
         };

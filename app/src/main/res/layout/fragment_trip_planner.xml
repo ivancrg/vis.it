@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/fragment_background_color">
 
     <RelativeLayout
+        android:id="@+id/fragmentTripPlanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/fragmentTripPlanner"
         android:background="@color/white"
+        android:orientation="vertical"
         tools:context=".TripPlannerFragment">
 
         <RelativeLayout
@@ -68,13 +68,12 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/countryButton"
+                        style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="10dp"
-                        android:text="@string/trip_planner_country_button"
-                        style="?attr/borderlessButtonStyle"
-                        />
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/trip_planner_country_button" />
 
                 </LinearLayout>
 
@@ -109,13 +108,12 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/cityButton"
+                        style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="10dp"
-                        android:text="@string/trip_planner_city_button"
-                        style="?attr/borderlessButtonStyle"
-                        />
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/trip_planner_city_button" />
 
                 </LinearLayout>
 
@@ -150,13 +148,12 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/locationButton"
+                        style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="10dp"
-                        android:text="@string/trip_planner_location_button"
-                        style="?attr/borderlessButtonStyle"
-                        />
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/trip_planner_location_button" />
 
                 </LinearLayout>
 
@@ -191,13 +188,12 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/travellingModeButton"
+                        style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="10dp"
-                        android:text="@string/trip_planner_travelling_mode_button"
-                        style="?attr/borderlessButtonStyle"
-                        />
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/trip_planner_travelling_mode_button" />
 
                 </LinearLayout>
 
@@ -232,13 +228,12 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/dateButton"
+                        style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="10dp"
-                        android:text="@string/trip_planner_date_button"
-                        style="?attr/borderlessButtonStyle"
-                        />
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/trip_planner_date_button" />
 
                 </LinearLayout>
 
@@ -273,13 +268,12 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/necessitiesButton"
+                        style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="10dp"
-                        android:text="@string/trip_planner_things_button"
-                        style="?attr/borderlessButtonStyle"
-                        />
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/trip_planner_things_button" />
 
                 </LinearLayout>
 
@@ -314,13 +308,12 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/participantsButton"
+                        style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="10dp"
-                        android:text="@string/trip_planner_participants_button"
-                        style="?attr/borderlessButtonStyle"
-                        />
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/trip_planner_participants_button" />
 
                 </LinearLayout>
 

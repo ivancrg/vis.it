@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
@@ -53,10 +52,7 @@ public class LoginFragment extends Fragment {
 
         if (LoggedUser.getIsLoggedIn()) {
             Toast.makeText(view.getContext(), "Welcome, " + LoggedUser.getUsername(), Toast.LENGTH_LONG).show();
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
-            fragmentTransaction.commit();
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new UserInterfaceFragment(), false);
         }
 
         final EditText username = (EditText) view.findViewById(R.id.loginFragmentUsername);
@@ -98,10 +94,7 @@ public class LoginFragment extends Fragment {
         });
 
         registerLink.setOnClickListener(view12 -> {
-            FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new RegisterFragment());
-            fragmentTransaction.commit();
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new RegisterFragment(), true);
         });
 
         return view;
@@ -199,10 +192,7 @@ public class LoginFragment extends Fragment {
                     LoggedUser.setData(user);
                     LoggedUser.setIsLoggedIn(true);
 
-                    FragmentTransaction fragmentTransaction = getActivity()
-                            .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
-                    fragmentTransaction.commit();
+                    MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new UserInterfaceFragment(), false);
                 } else {
                     Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 }

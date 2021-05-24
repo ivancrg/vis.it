@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
@@ -23,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
@@ -73,7 +73,7 @@ public class ChangePasswordFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                confirm.setEnabled(newPassword.getText().length() > 0 && confirmNewPassword.getText().length() > 0 &&
+                confirm.setEnabled(Objects.requireNonNull(newPassword.getText()).length() > 0 && Objects.requireNonNull(confirmNewPassword.getText()).length() > 0 &&
                         newPassword.getText().toString().equals(confirmNewPassword.getText().toString()));
             }
         };
@@ -81,27 +81,18 @@ public class ChangePasswordFragment extends Fragment {
         newPassword.addTextChangedListener(confirmEnabledWatcher);
         confirmNewPassword.addTextChangedListener(confirmEnabledWatcher);
 
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (informationValid(newPassword, confirmNewPassword)) {
-                    // Showing the waiting GIF
-                    loadingImageView.setVisibility(View.VISIBLE);
+        confirm.setOnClickListener(view1 -> {
+            if (informationValid(newPassword, confirmNewPassword)) {
+                // Showing the waiting GIF
+                loadingImageView.setVisibility(View.VISIBLE);
 
-                    updatePassword(view, LoggedUser.getUsername(), newPassword.getText().toString());
-                }
+                updatePassword(view1, LoggedUser.getUsername(), Objects.requireNonNull(newPassword.getText()).toString());
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //back to user interface fragment
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
-                fragmentTransaction.commit();
-            }
+        cancel.setOnClickListener(v -> {
+            //back to user interface fragment
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new UserInterfaceFragment(), true);
         });
         return view;
     }
@@ -165,9 +156,6 @@ public class ChangePasswordFragment extends Fragment {
             }
         });
 
-        FragmentTransaction fragmentTransaction = getActivity()
-                .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new UserInterfaceFragment());
-        fragmentTransaction.commit();
+        MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new UserInterfaceFragment(), false);
     }
 }

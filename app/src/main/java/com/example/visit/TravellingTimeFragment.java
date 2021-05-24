@@ -1,41 +1,21 @@
 package com.example.visit;
 
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.textfield.TextInputEditText;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.temporal.TemporalAccessor;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -106,7 +86,7 @@ public class TravellingTimeFragment extends Fragment {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://api.timezonedb.com/v2.1/get-time-zone?key=I7JVY5MYINC6&format=json&by=position&lat="+latitude+"&lng="+longitude+"")
+                .url("https://api.timezonedb.com/v2.1/get-time-zone?key=I7JVY5MYINC6&format=json&by=position&lat=" + latitude + "&lng=" + longitude + "")
                 .method("GET", null)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -117,20 +97,20 @@ public class TravellingTimeFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     final String myResponse = response.body().string();
-                            try {
-                                JSONObject timeObject = new JSONObject(myResponse);
-                                time = timeObject.get("formatted").toString();
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        destinationTime.setText(time.substring(time.length() - 8, time.length() - 3));
-                                    }
-                                });
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                    try {
+                        JSONObject timeObject = new JSONObject(myResponse);
+                        time = timeObject.get("formatted").toString();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                destinationTime.setText(time.substring(time.length() - 8, time.length() - 3));
                             }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {

@@ -42,13 +42,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/detailsButton"
+                style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/trip_details"
-                style="?attr/borderlessButtonStyle"
-                />
+                android:layout_marginEnd="8dp"
+                android:text="@string/trip_details" />
 
         </LinearLayout>
 

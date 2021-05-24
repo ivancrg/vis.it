@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
@@ -25,7 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.regex.Pattern;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,7 +58,7 @@ public class UserInterfaceFragment extends Fragment {
         Button myTrips = (Button) view.findViewById(R.id.myTripsButton);
         loadingImageView = (pl.droidsonroids.gif.GifImageView) view.findViewById(R.id.userInterfaceFragmentLoading);
 
-        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.navigation_view);
+        NavigationView navigationView = (NavigationView) Objects.requireNonNull(getActivity()).findViewById(R.id.navigation_view);
         View headerView = navigationView.getHeaderView(0);
         TextView navigationLabelFullName = (TextView) headerView.findViewById(R.id.navigation_full_name);
         TextView navigationLabelUsername = (TextView) headerView.findViewById(R.id.navigation_username);
@@ -113,17 +112,11 @@ public class UserInterfaceFragment extends Fragment {
         });
 
         changePassword.setOnClickListener(v -> {
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new ChangePasswordFragment());
-            fragmentTransaction.commit();
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new ChangePasswordFragment(), true);
         });
 
         myTrips.setOnClickListener(v -> {
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, new MyTripsFragment());
-            fragmentTransaction.commit();
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), true);
         });
 
         return view;
@@ -132,12 +125,12 @@ public class UserInterfaceFragment extends Fragment {
     private boolean informationValid(EditText firstName, EditText lastName, EditText email) {
         boolean valid = true;
 
-        if(firstName.getText().toString().isEmpty()){
+        if (firstName.getText().toString().isEmpty()) {
             valid = false;
             firstName.setError("Please enter your first name.");
         }
 
-        if(lastName.getText().toString().isEmpty()){
+        if (lastName.getText().toString().isEmpty()) {
             valid = false;
             lastName.setError("Please enter your last name.");
         }

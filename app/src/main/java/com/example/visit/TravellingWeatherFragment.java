@@ -1,27 +1,20 @@
 package com.example.visit;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.textfield.TextInputEditText;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,6 +39,7 @@ public class TravellingWeatherFragment extends Fragment {
     ImageView image;
     double lat, lng;
     String icon, destinationCity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,7 +68,7 @@ public class TravellingWeatherFragment extends Fragment {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lng+"&exclude=daily&appid=498a9c26d96534a84e001c916b65855c&units=metric")
+                .url("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lng + "&exclude=daily&appid=498a9c26d96534a84e001c916b65855c&units=metric")
                 .method("GET", null)
                 .build();
 
@@ -87,7 +81,7 @@ public class TravellingWeatherFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     final String myResponse = response.body().string();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -108,14 +102,19 @@ public class TravellingWeatherFragment extends Fragment {
                                 //set image according to weather forecast
                                 icon = current.getJSONArray("weather").getJSONObject(0).getString("icon");
 
-                                switch(icon) {
-                                    case "01d": case "01n":
+                                switch (icon) {
+                                    case "01d":
+                                    case "01n":
                                         image.setImageResource(R.drawable.sun);
                                         break;
-                                    case "02d": case "02n": case "03d": case "03n":
+                                    case "02d":
+                                    case "02n":
+                                    case "03d":
+                                    case "03n":
                                         image.setImageResource(R.drawable.sun_cloud);
                                         break;
-                                    case "13d": case "13n":
+                                    case "13d":
+                                    case "13n":
                                         image.setImageResource(R.drawable.snow);
                                         break;
                                     default:
@@ -131,10 +130,8 @@ public class TravellingWeatherFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(getContext(), "Sorry, the weather forecast is not available.", Toast.LENGTH_SHORT).show();
-                            FragmentTransaction fragmentTransaction = getActivity()
-                                    .getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.fragment_container, new TravellingFragment());
-                            fragmentTransaction.commit();
+
+                            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingFragment(), false);
                         }
                     });
                 }

@@ -1,20 +1,13 @@
 package com.example.visit;
 
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -22,23 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import kotlinx.coroutines.ObsoleteCoroutinesApi;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -88,17 +73,12 @@ public class TravellingMusicFragment extends Fragment {
         //get music from API
         getMusicAPI();
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getMusicAPI();
-            }
-        });
+        next.setOnClickListener(v -> getMusicAPI());
 
         return view;
     }
 
-    public void getMusicAPI(){
+    public void getMusicAPI() {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
@@ -116,7 +96,7 @@ public class TravellingMusicFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     String myResponse = response.body().string();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -141,9 +121,9 @@ public class TravellingMusicFragment extends Fragment {
                                 player = MediaPlayer.create(getContext(), Uri.parse(track));
 
                                 //Initialize runnable
-                                Runnable runnable = new Runnable(){
+                                Runnable runnable = new Runnable() {
                                     @Override
-                                    public void run(){
+                                    public void run() {
                                         //Set progress on seek bar
                                         seekBar.setProgress(player.getCurrentPosition());
                                         handler.postDelayed(this, 500);
@@ -155,56 +135,44 @@ public class TravellingMusicFragment extends Fragment {
                                 String stringDuration = convertFormat(duration);
                                 playerDuration.setText(stringDuration);
 
-                                play.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        play.setVisibility(View.GONE);
-                                        pause.setVisibility(View.VISIBLE);
-                                        player.start();
-                                        seekBar.setMax(player.getDuration());
-                                        handler.postDelayed(runnable, 0);
+                                play.setOnClickListener(v -> {
+                                    play.setVisibility(View.GONE);
+                                    pause.setVisibility(View.VISIBLE);
+                                    player.start();
+                                    seekBar.setMax(player.getDuration());
+                                    handler.postDelayed(runnable, 0);
+                                });
+
+                                pause.setOnClickListener(v -> {
+                                    pause.setVisibility(View.GONE);
+                                    play.setVisibility(View.VISIBLE);
+                                    player.pause();
+                                    handler.removeCallbacks(runnable);
+                                });
+
+                                fastForward.setOnClickListener(v -> {
+                                    int currentPosition = player.getCurrentPosition();
+                                    int duration1 = player.getDuration();
+                                    if (player.isPlaying() && currentPosition != duration1) {
+                                        currentPosition = currentPosition + 5000;
+                                        playerPosition.setText(convertFormat(currentPosition));
+                                        player.seekTo(currentPosition);
                                     }
                                 });
 
-                                pause.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        pause.setVisibility(View.GONE);
-                                        play.setVisibility(View.VISIBLE);
-                                        player.pause();
-                                        handler.removeCallbacks(runnable);
-                                    }
-                                });
-
-                                fastForward.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        int currentPosition = player.getCurrentPosition();
-                                        int duration = player.getDuration();
-                                        if (player.isPlaying() && currentPosition != duration){
-                                            currentPosition = currentPosition + 5000;
-                                            playerPosition.setText(convertFormat(currentPosition));
-                                            player.seekTo(currentPosition);
-                                        }
-                                    }
-                                });
-
-                                rewind.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        int currentPosition = player.getCurrentPosition();
-                                        if (player.isPlaying() && currentPosition > 5000){
-                                            currentPosition = currentPosition - 5000;
-                                            playerPosition.setText(convertFormat(currentPosition));
-                                            player.seekTo(currentPosition);
-                                        }
+                                rewind.setOnClickListener(v -> {
+                                    int currentPosition = player.getCurrentPosition();
+                                    if (player.isPlaying() && currentPosition > 5000) {
+                                        currentPosition = currentPosition - 5000;
+                                        playerPosition.setText(convertFormat(currentPosition));
+                                        player.seekTo(currentPosition);
                                     }
                                 });
 
                                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                                     @Override
                                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                                        if (fromUser){
+                                        if (fromUser) {
                                             player.seekTo(progress);
                                         }
                                         playerPosition.setText(convertFormat(player.getCurrentPosition()));
@@ -219,13 +187,10 @@ public class TravellingMusicFragment extends Fragment {
                                     }
                                 });
 
-                                player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                    @Override
-                                    public void onCompletion(MediaPlayer mp) {
-                                        pause.setVisibility(View.GONE);
-                                        play.setVisibility(View.VISIBLE);
-                                        player.seekTo(0);
-                                    }
+                                player.setOnCompletionListener(mp -> {
+                                    pause.setVisibility(View.GONE);
+                                    play.setVisibility(View.VISIBLE);
+                                    player.seekTo(0);
                                 });
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -235,7 +200,7 @@ public class TravellingMusicFragment extends Fragment {
                 } else {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
-                        public void run(){
+                        public void run() {
                             Toast.makeText(getContext(), "Sorry! Music is not available right now, please come back later!", Toast.LENGTH_SHORT).show();
                         }
                     });

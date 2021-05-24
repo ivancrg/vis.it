@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/fragment_background_color">
 
     <RelativeLayout
         android:id="@+id/tripPlannerHeader"
@@ -41,10 +42,10 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
+        android:colorAccent="@color/blue"
         android:datePickerMode="calendar"
         android:headerBackground="@color/colorEnabled"
         android:selectableItemBackground="@color/blue"
-        android:colorAccent="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"

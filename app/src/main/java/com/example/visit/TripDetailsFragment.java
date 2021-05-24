@@ -11,11 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class TripDetailsFragment extends Fragment {
 
@@ -72,7 +72,7 @@ public class TripDetailsFragment extends Fragment {
             List<Address> listOfAddress;
             try {
                 listOfAddress = geocoder.getFromLocationName(destinationCity, 1);
-                if(listOfAddress != null && !listOfAddress.isEmpty()){
+                if (listOfAddress != null && !listOfAddress.isEmpty()) {
                     Address address = listOfAddress.get(0);
 
                     lat = address.getLatitude();
@@ -89,18 +89,12 @@ public class TripDetailsFragment extends Fragment {
             TravellingFragment fragmentTravelling = new TravellingFragment();
             fragmentTravelling.setArguments(args);
 
-            FragmentTransaction fragmentTransaction = getActivity()
-                    .getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragmentTravelling);
-            fragmentTransaction.commit();
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentTravelling, false);
         });
 
         returnButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new MyTripsFragment());
-                fragmentTransaction.commit();
+                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), false);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
