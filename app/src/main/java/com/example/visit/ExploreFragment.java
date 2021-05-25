@@ -121,9 +121,11 @@ public class ExploreFragment extends Fragment {
         ArrayList<CountryRecyclerViewItem> countriesList = new ArrayList<>();
         countriesList.add(new CountryRecyclerViewItem("https://www.integral-zagreb.hr/sites/default/files/styles/1920_auto_/public/uploads/products/gallery/2021-05/london-putovanje-4.jpg?itok=phnTj8wy",
                 "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/1920px-Flag_of_the_United_Kingdom.svg.png", "United Kingdom", ""));
-        
+        countriesList.add(new CountryRecyclerViewItem("https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/800px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+                "https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Flag_of_Italy.svg/1280px-Flag_of_Italy.svg.png", "Italy", ""));
+
         ArrayList<CountryVerticalRecyclerViewItem> countries = new ArrayList<>();
-        countries.add(new CountryVerticalRecyclerViewItem("Exciting countries", "", countriesList));
+        countries.add(new CountryVerticalRecyclerViewItem("Visit some of these exciting countries", "", countriesList));
 
 
         cityView = view.findViewById(R.id.explore_cities_recycler);
@@ -153,7 +155,6 @@ public class ExploreFragment extends Fragment {
 
 
         //Filling articles with data
-
         travelTipsArticle = view.findViewById(R.id.travel_tips_article);
         articleButtonTop = travelTipsArticle.findViewById(R.id.article_background_button);
         articleTitleTop = travelTipsArticle.findViewById(R.id.article_title);
