@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,18 +18,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.example.visit.recyclerView.CountryRecyclerViewAdapter;
+import com.example.visit.recyclerView.CountryRecyclerViewItem;
+import com.example.visit.recyclerView.CountryVerticalRecyclerViewItem;
 import com.example.visit.recyclerView.HorizontalRecyclerViewItem;
+import com.example.visit.recyclerView.CountryVerticalRecyclerViewAdapter;
 import com.example.visit.recyclerView.VerticalRecyclerViewAdapter;
 import com.example.visit.recyclerView.VerticalRecyclerViewItem;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -38,18 +40,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ExploreFragment extends Fragment {
-    private RecyclerView countryAndCityView;
+    private RecyclerView cityView;
     private RecyclerView summerAndWinterView;
+    private RecyclerView countryView;
+
+    private static final int NUM_OF_COUNTRIES = 5;
 
     // Adapter is a sort of a bridge between our data (verticalItems) and the RV
     // Adapter always provides as many items as we need at the time which means optimal performance
-    private RecyclerView.Adapter countryAndCityAdapter;
+    private RecyclerView.Adapter cityAdapter;
     private RecyclerView.Adapter summerAndWinterAdapter;
+    private RecyclerView.Adapter countryAdapter;
 
 
     // Responsible for placing items into our list
-    private RecyclerView.LayoutManager countryAndCityLayoutManager;
+    private RecyclerView.LayoutManager cityLayoutManager;
     private RecyclerView.LayoutManager summerAndWinterLayoutManager;
+    private RecyclerView.LayoutManager countryLayoutManager;
 
 
     View travelTipsArticle;
@@ -64,6 +71,7 @@ public class ExploreFragment extends Fragment {
 
 
     ArrayList<ArticleModel> articleList;
+    ArrayList<CountryModel> countryList;
 
 
     public ExploreFragment() {
@@ -74,7 +82,7 @@ public class ExploreFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         articleList = new ArrayList<>();
-
+        countryList = new ArrayList<>();
     }
 
     @Override
@@ -84,6 +92,7 @@ public class ExploreFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
         setArticles();
+        setCountries();
 
 
         // TODO implementation of real data
@@ -101,31 +110,47 @@ public class ExploreFragment extends Fragment {
 
         // vertical is used to represent horizontal recycler view items
         ArrayList<VerticalRecyclerViewItem> countryAndCityCategory = new ArrayList<>();
-        countryAndCityCategory.add(new VerticalRecyclerViewItem("Popular countries", "Text", horizontalItems));
+        //countryAndCityCategory.add(new VerticalRecyclerViewItem("Exciting countries", "Text", horizontalItems));
         countryAndCityCategory.add(new VerticalRecyclerViewItem("Explore vibrant new places", "Text", horizontalItems));
 
         ArrayList<VerticalRecyclerViewItem> summerAndWinterCategory = new ArrayList<>();
         summerAndWinterCategory.add(new VerticalRecyclerViewItem("Smell the sea and feel the sky", "Best summer vacation spots", horizontalItems));
         summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", horizontalItems));
 
-        countryAndCityView = view.findViewById(R.id.explore_countries_and_cities_recycler);
+
+        ArrayList<CountryRecyclerViewItem> countriesList = new ArrayList<>();
+        countriesList.add(new CountryRecyclerViewItem("https://www.integral-zagreb.hr/sites/default/files/styles/1920_auto_/public/uploads/products/gallery/2021-05/london-putovanje-4.jpg?itok=phnTj8wy",
+                "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/1920px-Flag_of_the_United_Kingdom.svg.png", "United Kingdom", ""));
+        
+        ArrayList<CountryVerticalRecyclerViewItem> countries = new ArrayList<>();
+        countries.add(new CountryVerticalRecyclerViewItem("Exciting countries", "", countriesList));
+
+
+        cityView = view.findViewById(R.id.explore_cities_recycler);
+        countryView = view.findViewById(R.id.explore_countries_recycler);
         summerAndWinterView = view.findViewById(R.id.explore_summer_and_winter_recycler);
 
         // Needs to be set to true if recycler view won't change in size for performance gains
-        countryAndCityView.setHasFixedSize(true);
+        cityView.setHasFixedSize(true);
+        countryView.setHasFixedSize(true);
         summerAndWinterView.setHasFixedSize(true);
 
-        countryAndCityLayoutManager = new LinearLayoutManager(getContext());
-        countryAndCityAdapter = new VerticalRecyclerViewAdapter(getContext(), countryAndCityCategory);
+        cityLayoutManager = new LinearLayoutManager(getContext());
+        cityAdapter = new VerticalRecyclerViewAdapter(getContext(), countryAndCityCategory);
+        cityView.setLayoutManager(cityLayoutManager);
+        cityView.setAdapter(cityAdapter);
 
-        countryAndCityView.setLayoutManager(countryAndCityLayoutManager);
-        countryAndCityView.setAdapter(countryAndCityAdapter);
+        countryLayoutManager = new LinearLayoutManager(getContext());
+        countryAdapter = new CountryVerticalRecyclerViewAdapter(getContext(), countries);
+        countryView.setLayoutManager(countryLayoutManager);
+        countryView.setAdapter(countryAdapter);
 
         summerAndWinterLayoutManager = new LinearLayoutManager(getContext());
         summerAndWinterAdapter = new VerticalRecyclerViewAdapter(getContext(), summerAndWinterCategory);
-
         summerAndWinterView.setLayoutManager(summerAndWinterLayoutManager);
         summerAndWinterView.setAdapter(summerAndWinterAdapter);
+
+
 
         //Filling articles with data
 
@@ -173,6 +198,69 @@ public class ExploreFragment extends Fragment {
 
     }
 
+    private void setCountries() {
+        final String URL_COUNTRIES = "https://thetarkovguide.000webhostapp.com/exploreCountries.php";
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_COUNTRIES, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    //converting the string to json array object
+                    JSONArray array = new JSONArray(response);
+                    Log.d("RESPONSE", "Response COUNTRY success " + response);
+
+
+                    Vector<Integer> countryIndexVector = new Vector<Integer>();
+                    Random rand = new Random();
+
+                    for(int i = 0; i < NUM_OF_COUNTRIES; i++) {
+                        if(countryIndexVector.isEmpty()) {
+                            countryIndexVector.add(rand.nextInt(59));
+                        } else {
+                            int countryIndex = rand.nextInt(59);
+                            while(countryIndexVector.contains(countryIndex)) {
+                                countryIndex = rand.nextInt();
+                            }
+                            countryIndexVector.add(countryIndex);
+                        }
+                    }
+
+
+                    Log.d("COUNTRY", "Country index" + countryIndexVector);
+
+                    for(int ind : countryIndexVector) {
+                        JSONObject countryObject = array.getJSONObject(ind);
+                        countryList.add(new CountryModel(ind,
+                                countryObject.getString("country_name"),
+                                countryObject.getString("country_code"),
+                                countryObject.getString("country_flag").replace("\\",""),
+                                countryObject.getString("country_currency"),
+                                countryObject.getInt("country_pop"),
+                                countryObject.getString("country_image").replace("\\", ""),
+                                countryObject.getDouble("bigmac_index"),
+                                countryObject.getString("country_desc"),
+                                countryObject.getString("country_hemisphere"),
+                                countryObject.getString("language_top"),
+                                countryObject.getString("capital_city"),
+                                countryObject.getString("country_timezone"),
+                                countryObject.getString("call_code")));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        Volley.newRequestQueue(getContext()).add(stringRequest);
+    }
+
     private void setArticles() {
         final String URL_ARTICLES = "https://thetarkovguide.000webhostapp.com/exploreArticles.php";
 
@@ -183,7 +271,7 @@ public class ExploreFragment extends Fragment {
                 try {
                     //converting the string to json array object
                     JSONArray array = new JSONArray(response);
-                    Log.d("RESPONSE", "Response success " + response);
+                    Log.d("RESPONSE", "Response ARTICLE success " + response);
 
 
                     int articleIndex, prevIndex;

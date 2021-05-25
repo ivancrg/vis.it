@@ -17,12 +17,12 @@ import java.util.ArrayList;
 // Adapter is a sort of a bridge between our data (verticalItems) and the RV
 // Adapter always provides as many items as we need at the time which means optimal performance
 
-public class VerticalRecyclerViewAdapter extends RecyclerView.Adapter<VerticalRecyclerViewAdapter.VerticalRecyclerViewHolder> {
+public class CountryVerticalRecyclerViewAdapter extends RecyclerView.Adapter<CountryVerticalRecyclerViewAdapter.VerticalRecyclerViewHolder> {
     // Contains data of all VRV items
-    private ArrayList<VerticalRecyclerViewItem> verticalItemsList;
+    private ArrayList<CountryVerticalRecyclerViewItem> verticalItemsList;
     private Context context;
 
-    public VerticalRecyclerViewAdapter(Context context, ArrayList<VerticalRecyclerViewItem> verticalItemsList) {
+    public CountryVerticalRecyclerViewAdapter(Context context, ArrayList<CountryVerticalRecyclerViewItem> verticalItemsList) {
         this.verticalItemsList = verticalItemsList;
         this.context = context;
     }
@@ -47,9 +47,8 @@ public class VerticalRecyclerViewAdapter extends RecyclerView.Adapter<VerticalRe
     @Override
     public VerticalRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_vertical, parent, false);
-        VerticalRecyclerViewHolder verticalRecyclerViewHolder = new VerticalRecyclerViewHolder(view);
 
-        return verticalRecyclerViewHolder;
+        return new VerticalRecyclerViewHolder(view);
     }
 
     @Override
@@ -57,17 +56,17 @@ public class VerticalRecyclerViewAdapter extends RecyclerView.Adapter<VerticalRe
         // Passes values to our item's views using references (holder.view)
         // Position tells us at which array list item we are looking at
 
-        VerticalRecyclerViewItem currentItem = verticalItemsList.get(position);
+        CountryVerticalRecyclerViewItem currentItem = verticalItemsList.get(position);
 
         holder.title.setText(currentItem.getTitle());
         holder.text.setText(currentItem.getText());
 
         // horizontalItems is used to represent horizontal recycler view items
-        ArrayList<HorizontalRecyclerViewItem> horizontalItems = currentItem.getHorizontalRecyclerViewItems();
+        ArrayList<CountryRecyclerViewItem> horizontalItems = currentItem.getCountryHorizontalRecyclerViewItems();
 
         // Adapter is a sort of a bridge between our data (verticalItems) and the RV
         // Adapter always provides as many items as we need at the time which means optimal performance
-        RecyclerView.Adapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(horizontalItems);
+        RecyclerView.Adapter horizontalRecyclerViewAdapter = new CountryRecyclerViewAdapter(horizontalItems, context);
 
         // Responsible for placing items into our list
         RecyclerView.LayoutManager horizontalRecyclerViewLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);

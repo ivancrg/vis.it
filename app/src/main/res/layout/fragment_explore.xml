@@ -19,16 +19,23 @@
                             layout="@layout/element_explore_title"/>
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/explore_countries_and_cities_recycler"
+                            android:id="@+id/explore_countries_recycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/explore_title_layout"
                             android:layout_marginTop="60dp"/>
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/explore_cities_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/explore_countries_recycler"
+                            android:layout_marginTop="10dp"/>
+
                         <include android:id="@+id/travel_tips_article"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/explore_countries_and_cities_recycler"
+                            android:layout_below="@+id/explore_cities_recycler"
                             android:layout_marginTop="30dp"
                             layout="@layout/element_explore_article"/>
 

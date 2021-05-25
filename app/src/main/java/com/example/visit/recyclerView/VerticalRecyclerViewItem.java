@@ -34,7 +34,6 @@ public class VerticalRecyclerViewItem {
     /*private int imageResource; // R.drawable.image is an integer
     private String title;
     private String text;
-
     // When we are creating vertical items, we will have to forward
     // image resource integer as well as title and text to the constructor
     public VerticalRecyclerViewItem(int imageResource, String title, String text){
@@ -42,15 +41,12 @@ public class VerticalRecyclerViewItem {
         this.title = title;
         this.text = text;
     }
-
     public int getImageResource() {
         return imageResource;
     }
-
     public String getTitle() {
         return title;
     }
-
     public String getText() {
         return text;
     }*/
