@@ -124,5 +124,10 @@
     <string name="trip_details_participants">Participants:</string>
     <string name="trip_details_start_trip">start trip</string>
     <string name="trip_details_return_button">return to trips preview</string>
+    <string name="temperatureLabel">Temperature</string>
+    <string name="pressureLabel">Pressure</string>
+    <string name="windSpeedLabel">Wind speed</string>
+    <string name="windDirectionLabel">Wind direction</string>
+    <string name="descriptionLabel">Loading description...</string>
 
 </resources>
