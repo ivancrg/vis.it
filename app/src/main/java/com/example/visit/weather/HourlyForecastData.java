@@ -2,7 +2,10 @@ package com.example.visit.weather;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class HourlyForecastData {
     // Time of the forecast data, Unix, UTC
@@ -139,6 +142,26 @@ public class HourlyForecastData {
 
     public ArrayList<WeatherDescription> getWeatherDescription() {
         return weatherDescription;
+    }
+
+    // Converts forecast's time (dt) to local (device's timezone) dd.MM.yyyy. @ HH:mm format
+    public String getDateTime(){
+        long timeLong = (long) (time * 1000);
+        Date date = new Date(timeLong);
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy. @ HH:mm");
+        format.setTimeZone(TimeZone.getDefault());
+
+        return format.format(date);
+    }
+
+    // Converts forecast's time (dt) to local (device's timezone) HH:mm format
+    public String getTimeHHmm(){
+        long timeLong = (long) (time * 1000);
+        Date date = new Date(timeLong);
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        format.setTimeZone(TimeZone.getDefault());
+
+        return format.format(date);
     }
 
     @Override
