@@ -73,6 +73,8 @@ public class ExploreFragment extends Fragment {
     ArrayList<ArticleModel> articleList;
     ArrayList<CountryModel> countryList;
 
+    ArrayList<CountryRecyclerViewItem> countriesList;
+
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -83,6 +85,10 @@ public class ExploreFragment extends Fragment {
         super.onCreate(savedInstanceState);
         articleList = new ArrayList<>();
         countryList = new ArrayList<>();
+        countriesList = new ArrayList<>();
+
+        setArticles();
+        setCountries();
     }
 
     @Override
@@ -91,8 +97,6 @@ public class ExploreFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
-        setArticles();
-        setCountries();
 
 
         // TODO implementation of real data
@@ -118,11 +122,11 @@ public class ExploreFragment extends Fragment {
         summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", horizontalItems));
 
 
-        ArrayList<CountryRecyclerViewItem> countriesList = new ArrayList<>();
-        countriesList.add(new CountryRecyclerViewItem("https://www.integral-zagreb.hr/sites/default/files/styles/1920_auto_/public/uploads/products/gallery/2021-05/london-putovanje-4.jpg?itok=phnTj8wy",
+        //ArrayList<CountryRecyclerViewItem> countriesList = new ArrayList<>();
+        /*countriesList.add(new CountryRecyclerViewItem("https://www.integral-zagreb.hr/sites/default/files/styles/1920_auto_/public/uploads/products/gallery/2021-05/london-putovanje-4.jpg?itok=phnTj8wy",
                 "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/1920px-Flag_of_the_United_Kingdom.svg.png", "United Kingdom", ""));
-        countriesList.add(new CountryRecyclerViewItem("https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/800px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
-                "https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Flag_of_Italy.svg/1280px-Flag_of_Italy.svg.png", "Italy", ""));
+        countriesList.add(new CountryRecyclerViewItem("https://maps.googleapis.com/maps/api/place/photo?photoreference=ATtYBwJ0q13FarTZ7Z52QqCnsqZkOhdRkpsvbD8kNmnAmt-Ivl7GBE4lhMimcNjuWjDsEXy4GvtADMBN0UZPx2FnVUe8OoWEJ0bRn7ckFJ0o-uMQwDdJheWffeb0BlNWTlCYWP-07CMFbV4klQHemX5jRwtwjjMysUhgxYBHGFCyT1N0TCb0&key=AIzaSyC45S9GLpisQlWqCMxODBPu0o0TwzvW3Fg&maxwidth=400&maxheight=400",
+                "https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Flag_of_Italy.svg/1280px-Flag_of_Italy.svg.png", "Italy", ""));*/
 
         ArrayList<CountryVerticalRecyclerViewItem> countries = new ArrayList<>();
         countries.add(new CountryVerticalRecyclerViewItem("Visit some of these exciting countries", "", countriesList));
@@ -200,7 +204,7 @@ public class ExploreFragment extends Fragment {
     }
 
     private void setCountries() {
-        final String URL_COUNTRIES = "https://thetarkovguide.000webhostapp.com/exploreCountries.php";
+        final String URL_COUNTRIES = "https://visitcountryapi.000webhostapp.com/exploreCountries.php";
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_COUNTRIES, new Response.Listener<String>() {
@@ -248,6 +252,11 @@ public class ExploreFragment extends Fragment {
                                 countryObject.getString("call_code")));
                     }
 
+                    for(CountryModel country : countryList) {
+                        countriesList.add(new CountryRecyclerViewItem(country.getCountry_image(), country.getCountry_flag(), country.getCountry_name(), ""));
+                    }
+                    Log.d("CHANGED SET", "Notify dataset changed");
+                    countryAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -263,7 +272,9 @@ public class ExploreFragment extends Fragment {
     }
 
     private void setArticles() {
-        final String URL_ARTICLES = "https://thetarkovguide.000webhostapp.com/exploreArticles.php";
+        final String URL_ARTICLES = "https://visitcountryapi.000webhostapp.com/exploreArticles.php";
+
+        Log.d("RESPONSE ARTICLES", "Request started");
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ARTICLES, new Response.Listener<String>() {
@@ -306,9 +317,9 @@ public class ExploreFragment extends Fragment {
                             articleObject.getString("image_url").replace("\\", ""),
                             articleObject.getString("type")));
 
-                    Log.d("RESPONSE", articleObject.getString("title"));
+                    Log.d("RESPONSE ARTICLE", articleObject.getString("title"));
 
-                    Log.d("RESPONSE", Boolean.toString(articleList.isEmpty()));
+                    Log.d("RESPONSE ARTICLE", Boolean.toString(articleList.isEmpty()));
 
                     fillData();
 
