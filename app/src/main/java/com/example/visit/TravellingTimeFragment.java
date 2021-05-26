@@ -38,7 +38,9 @@ public class TravellingTimeFragment extends Fragment {
     }
 
     View view;
-    TextView homeTime, currentTime, destinationTime;
+    //TextView homeTime;
+    TextView currentTime;
+    TextView destinationTime;
     String time = "00:00";
     String currentTimeDate;
     double latitude, longitude;
@@ -49,7 +51,10 @@ public class TravellingTimeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_travelling_time, container, false);
 
-        homeTime = view.findViewById(R.id.home_time);
+        // Home time is commented out from the application due to lack of coordinates of user's home city
+        // It can be done by asking his home city information while registering, but as it requires a certain effort,
+        // it will be done in a later stage of the project.
+        //homeTime = view.findViewById(R.id.home_time);
         currentTime = view.findViewById(R.id.local_time);
         destinationTime = view.findViewById(R.id.destination_time);
 
