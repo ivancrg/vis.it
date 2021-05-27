@@ -69,6 +69,10 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
     TextView articleTitleBottom;
     TextView articleSubtitleBottom;
 
+    View countryElement;
+    TextView countryCategoryTitle;
+    TextView countryCategoryText;
+
 
     ArrayList<ArticleModel> articleList;
     ArrayList<CountryModel> countryList;
@@ -119,13 +123,14 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         summerAndWinterCategory.add(new VerticalRecyclerViewItem("Smell the sea and feel the sky", "Best summer vacation spots", horizontalItems));
         summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", horizontalItems));
 
-
-        /*ArrayList<CountryVerticalRecyclerViewItem> countries = new ArrayList<>();
-        countries.add(new CountryVerticalRecyclerViewItem("Visit some of these exciting countries", "", countriesList));*/
-
+        countryElement = view.findViewById(R.id.explore_countries_item);
+        countryCategoryTitle = countryElement.findViewById(R.id.verticalRecyclerViewItemTitle);
+        countryCategoryText = countryElement.findViewById(R.id.verticalRecyclerViewItemText);
+        countryCategoryTitle.setText(R.string.countryCategoryTitle);
+        countryCategoryText.setText(R.string.countryCategorySubtitle);
 
         cityView = view.findViewById(R.id.explore_cities_recycler);
-        countryView = view.findViewById(R.id.explore_countries_recycler);
+        countryView = countryElement.findViewById(R.id.horizontalRecyclerView);
         summerAndWinterView = view.findViewById(R.id.explore_summer_and_winter_recycler);
 
         // Needs to be set to true if recycler view won't change in size for performance gains
@@ -147,7 +152,6 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         summerAndWinterAdapter = new VerticalRecyclerViewAdapter(getContext(), summerAndWinterCategory);
         summerAndWinterView.setLayoutManager(summerAndWinterLayoutManager);
         summerAndWinterView.setAdapter(summerAndWinterAdapter);
-
 
 
         //Filling articles with data

@@ -54,4 +54,6 @@
     <string name="vertical_recycler_view_button_text">More...</string>
     <string name="vertical_recycler_view_title_placeholder">Title</string>
     <string name="horizontal_recycler_view_title_placeholder">Title</string>
+    <string name="countryCategoryTitle">Interesting countries to explore</string>
+    <string name="countryCategorySubtitle">Discover the beauty of different cultures and places</string>
 </resources>

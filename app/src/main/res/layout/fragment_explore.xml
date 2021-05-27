@@ -19,19 +19,18 @@
                         <include android:id="@+id/explore_title_layout"
                             layout="@layout/element_explore_title"/>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/explore_countries_recycler"
+                        <include android:id="@+id/explore_countries_item"
+                            layout="@layout/recycler_item_vertical"
+                            android:layout_marginHorizontal="8dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/explore_title_layout"
-                            android:layout_marginTop="60dp"
-                            android:orientation="horizontal"/>
+                            android:layout_below="@+id/explore_title_layout"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/explore_cities_recycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/explore_countries_recycler"
+                            android:layout_below="@+id/explore_countries_item"
                             android:layout_marginTop="10dp"/>
 
                         <include android:id="@+id/travel_tips_article"
