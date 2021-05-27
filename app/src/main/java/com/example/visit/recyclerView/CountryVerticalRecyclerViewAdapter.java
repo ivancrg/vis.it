@@ -66,7 +66,18 @@ public class CountryVerticalRecyclerViewAdapter extends RecyclerView.Adapter<Cou
 
         // Adapter is a sort of a bridge between our data (verticalItems) and the RV
         // Adapter always provides as many items as we need at the time which means optimal performance
-        RecyclerView.Adapter horizontalRecyclerViewAdapter = new CountryRecyclerViewAdapter(horizontalItems, context);
+        RecyclerViewClickInterface clickInterface = new RecyclerViewClickInterface() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+
+            @Override
+            public void onLongItemClick(int position) {
+
+            }
+        };
+        RecyclerView.Adapter horizontalRecyclerViewAdapter = new CountryRecyclerViewAdapter(horizontalItems, context, clickInterface);
 
         // Responsible for placing items into our list
         RecyclerView.LayoutManager horizontalRecyclerViewLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);

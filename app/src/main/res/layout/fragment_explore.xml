@@ -14,7 +14,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/explore_relative_parent">
                         <include android:id="@+id/explore_title_layout"
                             layout="@layout/element_explore_title"/>
 
@@ -23,7 +24,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/explore_title_layout"
-                            android:layout_marginTop="60dp"/>
+                            android:layout_marginTop="60dp"
+                            android:orientation="horizontal"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/explore_cities_recycler"

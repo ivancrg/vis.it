@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import com.example.visit.recyclerView.CountryRecyclerViewItem;
 import com.example.visit.recyclerView.CountryVerticalRecyclerViewItem;
 import com.example.visit.recyclerView.HorizontalRecyclerViewItem;
 import com.example.visit.recyclerView.CountryVerticalRecyclerViewAdapter;
+import com.example.visit.recyclerView.RecyclerViewClickInterface;
 import com.example.visit.recyclerView.VerticalRecyclerViewAdapter;
 import com.example.visit.recyclerView.VerticalRecyclerViewItem;
 
@@ -39,7 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ExploreFragment extends Fragment {
+public class ExploreFragment extends Fragment implements RecyclerViewClickInterface {
     private RecyclerView cityView;
     private RecyclerView summerAndWinterView;
     private RecyclerView countryView;
@@ -121,8 +123,8 @@ public class ExploreFragment extends Fragment {
         summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", horizontalItems));
 
 
-        ArrayList<CountryVerticalRecyclerViewItem> countries = new ArrayList<>();
-        countries.add(new CountryVerticalRecyclerViewItem("Visit some of these exciting countries", "", countriesList));
+        /*ArrayList<CountryVerticalRecyclerViewItem> countries = new ArrayList<>();
+        countries.add(new CountryVerticalRecyclerViewItem("Visit some of these exciting countries", "", countriesList));*/
 
 
         cityView = view.findViewById(R.id.explore_cities_recycler);
@@ -139,8 +141,8 @@ public class ExploreFragment extends Fragment {
         cityView.setLayoutManager(cityLayoutManager);
         cityView.setAdapter(cityAdapter);
 
-        countryLayoutManager = new LinearLayoutManager(getContext());
-        countryAdapter = new CountryVerticalRecyclerViewAdapter(getContext(), countries);
+        countryLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        countryAdapter = new CountryRecyclerViewAdapter(countriesList, getContext(), this);
         countryView.setLayoutManager(countryLayoutManager);
         countryView.setAdapter(countryAdapter);
 
@@ -324,7 +326,6 @@ public class ExploreFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                     }
                 });
         Volley.newRequestQueue(getContext()).add(stringRequest);
@@ -341,7 +342,15 @@ public class ExploreFragment extends Fragment {
             articleSubtitleBottom.setText(articleList.get(1).getSubtitle());
             Glide.with(getContext()).load(articleList.get(1).getImageUrl()).centerCrop().into(articleButtonBottom);
         }
+    }
 
 
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(getContext(), "Country clicked " + countriesList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLongItemClick(int position) {
     }
 }
