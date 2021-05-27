@@ -75,13 +75,10 @@ public class CountryRecyclerViewAdapter extends RecyclerView.Adapter<CountryRecy
         // Position tells us at which array list item we are looking at
         CountryRecyclerViewItem currentItem = horizontalItemsList.get(position);
 
-        //TODO: Make image resource an url and load it with glide
+        //Loading country flag and image into their itemViews
         holder.title.setText(currentItem.getTitle());
         Glide.with(context).asBitmap().load(currentItem.getImageResource()).into(holder.imageView);
         Glide.with(context).asBitmap().load(currentItem.getCountry_flag()).into(holder.flag);
-
-
-        //TODO: write OnClick Listener
     }
 
     @Override

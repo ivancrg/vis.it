@@ -21,9 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.visit.recyclerView.CountryRecyclerViewAdapter;
 import com.example.visit.recyclerView.CountryRecyclerViewItem;
-import com.example.visit.recyclerView.CountryVerticalRecyclerViewItem;
 import com.example.visit.recyclerView.HorizontalRecyclerViewItem;
-import com.example.visit.recyclerView.CountryVerticalRecyclerViewAdapter;
 import com.example.visit.recyclerView.RecyclerViewClickInterface;
 import com.example.visit.recyclerView.VerticalRecyclerViewAdapter;
 import com.example.visit.recyclerView.VerticalRecyclerViewItem;
@@ -74,7 +72,6 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
 
     ArrayList<ArticleModel> articleList;
     ArrayList<CountryModel> countryList;
-
     ArrayList<CountryRecyclerViewItem> countriesList;
 
 
