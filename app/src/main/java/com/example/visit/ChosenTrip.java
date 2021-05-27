@@ -2,6 +2,7 @@ package com.example.visit;
 
 public class ChosenTrip {
 
+    private static int id;
     private static String country;
     private static String city;
     private static String date;
@@ -9,6 +10,14 @@ public class ChosenTrip {
     private static String necessities;
     private static String travellingMode;
     private static String participantsDescription;
+
+    public static int getId() {
+        return id;
+    }
+
+    public static void setId(int id) {
+        ChosenTrip.id = id;
+    }
 
     public static String getCountry() {
         return country;
@@ -67,6 +76,7 @@ public class ChosenTrip {
     }
 
     public static void setData(RecyclerViewItemMyTrips trip) {
+        id = trip.getId();
         country = trip.getCountry();
         city = trip.getCity();
         date = trip.getDateOfDeparture();

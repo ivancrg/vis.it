@@ -3,6 +3,7 @@ package com.example.visit;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,22 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.database.CurrentTripPatch;
+import com.example.visit.database.Database;
+import com.example.visit.database.HerokuAPI;
+import com.example.visit.database.UpdatePasswordPatch;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class TripDetailsFragment extends Fragment {
 
@@ -62,7 +75,43 @@ public class TripDetailsFragment extends Fragment {
         String destinationCountry = country.getText().toString();
 
         start.setOnClickListener(v -> {
-            // Sending city and country name to TravellingFragment
+            // Save current trip into database
+            Retrofit retrofit = Database.getRetrofit();
+            HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
+
+            CurrentTripPatch currentTripPatch = new CurrentTripPatch(LoggedUser.getUsername(), ChosenTrip.getId());
+            Call<CurrentTripPatch> call = herokuAPI.addCurrentTrip(LoggedUser.getUsername(), currentTripPatch);
+
+            call.enqueue(new Callback<CurrentTripPatch>() {
+                @Override
+                public void onResponse(@NotNull Call<CurrentTripPatch> call, @NotNull Response<CurrentTripPatch> response) {
+                    if (!response.isSuccessful()) {
+                        // Not OK
+                        Log.e("/addCurrentTrip", "notSuccessful: Something went wrong. " + response.code());
+                        return;
+                    }
+
+                    CurrentTripPatch postResponse = response.body();
+
+                    assert postResponse != null;
+
+                    if ("current_trip_updated".equals(postResponse.getFeedback())) {// Trip saved
+                        Toast.makeText(view.getContext(), "Successfully starting trip.", Toast.LENGTH_LONG).show();
+                    } else if ("user_not_found".equals(postResponse.getFeedback())) {// Possible database error server-side, user not found...
+                        Toast.makeText(view.getContext(), "Sorry, there is an error in the username.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(view.getContext(), "Sorry, there is a database error.", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call<CurrentTripPatch> call, @NotNull Throwable t) {
+                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                    Log.e("/addCurrentTrip", "onFailure: Something went wrong. " + t.getMessage());
+                }
+            });
+
+            /*// Sending city and country name to TravellingFragment
             Bundle args = new Bundle();
             args.putString("destinationCity", destinationCity);
             args.putString("destinationCountry", destinationCountry);
@@ -89,7 +138,8 @@ public class TripDetailsFragment extends Fragment {
             TravellingFragment fragmentTravelling = new TravellingFragment();
             fragmentTravelling.setArguments(args);
 
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentTravelling, false);
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentTravelling, false);*/
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingFragment(), false);
         });
 
         returnButton.setOnClickListener(v -> {

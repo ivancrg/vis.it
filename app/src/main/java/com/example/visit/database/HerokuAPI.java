@@ -38,4 +38,10 @@ public interface HerokuAPI {
 
     @GET("getUsersTrips")
     Call<TripsGet> getUsersTrips(@Query("username") String username);
+
+    @PATCH("addOnTrip/{username}")
+    Call<CurrentTripPatch> addCurrentTrip(@Path("username") String username, @Body CurrentTripPatch patch);
+
+    @GET("readOnTrip")
+    Call<CurrentTripGet> getCurrentTrip(@Query("username") String username);
 }

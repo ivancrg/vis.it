@@ -23,7 +23,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.visit.database.CurrentTripGet;
+import com.example.visit.database.CurrentTripPatch;
+import com.example.visit.database.Database;
+import com.example.visit.database.HerokuAPI;
+import com.example.visit.database.TripsGet;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,6 +42,11 @@ import com.google.maps.android.SphericalUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     // TODO: move to local.properties (so it becomes a hidden variable)
@@ -64,6 +75,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     }
 
     Bundle args;
+    String destinationCity, destinationCountry;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,15 +87,15 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         ImageView musicIcon = (ImageView) view.findViewById(R.id.travellingFragmentMusicIcon);
         ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
         DrawerLayout drawerLayout = view.findViewById(R.id.main_drawer_layout);
+
         // Receiving city and country name from TripDetailsFragment
         args = this.getArguments();
-        String destinationCity, destinationCountry;
         double destinationCityLat = 0;
         double destinationCityLng = 0;
 
 
         // Stop user from entering into "On the go" part of the app without choosing the trip first
-        if (args == null) {
+        /*if (args == null) {
             Toast.makeText(getContext(), "Choose the trip you want to start first!", Toast.LENGTH_SHORT).show();
 
             MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), false);
@@ -92,7 +104,50 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
             destinationCountry = args.getString("destinationCountry");
             destinationCityLat = args.getDouble("destinationCityLat");
             destinationCityLng = args.getDouble("destinationCityLng");
-        }
+        }*/
+
+        // Get current trip from database
+        Retrofit retrofit = Database.getRetrofit();
+        HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
+        Call<CurrentTripGet> call = herokuAPI.getCurrentTrip(LoggedUser.getUsername());
+
+        call.enqueue(new Callback<CurrentTripGet>() {
+            @Override
+            public void onResponse(@NotNull Call<CurrentTripGet> call, @NotNull Response<CurrentTripGet> response) {
+                // Response received
+                if (!response.isSuccessful()) {
+                    // Not OK
+                    Log.e("/readOnTrip", "notSuccessful: Something went wrong. " + response.code());
+                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                // Response code marks the completion of request as successful
+                assert response.body() != null;
+                CurrentTripGet currentTripGet = response.body();
+
+                if (currentTripGet.getFeedback().equals("currently_not_on_trip")) {
+                    // Ask user to pick the trip first
+                    Toast.makeText(getContext(), "Choose the trip you want to start first!", Toast.LENGTH_SHORT).show();
+                    MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), false);
+                } else if (currentTripGet.getFeedback().equals("currently_on_trip")){
+                    // GET destination country and city from database
+                    destinationCity = ChosenTrip.getCity();
+                    destinationCountry = ChosenTrip.getCountry();
+                    Log.e("BRAVO", "GRAD JE: " + destinationCity + "Drzava je: " + destinationCountry);
+                } else {
+                    // API did not return any trip data (because of a database error or because the user has no trips saved)
+                    Toast.makeText(view.getContext(), "No trips available.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<CurrentTripGet> call, @NotNull Throwable t) {
+                // Request towards vis.it API could not be completed
+                Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                Log.e("/readOnTrip", "onFailure: Something went wrong. " + t.getMessage());
+            }
+        });
 
         // TODO: Implement real destination data
         destinationCoordinates = new LatLng(destinationCityLat, destinationCityLng);
