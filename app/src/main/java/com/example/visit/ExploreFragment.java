@@ -114,19 +114,12 @@ public class ExploreFragment extends Fragment {
 
         // vertical is used to represent horizontal recycler view items
         ArrayList<VerticalRecyclerViewItem> countryAndCityCategory = new ArrayList<>();
-        //countryAndCityCategory.add(new VerticalRecyclerViewItem("Exciting countries", "Text", horizontalItems));
         countryAndCityCategory.add(new VerticalRecyclerViewItem("Explore vibrant new places", "Text", horizontalItems));
 
         ArrayList<VerticalRecyclerViewItem> summerAndWinterCategory = new ArrayList<>();
         summerAndWinterCategory.add(new VerticalRecyclerViewItem("Smell the sea and feel the sky", "Best summer vacation spots", horizontalItems));
         summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", horizontalItems));
 
-
-        //ArrayList<CountryRecyclerViewItem> countriesList = new ArrayList<>();
-        /*countriesList.add(new CountryRecyclerViewItem("https://www.integral-zagreb.hr/sites/default/files/styles/1920_auto_/public/uploads/products/gallery/2021-05/london-putovanje-4.jpg?itok=phnTj8wy",
-                "https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/1920px-Flag_of_the_United_Kingdom.svg.png", "United Kingdom", ""));
-        countriesList.add(new CountryRecyclerViewItem("https://maps.googleapis.com/maps/api/place/photo?photoreference=ATtYBwJ0q13FarTZ7Z52QqCnsqZkOhdRkpsvbD8kNmnAmt-Ivl7GBE4lhMimcNjuWjDsEXy4GvtADMBN0UZPx2FnVUe8OoWEJ0bRn7ckFJ0o-uMQwDdJheWffeb0BlNWTlCYWP-07CMFbV4klQHemX5jRwtwjjMysUhgxYBHGFCyT1N0TCb0&key=AIzaSyC45S9GLpisQlWqCMxODBPu0o0TwzvW3Fg&maxwidth=400&maxheight=400",
-                "https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Flag_of_Italy.svg/1280px-Flag_of_Italy.svg.png", "Italy", ""));*/
 
         ArrayList<CountryVerticalRecyclerViewItem> countries = new ArrayList<>();
         countries.add(new CountryVerticalRecyclerViewItem("Visit some of these exciting countries", "", countriesList));
