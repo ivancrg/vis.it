@@ -7,9 +7,9 @@ public class CurrentTripGet {
     private String feedback;
 
     @SerializedName("currently_on_trip")
-    private int trip_id;
+    private String trip_id;
 
-    public int getCurrentTrip() {
+    public String getCurrentTrip() {
         return trip_id;
     }
     public String getFeedback() {
@@ -19,7 +19,8 @@ public class CurrentTripGet {
     @Override
     public String toString() {
         return "CurrentTrip{" +
-                "feedback = '" + feedback + '\'' +
+                "currently_on_trip = '" + trip_id + "'" +
+                ", feedback = '" + feedback + '\'' +
                 '}';
     }
 }

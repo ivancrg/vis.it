@@ -5,18 +5,18 @@ import com.google.gson.annotations.SerializedName;
 
     public class CurrentTripPatch {
         private String username;
-        private int tripId;
-
-        public CurrentTripPatch(String username, int tripId) {
-            this.username = username;
-            this.tripId = tripId;
-        }
 
         @SerializedName("feedback")
         private String feedback;
 
         @SerializedName("trip_id")
-        private int trip_id;
+        private String trip_id;
+
+
+        public CurrentTripPatch(String username, String tripId) {
+            this.username = username;
+            this.trip_id = tripId;
+        }
 
         public String getFeedback() {
             return feedback;
@@ -26,15 +26,15 @@ import com.google.gson.annotations.SerializedName;
             return username;
         }
 
-        public int getTripId() {
-            return tripId;
+        public String getTripId() {
+            return trip_id;
         }
 
 
         @Override
         public String toString() {
             return "{" +
-                    "trip_id:'" + tripId + "'" +
+                    "feedback:'" + feedback + "'" +
                     "}";
         }
     }

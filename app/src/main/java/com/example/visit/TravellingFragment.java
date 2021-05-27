@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -41,6 +43,9 @@ import com.google.maps.android.SphericalUtil;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -76,6 +81,8 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
 
     Bundle args;
     String destinationCity, destinationCountry;
+    double destinationCityLat = 0;
+    double destinationCityLng = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,24 +94,6 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         ImageView musicIcon = (ImageView) view.findViewById(R.id.travellingFragmentMusicIcon);
         ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
         DrawerLayout drawerLayout = view.findViewById(R.id.main_drawer_layout);
-
-        // Receiving city and country name from TripDetailsFragment
-        args = this.getArguments();
-        double destinationCityLat = 0;
-        double destinationCityLng = 0;
-
-
-        // Stop user from entering into "On the go" part of the app without choosing the trip first
-        /*if (args == null) {
-            Toast.makeText(getContext(), "Choose the trip you want to start first!", Toast.LENGTH_SHORT).show();
-
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), false);
-        } else {
-            destinationCity = args.getString("destinationCity");
-            destinationCountry = args.getString("destinationCountry");
-            destinationCityLat = args.getDouble("destinationCityLat");
-            destinationCityLng = args.getDouble("destinationCityLng");
-        }*/
 
         // Get current trip from database
         Retrofit retrofit = Database.getRetrofit();
@@ -131,10 +120,26 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
                     Toast.makeText(getContext(), "Choose the trip you want to start first!", Toast.LENGTH_SHORT).show();
                     MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), false);
                 } else if (currentTripGet.getFeedback().equals("currently_on_trip")){
+                    // TODO
                     // GET destination country and city from database
                     destinationCity = ChosenTrip.getCity();
                     destinationCountry = ChosenTrip.getCountry();
-                    Log.e("BRAVO", "GRAD JE: " + destinationCity + "Drzava je: " + destinationCountry);
+
+                    //Get destination city lat and long from name
+                    Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                    List<Address> listOfAddress;
+                    try {
+                        listOfAddress = geocoder.getFromLocationName(destinationCity, 1);
+                        if (listOfAddress != null && !listOfAddress.isEmpty()) {
+                            Address address = listOfAddress.get(0);
+
+                            destinationCityLat = address.getLatitude();
+                            destinationCityLng = address.getLongitude();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("koordinate", "GRAD LAT JE: " + destinationCityLat + " GRAD LNG je: " + destinationCityLng);
                 } else {
                     // API did not return any trip data (because of a database error or because the user has no trips saved)
                     Toast.makeText(view.getContext(), "No trips available.", Toast.LENGTH_LONG).show();

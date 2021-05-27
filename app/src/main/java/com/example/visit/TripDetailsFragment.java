@@ -79,7 +79,7 @@ public class TripDetailsFragment extends Fragment {
             Retrofit retrofit = Database.getRetrofit();
             HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
 
-            CurrentTripPatch currentTripPatch = new CurrentTripPatch(LoggedUser.getUsername(), ChosenTrip.getId());
+            CurrentTripPatch currentTripPatch = new CurrentTripPatch(LoggedUser.getUsername(), Integer.toString(ChosenTrip.getId()));
             Call<CurrentTripPatch> call = herokuAPI.addCurrentTrip(LoggedUser.getUsername(), currentTripPatch);
 
             call.enqueue(new Callback<CurrentTripPatch>() {
