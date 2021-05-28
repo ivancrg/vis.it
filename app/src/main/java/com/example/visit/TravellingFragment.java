@@ -127,7 +127,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
                     destinationCity = trip_details.getCity();
                     destinationCountry = trip_details.getCountry();
 
-                    Log.e("GRAD: ", destinationCity + " " + destinationCountry);
+                    Log.e("Destinacija: ", destinationCity + " " + destinationCountry);
 
                    //Get destination city lat and long from name
                     Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
@@ -139,8 +139,11 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
 
                                     destinationCityLat = address.getLatitude();
                                     destinationCityLng = address.getLongitude();
+                                    Log.e("Koordinate ", destinationCityLat + " " + destinationCityLng);
                                 }
                             } catch (IOException e) {
+                                // If this error happens emulator needs to be restarted
+                                Log.e("grpc failed", "Emulator error, please restart and cold boot device!");
                                 e.printStackTrace();
                             }
                     //Froward city lat and lng to music, weather and time fragment

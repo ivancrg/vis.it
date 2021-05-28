@@ -1,12 +1,14 @@
 package com.example.visit;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 
 import org.json.JSONException;
@@ -44,6 +46,7 @@ public class TravellingTimeFragment extends Fragment {
     String time = "00:00";
     String currentTimeDate;
     double latitude, longitude;
+    Timer timer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +68,7 @@ public class TravellingTimeFragment extends Fragment {
         longitude = args.getDouble("destinationCityLng");
 
         //Update destination and current time every 10 seconds
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -97,6 +100,11 @@ public class TravellingTimeFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getContext(), "Time not available!", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 e.printStackTrace();
             }
 
@@ -107,13 +115,25 @@ public class TravellingTimeFragment extends Fragment {
                     try {
                         JSONObject timeObject = new JSONObject(myResponse);
                         time = timeObject.get("formatted").toString();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                destinationTime.setText(time.substring(time.length() - 8, time.length() - 3));
-                            }
-                        });
-                    } catch (JSONException e) {
+
+                        if (time != null){
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try{
+                                        destinationTime.setText(time.substring(time.length() - 8, time.length() - 3));
+                                    } catch (StringIndexOutOfBoundsException e){
+                                        // If this error happens emulator needs to be restarted
+                                        Toast.makeText(getContext(), "Time not available!", Toast.LENGTH_SHORT).show();
+                                        destinationTime.setText("          ");
+                                    }
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getContext(), "Time not available!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -125,6 +145,13 @@ public class TravellingTimeFragment extends Fragment {
                 }
             }
         });
+    }
+
+    // Stop updating time after back key pressed
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        timer.cancel();
     }
 
     @Override
