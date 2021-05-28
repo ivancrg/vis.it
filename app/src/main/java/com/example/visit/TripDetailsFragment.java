@@ -111,34 +111,6 @@ public class TripDetailsFragment extends Fragment {
                 }
             });
 
-            /*// Sending city and country name to TravellingFragment
-            Bundle args = new Bundle();
-            args.putString("destinationCity", destinationCity);
-            args.putString("destinationCountry", destinationCountry);
-
-            //Get destination city lat and long from name
-            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-            List<Address> listOfAddress;
-            try {
-                listOfAddress = geocoder.getFromLocationName(destinationCity, 1);
-                if (listOfAddress != null && !listOfAddress.isEmpty()) {
-                    Address address = listOfAddress.get(0);
-
-                    lat = address.getLatitude();
-                    lng = address.getLongitude();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            // Sending city lat and lng to Travelling Fragment
-            args.putDouble("destinationCityLat", lat);
-            args.putDouble("destinationCityLng", lng);
-
-            TravellingFragment fragmentTravelling = new TravellingFragment();
-            fragmentTravelling.setArguments(args);
-
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentTravelling, false);*/
             MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingFragment(), false);
         });
 

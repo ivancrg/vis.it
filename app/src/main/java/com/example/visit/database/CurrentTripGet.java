@@ -1,5 +1,6 @@
 package com.example.visit.database;
 
+import com.example.visit.RecyclerViewItemMyTrips;
 import com.google.gson.annotations.SerializedName;
 
 public class CurrentTripGet {
@@ -9,8 +10,14 @@ public class CurrentTripGet {
     @SerializedName("currently_on_trip")
     private String trip_id;
 
+    @SerializedName("trip_data")
+    RecyclerViewItemMyTrips trip_details;
+
     public String getCurrentTrip() {
         return trip_id;
+    }
+    public RecyclerViewItemMyTrips getTripDetails() {
+        return trip_details;
     }
     public String getFeedback() {
         return feedback;
@@ -20,6 +27,7 @@ public class CurrentTripGet {
     public String toString() {
         return "CurrentTrip{" +
                 "currently_on_trip = '" + trip_id + "'" +
+                ", trip details: " + trip_details.toString() +
                 ", feedback = '" + feedback + '\'' +
                 '}';
     }

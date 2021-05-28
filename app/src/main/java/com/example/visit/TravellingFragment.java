@@ -83,10 +83,12 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     String destinationCity, destinationCountry;
     double destinationCityLat = 0;
     double destinationCityLng = 0;
+    RecyclerViewItemMyTrips trip_details;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        args = new Bundle();
         View view = inflater.inflate(R.layout.fragment_travelling, container, false);
         mapView = (MapView) view.findViewById(R.id.travellingFragmentMapView);
         Button arrivedButton = (Button) view.findViewById(R.id.travellingFragmentArrivedButton);
@@ -120,26 +122,36 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
                     Toast.makeText(getContext(), "Choose the trip you want to start first!", Toast.LENGTH_SHORT).show();
                     MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), false);
                 } else if (currentTripGet.getFeedback().equals("currently_on_trip")){
-                    // TODO
                     // GET destination country and city from database
-                    destinationCity = ChosenTrip.getCity();
-                    destinationCountry = ChosenTrip.getCountry();
+                    trip_details = currentTripGet.getTripDetails();
+                    destinationCity = trip_details.getCity();
+                    destinationCountry = trip_details.getCountry();
 
-                    //Get destination city lat and long from name
+                    Log.e("GRAD: ", destinationCity + " " + destinationCountry);
+
+                   //Get destination city lat and long from name
                     Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
                     List<Address> listOfAddress;
-                    try {
-                        listOfAddress = geocoder.getFromLocationName(destinationCity, 1);
-                        if (listOfAddress != null && !listOfAddress.isEmpty()) {
-                            Address address = listOfAddress.get(0);
+                            try {
+                                listOfAddress = geocoder.getFromLocationName(destinationCity, 1);
+                                if (listOfAddress != null && !listOfAddress.isEmpty()) {
+                                    Address address = listOfAddress.get(0);
 
-                            destinationCityLat = address.getLatitude();
-                            destinationCityLng = address.getLongitude();
+                                    destinationCityLat = address.getLatitude();
+                                    destinationCityLng = address.getLongitude();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                    //Froward city lat and lng to music, weather and time fragment
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            args.putString("destinationCity", destinationCity);
+                            args.putString("destinationCountry", destinationCountry);
+                            args.putDouble("destinationCityLat", destinationCityLat);
+                            args.putDouble("destinationCityLng", destinationCityLng);
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Log.e("koordinate", "GRAD LAT JE: " + destinationCityLat + " GRAD LNG je: " + destinationCityLng);
+                    });
                 } else {
                     // API did not return any trip data (because of a database error or because the user has no trips saved)
                     Toast.makeText(view.getContext(), "No trips available.", Toast.LENGTH_LONG).show();
