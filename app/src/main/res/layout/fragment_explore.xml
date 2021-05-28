@@ -22,6 +22,7 @@
                         <include android:id="@+id/explore_countries_item"
                             layout="@layout/recycler_item_vertical"
                             android:layout_marginHorizontal="8dp"
+                            android:layout_marginTop="30dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/explore_title_layout"/>
@@ -29,6 +30,7 @@
                         <include android:id="@+id/explore_cities_item"
                             layout="@layout/recycler_item_vertical"
                             android:layout_marginHorizontal="8dp"
+                            android:layout_marginTop="30dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/explore_countries_item"/>
@@ -40,17 +42,26 @@
                             android:layout_marginTop="30dp"
                             layout="@layout/element_explore_article"/>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/explore_summer_and_winter_recycler"
+                        <include android:id="@+id/explore_summer_item"
+                            layout="@layout/recycler_item_vertical"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginTop="60dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="60dp"
-                            android:layout_below="@id/travel_tips_article"/>
+                            android:layout_below="@+id/travel_tips_article"/>
+
+                        <include android:id="@+id/explore_winter_item"
+                            layout="@layout/recycler_item_vertical"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/explore_summer_item"/>
 
                         <include android:id="@+id/generic_travel_article"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/explore_summer_and_winter_recycler"
+                            android:layout_below="@+id/explore_winter_item"
                             android:layout_marginTop="30dp"
                             layout="@layout/element_explore_article"/>
                 </RelativeLayout>

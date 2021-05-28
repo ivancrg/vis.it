@@ -24,12 +24,11 @@ import com.example.visit.recyclerView.CountryRecyclerViewItem;
 import com.example.visit.recyclerView.HorizontalRecyclerViewAdapter;
 import com.example.visit.recyclerView.HorizontalRecyclerViewItem;
 import com.example.visit.recyclerView.RecyclerViewClickInterface;
-import com.example.visit.recyclerView.VerticalRecyclerViewAdapter;
-import com.example.visit.recyclerView.VerticalRecyclerViewItem;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -42,21 +41,24 @@ import org.json.JSONObject;
 
 public class ExploreFragment extends Fragment implements RecyclerViewClickInterface {
     private RecyclerView cityView;
-    private RecyclerView summerAndWinterView;
+    private RecyclerView summerView;
+    private RecyclerView winterView;
     private RecyclerView countryView;
 
-    private static final int NUM_OF_COUNTRIES = 5;
+    private static final int NUM_OF_RECYCLER_ITEMS = 5;
 
     // Adapter is a sort of a bridge between our data (verticalItems) and the RV
     // Adapter always provides as many items as we need at the time which means optimal performance
     private RecyclerView.Adapter cityAdapter;
-    private RecyclerView.Adapter summerAndWinterAdapter;
+    private RecyclerView.Adapter summerAdapter;
+    private RecyclerView.Adapter winterAdapter;
     private RecyclerView.Adapter countryAdapter;
 
 
     // Responsible for placing items into our list
     private RecyclerView.LayoutManager cityLayoutManager;
-    private RecyclerView.LayoutManager summerAndWinterLayoutManager;
+    private RecyclerView.LayoutManager summerLayoutManager;
+    private RecyclerView.LayoutManager winterLayoutManager;
     private RecyclerView.LayoutManager countryLayoutManager;
 
 
@@ -78,10 +80,20 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
     TextView cityCategoryTitle;
     TextView cityCategoryText;
 
+    View summerElement;
+    TextView summerCategoryTitle;
+    TextView summerCategorySubtitle;
+
+    View winterElement;
+    TextView winterCategoryTitle;
+    TextView winterCategorySubtitle;
+
 
     ArrayList<ArticleModel> articleList;
     ArrayList<CountryModel> countryList;
     ArrayList<CityModel> cityList;
+    ArrayList<SummerAndWinterModel> summerList;
+    ArrayList<SummerAndWinterModel> winterList;
 
     ArrayList<CountryRecyclerViewItem> countriesList;
     ArrayList<HorizontalRecyclerViewItem> citiesList;
@@ -101,12 +113,15 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         cityList = new ArrayList<>();
         countriesList = new ArrayList<>();
         citiesList = new ArrayList<>();
+        winterList = new ArrayList<>();
+        summerList = new ArrayList<>();
         summerItemList = new ArrayList<>();
         winterItemList = new ArrayList<>();
 
         setArticles();
         setCountries();
         setCities();
+        setSummerAndWinter();
     }
 
     @Override
@@ -130,10 +145,9 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         cityCategoryTitle.setText(R.string.cityCategoryTitle);
         cityCategoryText.setText(R.string.cityCategorySubtitle);
 
-
-        ArrayList<VerticalRecyclerViewItem> summerAndWinterCategory = new ArrayList<>();
+        /*ArrayList<VerticalRecyclerViewItem> summerAndWinterCategory = new ArrayList<>();
         summerAndWinterCategory.add(new VerticalRecyclerViewItem("Smell the sea and feel the sky", "Best summer vacation spots", summerItemList));
-        summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", winterItemList));
+        summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", winterItemList));*/
 
         countryElement = view.findViewById(R.id.explore_countries_item);
         countryCategoryTitle = countryElement.findViewById(R.id.verticalRecyclerViewItemTitle);
@@ -141,14 +155,29 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         countryCategoryTitle.setText(R.string.countryCategoryTitle);
         countryCategoryText.setText(R.string.countryCategorySubtitle);
 
+        summerElement = view.findViewById(R.id.explore_summer_item);
+        summerCategoryTitle = summerElement.findViewById(R.id.verticalRecyclerViewItemTitle);
+        summerCategorySubtitle = summerElement.findViewById(R.id.verticalRecyclerViewItemText);
+        summerCategoryTitle.setText(R.string.summerCategoryTitle);
+        summerCategorySubtitle.setText(R.string.summerCategorySubtitle);
+
+        winterElement = view.findViewById(R.id.explore_winter_item);
+        winterCategoryTitle = winterElement.findViewById(R.id.verticalRecyclerViewItemTitle);
+        winterCategorySubtitle = winterElement.findViewById(R.id.verticalRecyclerViewItemText);
+        winterCategoryTitle.setText(R.string.winterCategoryTitle);
+        winterCategorySubtitle.setText(R.string.winterCategorySubtitle);
+
         cityView = cityElement.findViewById(R.id.horizontalRecyclerView);
         countryView = countryElement.findViewById(R.id.horizontalRecyclerView);
-        summerAndWinterView = view.findViewById(R.id.explore_summer_and_winter_recycler);
+        summerView = summerElement.findViewById(R.id.horizontalRecyclerView);
+        winterView = winterElement.findViewById(R.id.horizontalRecyclerView);
 
         // Needs to be set to true if recycler view won't change in size for performance gains
         cityView.setHasFixedSize(true);
         countryView.setHasFixedSize(true);
-        summerAndWinterView.setHasFixedSize(true);
+        summerView.setHasFixedSize(true);
+        winterView.setHasFixedSize(true);
+
 
         cityLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         cityAdapter = new HorizontalRecyclerViewAdapter(citiesList, getContext());
@@ -160,10 +189,16 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         countryView.setLayoutManager(countryLayoutManager);
         countryView.setAdapter(countryAdapter);
 
-        summerAndWinterLayoutManager = new LinearLayoutManager(getContext());
-        summerAndWinterAdapter = new VerticalRecyclerViewAdapter(getContext(), summerAndWinterCategory);
-        summerAndWinterView.setLayoutManager(summerAndWinterLayoutManager);
-        summerAndWinterView.setAdapter(summerAndWinterAdapter);
+
+        summerLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        summerAdapter = new HorizontalRecyclerViewAdapter(summerItemList, getContext());
+        summerView.setLayoutManager(summerLayoutManager);
+        summerView.setAdapter(summerAdapter);
+
+        winterLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        winterAdapter = new HorizontalRecyclerViewAdapter(winterItemList, getContext());
+        winterView.setLayoutManager(winterLayoutManager);
+        winterView.setAdapter(winterAdapter);
 
 
         //Filling articles with data
@@ -227,7 +262,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                     Vector<Integer> countryIndexVector = new Vector<Integer>();
                     Random rand = new Random();
 
-                    for(int i = 0; i < NUM_OF_COUNTRIES; i++) {
+                    for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
                         if(countryIndexVector.isEmpty()) {
                             countryIndexVector.add(rand.nextInt(59));
                         } else {
@@ -359,9 +394,9 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
 
 
     private void setCities() {
-        final String URL_COUNTRIES = "https://visitcountryapi.000webhostapp.com/exploreCities.php";
+        final String URL_CITIES = "https://visitcountryapi.000webhostapp.com/exploreCities.php";
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_COUNTRIES, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_CITIES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -373,7 +408,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                     Vector<Integer> cityIndexVector = new Vector<Integer>();
                     Random rand = new Random();
 
-                    for(int i = 0; i < NUM_OF_COUNTRIES; i++) {
+                    for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
                         if(cityIndexVector.isEmpty()) {
                             cityIndexVector.add(rand.nextInt(196));
                         } else {
@@ -401,6 +436,94 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                     }
                     Log.d("CHANGED SET", "Notify dataset changed city");
                     cityAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+        Volley.newRequestQueue(getContext()).add(stringRequest);
+    }
+
+    private void setSummerAndWinter() {
+        final String URL_PLACES = "https://visitcountryapi.000webhostapp.com/exploreSummerWinter.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_PLACES, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    //converting the string to json array object
+                    JSONArray array = new JSONArray(response);
+                    Log.d("RESPONSE", "Response SUMMER WINTER success " + response);
+
+
+                    Vector<Integer> summerIndexVector = new Vector<Integer>();
+                    Vector<Integer> winterIndexVector = new Vector<>();
+                    Random rand = new Random();
+
+                    for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
+                        if(summerIndexVector.isEmpty()) {
+                            summerIndexVector.add(rand.nextInt(15));
+                        } else {
+                            int summerIndex = rand.nextInt(15);
+                            while(summerIndexVector.contains(summerIndex)) {
+                                summerIndex = rand.nextInt();
+                            }
+                            summerIndexVector.add(summerIndex);
+                        }
+                    }
+
+                    for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
+                        if(winterIndexVector.isEmpty()) {
+                            winterIndexVector.add(ThreadLocalRandom.current().nextInt(16, 30));
+                        } else {
+                            int winterIndex = ThreadLocalRandom.current().nextInt(16, 30);
+                            while(summerIndexVector.contains(winterIndex)) {
+                                winterIndex = ThreadLocalRandom.current().nextInt(16, 30);
+                            }
+                            winterIndexVector.add(winterIndex);
+                        }
+                    }
+
+
+                    Log.d("SUMMER", "Summer index" + summerIndexVector);
+                    Log.d("WINTER", "Winter index" + winterIndexVector);
+
+                    for(int ind : summerIndexVector) {
+                        JSONObject summerObject = array.getJSONObject(ind);
+                        summerList.add(new SummerAndWinterModel(ind,
+                                summerObject.getInt("country_id"),
+                                summerObject.getString("place_name"),
+                                summerObject.getString("geo_thermal_zone"),
+                                summerObject.getString("place_image").replace("\\", ""),
+                                summerObject.getString("intended_temp")));
+                    }
+
+                    for(int ind : winterIndexVector) {
+                        JSONObject winterObject = array.getJSONObject(ind);
+                        winterList.add(new SummerAndWinterModel(ind,
+                                winterObject.getInt("country_id"),
+                                winterObject.getString("place_name"),
+                                winterObject.getString("geo_thermal_zone"),
+                                winterObject.getString("place_image").replace("\\", ""),
+                                winterObject.getString("intended_temp")));
+                    }
+
+                    for(SummerAndWinterModel summerObj : summerList) {
+                        summerItemList.add(new HorizontalRecyclerViewItem(summerObj.getPlace_image(), summerObj.getPlace_name(), ""));
+                    }
+
+                    for(SummerAndWinterModel winterObj : winterList) {
+                        winterItemList.add(new HorizontalRecyclerViewItem(winterObj.getPlace_image(), winterObj.getPlace_name(), ""));
+                    }
+
+                    Log.d("CHANGED SET", "Notify dataset changed summer and winter");
+                    summerAdapter.notifyDataSetChanged();
+                    winterAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
