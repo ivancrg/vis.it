@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CountryInfoFragment"
+    android:background="@color/black"
+    android:id="@+id/country_info_scroll_view">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/country_info_relative_layout">
+
+        <include android:id="@+id/country_info_title_element"
+            layout="@layout/element_country_info_title"/>
+
+    </RelativeLayout>
+
+
+</ScrollView>

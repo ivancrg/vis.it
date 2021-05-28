@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.visit.recyclerView.CountryRecyclerViewAdapter;
 import com.example.visit.recyclerView.CountryRecyclerViewItem;
+import com.example.visit.recyclerView.HorizontalRecyclerViewAdapter;
 import com.example.visit.recyclerView.HorizontalRecyclerViewItem;
 import com.example.visit.recyclerView.RecyclerViewClickInterface;
 import com.example.visit.recyclerView.VerticalRecyclerViewAdapter;
@@ -73,10 +74,19 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
     TextView countryCategoryTitle;
     TextView countryCategoryText;
 
+    View cityElement;
+    TextView cityCategoryTitle;
+    TextView cityCategoryText;
+
 
     ArrayList<ArticleModel> articleList;
     ArrayList<CountryModel> countryList;
+    ArrayList<CityModel> cityList;
+
     ArrayList<CountryRecyclerViewItem> countriesList;
+    ArrayList<HorizontalRecyclerViewItem> citiesList;
+    ArrayList<HorizontalRecyclerViewItem> summerItemList;
+    ArrayList<HorizontalRecyclerViewItem> winterItemList;
 
 
     public ExploreFragment() {
@@ -88,10 +98,15 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         super.onCreate(savedInstanceState);
         articleList = new ArrayList<>();
         countryList = new ArrayList<>();
+        cityList = new ArrayList<>();
         countriesList = new ArrayList<>();
+        citiesList = new ArrayList<>();
+        summerItemList = new ArrayList<>();
+        winterItemList = new ArrayList<>();
 
         setArticles();
         setCountries();
+        setCities();
     }
 
     @Override
@@ -107,21 +122,18 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         // Vertical items should be placed to ArrayList<VerticalRecyclerViewItem>
         // All elements of ArrayList<ArrayList<HorizontalRecyclerViewItem>> should be members of ArrayList<VerticalRecyclerViewItem>
 
-        // horizontalItems is used to represent horizontal recycler view items
-        ArrayList<HorizontalRecyclerViewItem> horizontalItems = new ArrayList<>();
-        horizontalItems.add(new HorizontalRecyclerViewItem(R.drawable.example1, "Title 1", "Text 1"));
-        horizontalItems.add(new HorizontalRecyclerViewItem(R.drawable.example2, "Title 2", "Text 2"));
-        horizontalItems.add(new HorizontalRecyclerViewItem(R.drawable.example3, "Title 3", "Text 3"));
-        horizontalItems.add(new HorizontalRecyclerViewItem(R.drawable.example4, "Title 4", "Text 4"));
-        horizontalItems.add(new HorizontalRecyclerViewItem(R.drawable.example5, "Title 5", "Text 5"));
-
         // vertical is used to represent horizontal recycler view items
-        ArrayList<VerticalRecyclerViewItem> countryAndCityCategory = new ArrayList<>();
-        countryAndCityCategory.add(new VerticalRecyclerViewItem("Explore vibrant new places", "Text", horizontalItems));
+
+        cityElement = view.findViewById(R.id.explore_cities_item);
+        cityCategoryTitle = cityElement.findViewById(R.id.verticalRecyclerViewItemTitle);
+        cityCategoryText = cityElement.findViewById(R.id.verticalRecyclerViewItemText);
+        cityCategoryTitle.setText(R.string.cityCategoryTitle);
+        cityCategoryText.setText(R.string.cityCategorySubtitle);
+
 
         ArrayList<VerticalRecyclerViewItem> summerAndWinterCategory = new ArrayList<>();
-        summerAndWinterCategory.add(new VerticalRecyclerViewItem("Smell the sea and feel the sky", "Best summer vacation spots", horizontalItems));
-        summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", horizontalItems));
+        summerAndWinterCategory.add(new VerticalRecyclerViewItem("Smell the sea and feel the sky", "Best summer vacation spots", summerItemList));
+        summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", winterItemList));
 
         countryElement = view.findViewById(R.id.explore_countries_item);
         countryCategoryTitle = countryElement.findViewById(R.id.verticalRecyclerViewItemTitle);
@@ -129,7 +141,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         countryCategoryTitle.setText(R.string.countryCategoryTitle);
         countryCategoryText.setText(R.string.countryCategorySubtitle);
 
-        cityView = view.findViewById(R.id.explore_cities_recycler);
+        cityView = cityElement.findViewById(R.id.horizontalRecyclerView);
         countryView = countryElement.findViewById(R.id.horizontalRecyclerView);
         summerAndWinterView = view.findViewById(R.id.explore_summer_and_winter_recycler);
 
@@ -138,8 +150,8 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         countryView.setHasFixedSize(true);
         summerAndWinterView.setHasFixedSize(true);
 
-        cityLayoutManager = new LinearLayoutManager(getContext());
-        cityAdapter = new VerticalRecyclerViewAdapter(getContext(), countryAndCityCategory);
+        cityLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        cityAdapter = new HorizontalRecyclerViewAdapter(citiesList, getContext());
         cityView.setLayoutManager(cityLayoutManager);
         cityView.setAdapter(cityAdapter);
 
@@ -343,6 +355,63 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
             articleSubtitleBottom.setText(articleList.get(1).getSubtitle());
             Glide.with(getContext()).load(articleList.get(1).getImageUrl()).centerCrop().into(articleButtonBottom);
         }
+    }
+
+
+    private void setCities() {
+        final String URL_COUNTRIES = "https://visitcountryapi.000webhostapp.com/exploreCities.php";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_COUNTRIES, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    //converting the string to json array object
+                    JSONArray array = new JSONArray(response);
+                    Log.d("RESPONSE", "Response CITY success " + response);
+
+
+                    Vector<Integer> cityIndexVector = new Vector<Integer>();
+                    Random rand = new Random();
+
+                    for(int i = 0; i < NUM_OF_COUNTRIES; i++) {
+                        if(cityIndexVector.isEmpty()) {
+                            cityIndexVector.add(rand.nextInt(196));
+                        } else {
+                            int cityIndex = rand.nextInt(196);
+                            while(cityIndexVector.contains(cityIndex)) {
+                                cityIndex = rand.nextInt();
+                            }
+                            cityIndexVector.add(cityIndex);
+                        }
+                    }
+
+
+                    Log.d("CITY", "City index" + cityIndexVector);
+
+                    for(int ind : cityIndexVector) {
+                        JSONObject cityObject = array.getJSONObject(ind);
+                        cityList.add(new CityModel(cityObject.getInt("country_id"),
+                                ind,
+                                cityObject.getString("city_name"),
+                                cityObject.getString("city_image").replace("\\","")));
+                    }
+
+                    for(CityModel city : cityList) {
+                        citiesList.add(new HorizontalRecyclerViewItem(city.getCity_image(), city.getCity_name(), ""));
+                    }
+                    Log.d("CHANGED SET", "Notify dataset changed city");
+                    cityAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+        Volley.newRequestQueue(getContext()).add(stringRequest);
     }
 
 

@@ -10,4 +10,6 @@
     <dimen name="navigation_header_padding">16dp</dimen>
     <dimen name="exploreScreenTitleFontSize">30sp</dimen>
     <dimen name="articleSubtitleFontSize">20sp</dimen>
+    <dimen name="countryInfoTitleFontSize">34sp</dimen>
+    <dimen name="countryInfoGeneralDataSize">20sp</dimen>
 </resources>

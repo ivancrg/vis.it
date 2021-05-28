@@ -67,7 +67,7 @@ public class VerticalRecyclerViewAdapter extends RecyclerView.Adapter<VerticalRe
 
         // Adapter is a sort of a bridge between our data (verticalItems) and the RV
         // Adapter always provides as many items as we need at the time which means optimal performance
-        RecyclerView.Adapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(horizontalItems);
+        RecyclerView.Adapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(horizontalItems, context);
 
         // Responsible for placing items into our list
         RecyclerView.LayoutManager horizontalRecyclerViewLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);

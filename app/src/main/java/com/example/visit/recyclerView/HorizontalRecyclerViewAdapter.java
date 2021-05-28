@@ -4,6 +4,7 @@ package com.example.visit.recyclerView;
 // Adapter is a sort of a bridge between our data (horizontalItems) and the RV
 // Adapter always provides as many items as we need at the time which means optimal performance
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.visit.R;
 
 import java.util.ArrayList;
@@ -20,9 +22,11 @@ import java.util.ArrayList;
 public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<HorizontalRecyclerViewAdapter.HorizontalRecyclerViewHolder> {
     // Contains data of all HRV items
     private ArrayList<HorizontalRecyclerViewItem> horizontalItemsList;
+    private Context context;
 
-    public HorizontalRecyclerViewAdapter(ArrayList<HorizontalRecyclerViewItem> horizontalItemsList) {
+    public HorizontalRecyclerViewAdapter(ArrayList<HorizontalRecyclerViewItem> horizontalItemsList, Context context) {
         this.horizontalItemsList = horizontalItemsList;
+        this.context = context;
     }
 
     // A ViewHolder describes an item view and metadata about its place within the RecyclerView
@@ -57,7 +61,7 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Horizont
 
         HorizontalRecyclerViewItem currentItem = horizontalItemsList.get(position);
 
-        holder.imageView.setImageResource(currentItem.getImageResource());
+        Glide.with(context).asBitmap().load(currentItem.getImageResource()).into(holder.imageView);
         holder.title.setText(currentItem.getTitle());
         holder.text.setText(currentItem.getText());
     }
