@@ -3,7 +3,6 @@ package com.example.visit;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -25,13 +24,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.visit.database.CurrentTripGet;
-import com.example.visit.database.CurrentTripPatch;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
-import com.example.visit.database.TripsGet;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.GoogleMap;
@@ -76,7 +72,6 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     Bundle args;
@@ -97,6 +92,41 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
         DrawerLayout drawerLayout = view.findViewById(R.id.main_drawer_layout);
 
+        initGoogleMap(savedInstanceState);
+        initGeolocation();
+
+        arrivedButton.setOnClickListener(view1 -> {
+            Toast.makeText(getContext(), "TEMP_TEXT_NOT_IMPLEMENTED Congrats!", Toast.LENGTH_SHORT).show();
+        });
+
+        weatherIcon.setOnClickListener(view12 -> {
+            // Sending destinationCity and destinationCountry to TravellingWeatherFragment
+            TravellingWeatherFragment fragmentWeatherTravelling = new TravellingWeatherFragment();
+            fragmentWeatherTravelling.setArguments(args);
+
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), fragmentWeatherTravelling, true);
+        });
+
+        musicIcon.setOnClickListener(view13 -> {
+            // Sending destinationCity and destinationCountry to TravellingMusicFragment
+            TravellingMusicFragment fragmentMusicTravelling = new TravellingMusicFragment();
+            fragmentMusicTravelling.setArguments(args);
+
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), fragmentMusicTravelling, true);
+        });
+
+        clockIcon.setOnClickListener(view14 -> {
+            // Sending destinationCity and destinationCountry to TravellingTimeFragment
+            TravellingTimeFragment fragmentTimeTravelling = new TravellingTimeFragment();
+            fragmentTimeTravelling.setArguments(args);
+
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), fragmentTimeTravelling, true);
+        });
+
+        return view;
+    }
+
+    private void showDestinationOnMap() {
         // Get current trip from database
         Retrofit retrofit = Database.getRetrofit();
         HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
@@ -109,7 +139,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
                 if (!response.isSuccessful()) {
                     // Not OK
                     Log.e("/readOnTrip", "notSuccessful: Something went wrong. " + response.code());
-                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireView().getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -120,95 +150,60 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
                 if (currentTripGet.getFeedback().equals("currently_not_on_trip")) {
                     // Ask user to pick the trip first
                     Toast.makeText(getContext(), "Choose the trip you want to start first!", Toast.LENGTH_SHORT).show();
-                    MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), false);
-                } else if (currentTripGet.getFeedback().equals("currently_on_trip")){
+                    MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new MyTripsFragment(), false);
+                } else if (currentTripGet.getFeedback().equals("currently_on_trip")) {
                     // GET destination country and city from database
                     trip_details = currentTripGet.getTripDetails();
                     destinationCity = trip_details.getCity();
                     destinationCountry = trip_details.getCountry();
 
-                    Log.e("Destinacija: ", destinationCity + " " + destinationCountry);
-
-                   //Get destination city lat and long from name
+                    //Get destination city lat and long from name
                     Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
                     List<Address> listOfAddress;
-                            try {
-                                listOfAddress = geocoder.getFromLocationName(destinationCity, 1);
-                                if (listOfAddress != null && !listOfAddress.isEmpty()) {
-                                    Address address = listOfAddress.get(0);
+                    try {
+                        listOfAddress = geocoder.getFromLocationName(destinationCity, 1);
+                        if (listOfAddress != null && !listOfAddress.isEmpty()) {
+                            Address address = listOfAddress.get(0);
 
-                                    destinationCityLat = address.getLatitude();
-                                    destinationCityLng = address.getLongitude();
-                                    Log.e("Koordinate ", destinationCityLat + " " + destinationCityLng);
-                                }
-                            } catch (IOException e) {
-                                // If this error happens emulator needs to be restarted
-                                Log.e("grpc failed", "Emulator error, please restart and cold boot device!");
-                                e.printStackTrace();
-                            }
-                    //Froward city lat and lng to music, weather and time fragment
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            args.putString("destinationCity", destinationCity);
-                            args.putString("destinationCountry", destinationCountry);
-                            args.putDouble("destinationCityLat", destinationCityLat);
-                            args.putDouble("destinationCityLng", destinationCityLng);
+                            destinationCityLat = address.getLatitude();
+                            destinationCityLng = address.getLongitude();
+                            destinationCoordinates = new LatLng(destinationCityLat, destinationCityLng);
+
+                            // Actually showing the destination on map
+                            googleMap.addMarker(new MarkerOptions()
+                                    .position(destinationCoordinates)
+                                    .title("Trip destination"));
                         }
+                    } catch (IOException e) {
+                        // If this error happens emulator needs to be restarted
+                        Log.e("grpc failed", "Emulator error, please restart and cold boot device!");
+                        e.printStackTrace();
+                    }
+
+                    // Used for forwarding city lat and lng to music, weather and time fragment
+                    requireActivity().runOnUiThread(() -> {
+                        args.putString("destinationCity", destinationCity);
+                        args.putString("destinationCountry", destinationCountry);
+                        args.putDouble("destinationCityLat", destinationCityLat);
+                        args.putDouble("destinationCityLng", destinationCityLng);
                     });
                 } else {
                     // API did not return any trip data (because of a database error or because the user has no trips saved)
-                    Toast.makeText(view.getContext(), "No trips available.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireView().getContext(), "No trips available.", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<CurrentTripGet> call, @NotNull Throwable t) {
                 // Request towards vis.it API could not be completed
-                Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                Toast.makeText(requireView().getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 Log.e("/readOnTrip", "onFailure: Something went wrong. " + t.getMessage());
             }
         });
-
-        // TODO: Implement real destination data
-        destinationCoordinates = new LatLng(destinationCityLat, destinationCityLng);
-
-        initGoogleMap(savedInstanceState);
-
-        initGeolocation();
-
-        arrivedButton.setOnClickListener(view1 -> {
-            Toast.makeText(getContext(), "TEMP_TEXT_NOT_IMPLEMENTED Congrats!", Toast.LENGTH_SHORT).show();
-        });
-
-        weatherIcon.setOnClickListener(view12 -> {
-            // Sending destinationCity and destinationCountry to TravellingWeatherFragment
-            TravellingWeatherFragment fragmentWeatherTravelling = new TravellingWeatherFragment();
-            fragmentWeatherTravelling.setArguments(args);
-
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentWeatherTravelling, true);
-        });
-
-        musicIcon.setOnClickListener(view13 -> {
-            // Sending destinationCity and destinationCountry to TravellingMusicFragment
-            TravellingMusicFragment fragmentMusicTravelling = new TravellingMusicFragment();
-            fragmentMusicTravelling.setArguments(args);
-
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentMusicTravelling, true);
-        });
-
-        clockIcon.setOnClickListener(view14 -> {
-            // Sending destinationCity and destinationCountry to TravellingTimeFragment
-            TravellingTimeFragment fragmentTimeTravelling = new TravellingTimeFragment();
-            fragmentTimeTravelling.setArguments(args);
-
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentTimeTravelling, true);
-        });
-
-        return view;
     }
 
     private void initGeolocation() {
-        locationManager = (LocationManager) Objects.requireNonNull(getActivity()).getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         locationListener = location -> {
             // TODO: Implement real destination data
             deviceCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
@@ -225,7 +220,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
             getLocationPermission();
         }
 
-        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
@@ -242,7 +237,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     public boolean isGoogleServicesAvailable() {
         Log.d("CHECK_GOOGLE_SERVICES", "isGoogleServicesAvailable: Checking Google services version");
 
-        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(Objects.requireNonNull(getActivity()));
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireActivity());
 
         if (available == ConnectionResult.SUCCESS) {
             // Google services available, user can make Google related requests (for example GMaps API)
@@ -251,7 +246,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
             // Error that can be resolved occured
             Log.d("GOOGLE_SERVICES", "isGoogleServicesAvailable: Resolvable error");
-            Objects.requireNonNull(GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), available, ERROR_DIALOG_REQUEST)).show();
+            Objects.requireNonNull(GoogleApiAvailability.getInstance().getErrorDialog(requireActivity(), available, ERROR_DIALOG_REQUEST)).show();
         }
 
         return false;
@@ -260,7 +255,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     // Returns true if the device GPS is enabled
     // Returns false and calls buildAlertMessageNoGPS method otherwise
     public boolean isGPSEnabled() {
-        final LocationManager locationManager = (LocationManager) Objects.requireNonNull(getActivity()).getSystemService(Context.LOCATION_SERVICE);
+        final LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
 
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGPS();
@@ -276,15 +271,12 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
 
         builder.setMessage("This part of the application requires GPS to work properly. Do you want to enable it?")
                 .setCancelable(true)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // onClick event for the "Yes" button - it opens settings page for enabling GPS
-                        Intent enableGPSIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    // onClick event for the "Yes" button - it opens settings page for enabling GPS
+                    Intent enableGPSIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 
-                        // We will get activity result in onActivityResult overridden method
-                        startActivityForResult(enableGPSIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
-                    }
+                    // We will get activity result in onActivityResult overridden method
+                    startActivityForResult(enableGPSIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
                 });
 
         // Show the created dialog
@@ -307,13 +299,13 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     // Requests location permission so that we can get the location of the device
     // Result of the permission handled by onRequestPermissionsResult
     private void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()).getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(requireActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             // Fine location permission already granted in the past
             locationPermissionGranted = true;
         } else {
             // Generates a pop-up that asks for the permission
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
 
@@ -362,7 +354,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
 
         if (googleMap != null && locationPermissionGranted) {
-            if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             googleMap.setMyLocationEnabled(true);
@@ -390,18 +382,16 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap map) {
+    public void onMapReady(@NotNull GoogleMap map) {
         googleMap = map;
 
-        // TODO show destination location instead of Rijeka
-        map.addMarker(new MarkerOptions()
-                .position(destinationCoordinates)
-                .title("Trip destination"));
+        // Showing destination coordinates
+        showDestinationOnMap();
 
-        // TODO show current location
-        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION) !=
+        // Showing device location
+        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             getLocationPermission();
             return;
         }
