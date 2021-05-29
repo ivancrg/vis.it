@@ -31,7 +31,7 @@
             android:layout_height="70dp"
             android:id="@+id/exploreCountryFlag"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitXY"/>
 
         <TextView
             android:id="@+id/exploreCountryName"

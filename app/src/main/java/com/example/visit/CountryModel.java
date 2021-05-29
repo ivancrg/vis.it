@@ -15,12 +15,13 @@ public class CountryModel {
     private String capital_city;
     private String country_timezone;
     private String call_code;
+    private String geolocation;
 
 
     public CountryModel(int country_id, String country_name, String country_code, String country_flag, String country_currency,
                         int country_pop, String country_image,
                         double bigmac_index, String country_desc, String country_hemisphere, String language_top,
-                        String capital_city, String country_timezone, String call_code) {
+                        String capital_city, String country_timezone, String call_code, String geolocation) {
         this.country_id = country_id;
         this.country_name = country_name;
         this.country_code = country_code;
@@ -35,6 +36,7 @@ public class CountryModel {
         this.capital_city = capital_city;
         this.country_timezone = country_timezone;
         this.call_code = call_code;
+        this.geolocation = geolocation;
     }
 
     public int getCountry_id() {
@@ -91,5 +93,9 @@ public class CountryModel {
 
     public String getCall_code() {
         return call_code;
+    }
+
+    public String getGeolocation() {
+        return geolocation;
     }
 }

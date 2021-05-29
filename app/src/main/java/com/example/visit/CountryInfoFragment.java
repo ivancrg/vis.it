@@ -7,58 +7,79 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CountryInfoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.bumptech.glide.Glide;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Locale;
+
+
 public class CountryInfoFragment extends Fragment {
+    private CountryModel country;
+    private ArrayList<CountryModel> countryModelList;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private View titleElement;
+    private TextView countryTitle;
+    private ImageView countryImage;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private View countryInfoView;
+    private ImageView countryFlag;
+    private ImageView countryGeolocation;
+    private TextView countryCurrency;
+    private TextView countryPopulation;
+    private TextView countryLanguage;
+    private TextView countryCapital;
 
-    public CountryInfoFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CountryInfoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CountryInfoFragment newInstance(String param1, String param2) {
-        CountryInfoFragment fragment = new CountryInfoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+
+    public CountryInfoFragment (CountryModel country, ArrayList<CountryModel> countryModelList) {
+        this.country = country;
+        this.countryModelList = countryModelList;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_country_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_country_info, container, false);
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
+
+        titleElement = view.findViewById(R.id.country_info_title_element);
+        countryTitle = titleElement.findViewById(R.id.country_info_title);
+        countryImage = titleElement.findViewById(R.id.country_info_country_image);
+
+        countryTitle.setText("Explore " + country.getCountry_name());
+        Glide.with(getContext()).asBitmap().load(country.getCountry_image()).into(countryImage);
+
+        countryInfoView = view.findViewById(R.id.country_info_element);
+        countryGeolocation = view.findViewById(R.id.country_info_geolocation);
+        countryFlag = countryInfoView.findViewById(R.id.country_info_flag);
+        countryCurrency = countryInfoView.findViewById(R.id.country_info_currency);
+        countryPopulation = countryInfoView.findViewById(R.id.country_info_population);
+        countryCapital = countryInfoView.findViewById(R.id.country_info_captial_city);
+        countryLanguage = countryInfoView.findViewById(R.id.country_info_language);
+
+        Glide.with(getContext()).asBitmap().load(country.getGeolocation()).into(countryGeolocation);
+        Glide.with(getContext()).asBitmap().load(country.getCountry_flag()).into(countryFlag);
+        countryCurrency.setText("Currency: " + country.getCountry_currency());
+        countryPopulation.setText("Population: " + formatter.format(country.getCountry_pop()));
+        countryLanguage.setText("Language: " + country.getLanguage_top());
+        countryCapital.setText("Capital: " + country.getCapital_city());
+
+        return view;
     }
 }

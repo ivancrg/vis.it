@@ -5,12 +5,14 @@ public class CountryRecyclerViewItem {
     private String country_flag;
     private String title;
     private String text;
+    private int id;
 
-    public CountryRecyclerViewItem(String imageResource, String country_flag, String title, String text) {
+    public CountryRecyclerViewItem(String imageResource, String country_flag, String title, String text, int id) {
         this.imageResource = imageResource;
         this.country_flag = country_flag;
         this.title = title;
         this.text = text;
+        this.id = id;
     }
 
     public String getImageResource() {
@@ -27,5 +29,8 @@ public class CountryRecyclerViewItem {
 
     public String getText() {
         return text;
+    }
+    public int getId() {
+        return id;
     }
 }

@@ -15,7 +15,11 @@
         <include android:id="@+id/country_info_title_element"
             layout="@layout/element_country_info_title"/>
 
+        <include android:id="@+id/country_info_element"
+            layout="@layout/element_country_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/country_info_title_element"
+            android:layout_marginTop="30dp"/>
     </RelativeLayout>
-
-
 </ScrollView>

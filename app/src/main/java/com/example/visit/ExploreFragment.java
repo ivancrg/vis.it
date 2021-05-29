@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,7 @@ import com.example.visit.recyclerView.HorizontalRecyclerViewItem;
 import com.example.visit.recyclerView.RecyclerViewClickInterface;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
@@ -279,7 +281,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
 
                     for(int ind : countryIndexVector) {
                         JSONObject countryObject = array.getJSONObject(ind);
-                        countryList.add(new CountryModel(ind,
+                        countryList.add(new CountryModel(countryObject.getInt("country_id"),
                                 countryObject.getString("country_name"),
                                 countryObject.getString("country_code"),
                                 countryObject.getString("country_flag").replace("\\",""),
@@ -292,11 +294,14 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                                 countryObject.getString("language_top"),
                                 countryObject.getString("capital_city"),
                                 countryObject.getString("country_timezone"),
-                                countryObject.getString("call_code")));
+                                countryObject.getString("call_code"),
+                                "https://visitcountryapi.000webhostapp.com/Geolocation/" + countryObject.getInt("country_id") + ".png"));
+
+                        Log.d("COUNTRY POPULATION", countryObject.getString("country_name") + " POP: " + countryObject.getInt("country_pop"));
                     }
 
                     for(CountryModel country : countryList) {
-                        countriesList.add(new CountryRecyclerViewItem(country.getCountry_image(), country.getCountry_flag(), country.getCountry_name(), ""));
+                        countriesList.add(new CountryRecyclerViewItem(country.getCountry_image(), country.getCountry_flag(), country.getCountry_name(), "", country.getCountry_id()));
                     }
                     Log.d("CHANGED SET", "Notify dataset changed");
                     countryAdapter.notifyDataSetChanged();
@@ -414,7 +419,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                         } else {
                             int cityIndex = rand.nextInt(196);
                             while(cityIndexVector.contains(cityIndex)) {
-                                cityIndex = rand.nextInt();
+                                cityIndex = rand.nextInt(196);
                             }
                             cityIndexVector.add(cityIndex);
                         }
@@ -471,7 +476,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                         } else {
                             int summerIndex = rand.nextInt(15);
                             while(summerIndexVector.contains(summerIndex)) {
-                                summerIndex = rand.nextInt();
+                                summerIndex = rand.nextInt(15);
                             }
                             summerIndexVector.add(summerIndex);
                         }
@@ -541,6 +546,10 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
     @Override
     public void onItemClick(int position) {
         Toast.makeText(getContext(), "Country clicked " + countriesList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+        Fragment countryInfoFrag = new CountryInfoFragment(countryList.get(position), countryList);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, countryInfoFrag).addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
