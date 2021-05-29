@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +35,7 @@ public class CountryInfoFragment extends Fragment {
     private TextView countryPopulation;
     private TextView countryLanguage;
     private TextView countryCapital;
+    private TextClock localTime;
 
 
 
@@ -72,6 +74,7 @@ public class CountryInfoFragment extends Fragment {
         countryPopulation = countryInfoView.findViewById(R.id.country_info_population);
         countryCapital = countryInfoView.findViewById(R.id.country_info_captial_city);
         countryLanguage = countryInfoView.findViewById(R.id.country_info_language);
+        localTime = countryInfoView.findViewById(R.id.country_info_local_time_clock);
 
         Glide.with(getContext()).asBitmap().load(country.getGeolocation()).into(countryGeolocation);
         Glide.with(getContext()).asBitmap().load(country.getCountry_flag()).into(countryFlag);
@@ -79,6 +82,7 @@ public class CountryInfoFragment extends Fragment {
         countryPopulation.setText("Population: " + formatter.format(country.getCountry_pop()));
         countryLanguage.setText("Language: " + country.getLanguage_top());
         countryCapital.setText("Capital: " + country.getCapital_city());
+        localTime.setTimeZone(country.getCountry_timezone());
 
         return view;
     }

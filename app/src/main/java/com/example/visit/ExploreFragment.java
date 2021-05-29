@@ -270,7 +270,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                         } else {
                             int countryIndex = rand.nextInt(59);
                             while(countryIndexVector.contains(countryIndex)) {
-                                countryIndex = rand.nextInt();
+                                countryIndex = rand.nextInt(59);
                             }
                             countryIndexVector.add(countryIndex);
                         }

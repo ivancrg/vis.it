@@ -64,6 +64,7 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Horizont
         Glide.with(context).asBitmap().load(currentItem.getImageResource()).into(holder.imageView);
         holder.title.setText(currentItem.getTitle());
         holder.text.setText(currentItem.getText());
+        holder.text.setVisibility(View.GONE);
     }
 
     @Override
