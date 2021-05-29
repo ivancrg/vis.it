@@ -97,6 +97,7 @@ public class TripDetailsFragment extends Fragment {
 
                     if ("current_trip_updated".equals(postResponse.getFeedback())) {// Trip saved
                         Toast.makeText(view.getContext(), "Successfully starting trip.", Toast.LENGTH_LONG).show();
+                        MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TravellingFragment(), false);
                     } else if ("user_not_found".equals(postResponse.getFeedback())) {// Possible database error server-side, user not found...
                         Toast.makeText(view.getContext(), "Sorry, there is an error in the username.", Toast.LENGTH_LONG).show();
                     } else {
@@ -110,13 +111,11 @@ public class TripDetailsFragment extends Fragment {
                     Log.e("/addCurrentTrip", "onFailure: Something went wrong. " + t.getMessage());
                 }
             });
-
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingFragment(), false);
         });
 
         returnButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), false);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new MyTripsFragment(), false);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }

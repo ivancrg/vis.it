@@ -30,7 +30,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".75" />
+        app:layout_constraintGuide_percent=".65" />
+
+    <ProgressBar
+        android:id="@+id/travellingFragmentProgressBar"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        tools:progress="100"
+        android:layout_marginVertical="20dp"
+        app:layout_constraintTop_toBottomOf="@id/travellingFragmentBottomMapGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/travellingFragmentArrivedButton">
+    </ProgressBar>
+
+    <TextView
+        android:id="@+id/travellingFragmentProgressBarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/loading"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/travellingFragmentProgressBar"
+        app:layout_constraintEnd_toEndOf="@id/travellingFragmentProgressBar"
+        app:layout_constraintStart_toStartOf="@id/travellingFragmentProgressBar"
+        app:layout_constraintBottom_toBottomOf="@id/travellingFragmentProgressBar" />
 
     <TextView
         android:id="@+id/travellingFragmentTitle"
@@ -38,7 +63,7 @@
         android:layout_height="75dp"
         android:background="@color/darkBlueTopBar"
         android:gravity="bottom"
-        android:paddingStart="10dp"
+        android:paddingHorizontal="10dp"
         android:text="@string/on_the_go"
         android:textColor="@color/white"
         android:textSize="30sp"
@@ -63,7 +88,7 @@
         android:text="@string/on_destination"
         app:layout_constraintEnd_toEndOf="@id/travellingFragmentRootConstraintLayout"
         app:layout_constraintStart_toStartOf="@id/travellingFragmentRootConstraintLayout"
-        app:layout_constraintTop_toBottomOf="@+id/travellingFragmentMapView" />
+        app:layout_constraintTop_toBottomOf="@+id/travellingFragmentProgressBar" />
 
     <TableLayout
         android:id="@+id/travellingFragmentTableLayout"
@@ -77,6 +102,7 @@
         <TableRow android:gravity="center">
 
             <ImageView
+                android:contentDescription="@string/weather_title"
                 android:id="@+id/travellingFragmentWeatherIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -86,6 +112,7 @@
                 android:src="@drawable/ic_weather" />
 
             <ImageView
+                android:contentDescription="@string/music_title"
                 android:id="@+id/travellingFragmentMusicIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -95,6 +122,7 @@
                 android:src="@drawable/ic_music" />
 
             <ImageView
+                android:contentDescription="@string/time_title"
                 android:id="@+id/travellingFragmentClockIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

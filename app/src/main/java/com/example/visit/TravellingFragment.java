@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,6 +66,8 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     private Double distanceToDestination;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private ProgressBar progressBar;
+    private TextView progressBarTextView;
 
     public TravellingFragment() {
         // Required empty public constructor
@@ -91,6 +95,8 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         ImageView musicIcon = (ImageView) view.findViewById(R.id.travellingFragmentMusicIcon);
         ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
         DrawerLayout drawerLayout = view.findViewById(R.id.main_drawer_layout);
+        progressBar = view.findViewById(R.id.travellingFragmentProgressBar);
+        progressBarTextView = view.findViewById(R.id.travellingFragmentProgressBarText);
 
         initGoogleMap(savedInstanceState);
         initGeolocation();
@@ -124,6 +130,29 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         });
 
         return view;
+    }
+
+    private void refreshProgressBarValue(double distance) {
+        /*
+        TODO: When real home coordinates become available, distance should be shown as
+              a percentage of distance covered vs total distance, i.e. if I travelled
+              80km out of 100km total, percentage should be 80/100.
+              Real home coordinates are not available at the time of writing this comment.
+        */
+
+        // TODO: set homeDestinationDistance to real information (in kilometers)
+        double homeDestinationDistance = 10000;
+
+        // Converting meters to kilometers
+        distance /= 1000.0;
+
+        if (distance > homeDestinationDistance) {
+            progressBar.setProgress(0);
+            progressBarTextView.setText("0%");
+        } else {
+            progressBar.setProgress((int) ((homeDestinationDistance - distance) / 10000.0 * 100.0));
+            progressBarTextView.setText(String.format("%.4s%%", (homeDestinationDistance - distance) / 10000.0 * 100.0));
+        }
     }
 
     private void showDestinationOnMap() {
@@ -205,11 +234,15 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     private void initGeolocation() {
         locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         locationListener = location -> {
-            // TODO: Implement real destination data
+            // Location listener - it defines what is executed when our location changes by specified parameters
+
             deviceCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
 
             // Retrieves distance in meters
             distanceToDestination = SphericalUtil.computeDistanceBetween(deviceCoordinates, destinationCoordinates);
+
+            // Updates the progress in progress bar
+            refreshProgressBarValue(distanceToDestination);
 
             if (args != null) {
                 Toast.makeText(getContext(), distanceToDestination / 1000.0 + "km", Toast.LENGTH_SHORT).show();

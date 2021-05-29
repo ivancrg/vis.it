@@ -81,7 +81,7 @@ public class MyTripsFragment extends Fragment {
                     trips = tripsGet.getTrips();
 
                     recyclerViewLayoutManager = new LinearLayoutManager(getContext());
-                    recyclerViewAdapter = new RecyclerViewAdapterMyTrips(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), trips);
+                    recyclerViewAdapter = new RecyclerViewAdapterMyTrips(requireActivity().getSupportFragmentManager(), trips);
 
                     recyclerView.setLayoutManager(recyclerViewLayoutManager);
                     recyclerView.setAdapter(recyclerViewAdapter);

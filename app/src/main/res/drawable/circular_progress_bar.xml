@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+layer-list allows us to stack multiple views on top of each others, as layers.
+In our case, we will use this feature to stack the circular progress bar on top of
+a grey circle which will represent the remaining progress that needs to be done.-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Last item in the list is shown on the top -->
+
+    <item>
+        <shape
+            android:shape="ring"
+            android:thicknessRatio="16"
+            android:useLevel="false">
+            <solid android:color="#DDD" />
+        </shape>
+    </item>
+
+    <item>
+        <rotate
+            android:fromDegrees="270"
+            android:toDegrees="270">
+            <shape
+                android:shape="ring"
+                android:thicknessRatio="16"
+                android:useLevel="true">
+
+                <gradient android:type="sweep"
+                    android:startColor="@color/blue"
+                    android:endColor="#00BB77" />
+            </shape>
+        </rotate>
+    </item>
+</layer-list>
