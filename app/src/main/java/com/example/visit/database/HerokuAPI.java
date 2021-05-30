@@ -44,4 +44,7 @@ public interface HerokuAPI {
 
     @GET("readOnTrip")
     Call<CurrentTripGet> getCurrentTrip(@Query("username") String username);
+
+    @GET("connectionTest")
+    Call<ConnectionTestResponse> testConnection(@Query("testString") String testString);
 }
