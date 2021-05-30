@@ -118,27 +118,27 @@ public class RegisterFragment extends Fragment {
     private boolean informationValid(EditText firstName, EditText lastName, EditText email, EditText username, EditText password) {
         boolean valid = true;
 
-        if (firstName.getText().toString().isEmpty()) {
+        if (firstName == null || firstName.getText().toString().isEmpty()) {
             valid = false;
             firstName.setError("Please enter your first name.");
         }
 
-        if (lastName.getText().toString().isEmpty()) {
+        if (lastName == null || lastName.getText().toString().isEmpty()) {
             valid = false;
             lastName.setError("Please enter your last name.");
         }
 
-        if (email.getText().toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+        if (email == null || email.getText().toString().isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
             valid = false;
             email.setError("Please enter a valid e-mail address.");
         }
 
-        if (username.getText().toString().isEmpty()) {
+        if (username == null || username.getText().toString().isEmpty()) {
             valid = false;
             username.setError("Please enter the wanted username.");
         }
 
-        if (password.getText().toString().isEmpty() || !PASSWORD_PATTERN.matcher(password.getText().toString()).matches()) {
+        if (password == null || password.getText().toString().isEmpty() || !PASSWORD_PATTERN.matcher(password.getText().toString()).matches()) {
             valid = false;
             password.setError("Please enter a valid password. It should contain uppercase letter, lowercase letter, one number, minimum 8 characters without whitespaces.");
         }
