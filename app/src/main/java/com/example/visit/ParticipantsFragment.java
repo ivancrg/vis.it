@@ -8,9 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 public class ParticipantsFragment extends Fragment {
 
@@ -37,42 +38,28 @@ public class ParticipantsFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_participants);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
-        if(TripPlanning.getParticipantsDescription() != null) {
+        if (TripPlanning.getParticipantsDescription() != null) {
             participantsEdit.setText(TripPlanning.getParticipantsDescription());
         }
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                //destination string holds the city user picked
-                String participants = participantsEdit.getText().toString();
-                //  if user writes something in textbox, save it, but it is not required
-                if (participants.length() > 0) {
-                    TripPlanning.setParticipantsDescription(participants);
-                }
+        next.setOnClickListener(view -> {
+            // Destination string holds the city user picked
+            String participants = participantsEdit.getText().toString();
+            // If user writes something in textbox, save it, but it is not required
+            if (participants.length() > 0) {
+                TripPlanning.setParticipantsDescription(participants);
+            }
 
-                    FragmentTransaction fragmentTransaction = getActivity()
-                            .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
-                    fragmentTransaction.commit();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
-                fragmentTransaction.commit();
-            }
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                // TODO
-                //needs to be forwarded to Explore fragment
-            }
+        cancel.setOnClickListener(view -> {
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+        });
+
+        continue_exploring.setOnClickListener(view -> {
+            // TODO
+            //needs to be forwarded to Explore fragment
         });
 
         return view;

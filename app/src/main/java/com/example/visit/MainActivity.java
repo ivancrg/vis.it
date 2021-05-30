@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -50,6 +51,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         addFragment();
     }
 
+    // Method used for changing MainActivity's fragments inside of the R.id.fragment_container view
+    // with the possibility to add removed fragments to stack
+    public static void changeFragment(FragmentManager fragmentManager, Fragment fragment, boolean addToBackStack){
+        if(addToBackStack)
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+        else
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
@@ -58,38 +68,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // and delete return false to make selection in navigation drawer visible
 
         if (itemId == R.id.nav_explore) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NEWS_EXPLORE_FRAGMENT_CLASS_NAME()).commit();
-            return false;
-        } else if (itemId == R.id.nav_add_plan) {
-            if (LoggedUser.getIsLoggedIn()) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TripPlannerFragment()).commit();
-            } else {
-                Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        } else if (itemId == R.id.nav_travelling) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NEWS_TRAVELLING_FRAGMENT_CLASS_NAME()).commit();
-            return false;
-        } else if (itemId == R.id.nav_on_location) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ON_LOCATION_FRAGMENT_CLASS_NAME()).commit();
-            return false;
-        } else if (itemId == R.id.nav_account) {
-            if (LoggedUser.getIsLoggedIn()) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new UserInterfaceFragment()).commit();
-            } else {
-                Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        } else if (itemId == R.id.nav_settings) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SETTINGS_FRAGMENT_CLASS_NAME()).commit();
-            return false;
-        } else if (itemId == R.id.nav_share) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SHARE_FRAGMENT_CLASS_NAME()).commit();
-            return false;
-        } else if (itemId == R.id.nav_contact_support) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SUPPORT_FRAGMENT_CLASS_NAME()).commit();
+            //changeFragment(getSupportFragmentManager(), new NEWS_EXPLORE_FRAGMENT_CLASS_NAME(), true);
             return false;
         }
+        else if (itemId == R.id.nav_add_plan) {
+            if (LoggedUser.getIsLoggedIn()) {
+                changeFragment(getSupportFragmentManager(), new TripPlannerFragment(), true);
+            } else {
+                Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+        else if (itemId == R.id.nav_travelling) {
+            changeFragment(getSupportFragmentManager(), new TravellingFragment(), true);
+        }
+        else if (itemId == R.id.nav_on_location) {
+            //changeFragment(getSupportFragmentManager(), new ON_LOCATION_FRAGMENT_CLASS_NAME(), true);
+            return false;
+        }
+        else if (itemId == R.id.nav_account) {
+            if (LoggedUser.getIsLoggedIn()) {
+                changeFragment(getSupportFragmentManager(), new UserInterfaceFragment(), true);
+            } else {
+                Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+        else if (itemId == R.id.nav_settings) {
+            //changeFragment(getSupportFragmentManager(), new SETTINGS_FRAGMENT_CLASS_NAME(), true);
+            return false;
+        }
+        else if (itemId == R.id.nav_share) {
+            //changeFragment(getSupportFragmentManager(), new SHARE_FRAGMENT_CLASS_NAME(), true);
+            return false;
+        }
+        else if (itemId == R.id.nav_contact_support) {
+            //changeFragment(getSupportFragmentManager(), new SUPPORT_FRAGMENT_CLASS_NAME(), true);
+            return false;
+        }
+
+        // Automatically hides navigation drawer after clicking a link
+        drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
     }

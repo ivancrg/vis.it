@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/fragment_background_color">
 
     <RelativeLayout
         android:id="@+id/fragmentUserInterface"
@@ -128,6 +129,16 @@
                 android:fontFamily="sans-serif"
                 android:text="@string/change_password"
                 android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/myTripsButton"
+                style="@style/MaterialButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/changePasswordButton"
+                android:fontFamily="sans-serif"
+                android:text="@string/my_trips" />
+
         </RelativeLayout>
 
         <pl.droidsonroids.gif.GifImageView

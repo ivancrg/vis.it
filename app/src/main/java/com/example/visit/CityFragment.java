@@ -1,7 +1,6 @@
 package com.example.visit;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +10,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.WorkerThread;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import okhttp3.*;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class CityFragment extends Fragment {
 
@@ -62,7 +68,7 @@ public class CityFragment extends Fragment {
         String data = args.getString("key");
         String country = data;
 
-        if (data == null){
+        if (data == null) {
             // country is not chosen
             data = "";
             Toast.makeText(view.getContext(), "Please choose destination country first!", Toast.LENGTH_LONG).show();
@@ -81,7 +87,7 @@ public class CityFragment extends Fragment {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         MediaType mediaType = MediaType.parse("application/json");
         // requesting cities only from chosen country
-        RequestBody body = RequestBody.create(mediaType, "{\r\n   \"country\": \""+ data + "\"\r\n}");
+        RequestBody body = RequestBody.create(mediaType, "{\r\n   \"country\": \"" + data + "\"\r\n}");
         Request request = new Request.Builder()
                 .url("https://countriesnow.space/api/v0.1/countries/cities")
                 .method("POST", body)
@@ -97,7 +103,7 @@ public class CityFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     final String myResponse = response.body().string();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -107,11 +113,11 @@ public class CityFragment extends Fragment {
                                 JSONArray cityArr = cities.getJSONArray("data");
                                 // creating list of cities
                                 ArrayList<String> list = new ArrayList<String>();
-                                for(int i = 0; i < cityArr.length(); i++) {
+                                for (int i = 0; i < cityArr.length(); i++) {
                                     list.add(cityArr.getString(i));
                                 }
                                 ArrayAdapter<String> spinnerMenu = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, list);
-                                spinnerMenu.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+                                spinnerMenu.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 spinner.setAdapter(spinnerMenu);
                                 catAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
@@ -124,54 +130,36 @@ public class CityFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(getContext(), "Country not available, please pick another country!", Toast.LENGTH_SHORT).show();
-                            FragmentTransaction fragmentTransaction = getActivity()
-                                    .getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.fragment_container, new CountryFragment());
-                            fragmentTransaction.commit();
+                            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new CountryFragment(), false);
                         }
                     });
                 }
             }
         });
 
-        if(TripPlanning.getCity() != null) {
+        if (TripPlanning.getCity() != null) {
             city.setText(TripPlanning.getCity());
         }
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                //destination string holds the city user picked
-                String destination_city = city.getText().toString();
-                String city_string = spinner.getSelectedItem().toString();
-                if (city_string.length() > 0){
-                    TripPlanning.setCity(city_string);
-                    FragmentTransaction fragmentTransaction = getActivity()
-                            .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new AccommodationFragment());
-                    fragmentTransaction.commit();
-                } else {
-                    Toast.makeText(view.getContext(), "Choose destination city!", Toast.LENGTH_LONG).show();
-                }
+        next.setOnClickListener(view -> {
+            //destination string holds the city user picked
+            String destination_city = Objects.requireNonNull(city.getText()).toString();
+            String city_string = spinner.getSelectedItem().toString();
+            if (city_string.length() > 0) {
+                TripPlanning.setCity(city_string);
+                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new AccommodationFragment(), true);
+            } else {
+                Toast.makeText(view.getContext(), "Choose destination city!", Toast.LENGTH_LONG).show();
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
-                fragmentTransaction.commit();
-            }
+        cancel.setOnClickListener(view -> {
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                // TODO
-                //needs to be forwarded to Explore fragment
-            }
+        continue_exploring.setOnClickListener(view -> {
+            // TODO
+            //needs to be forwarded to Explore fragment
         });
 
         return view;

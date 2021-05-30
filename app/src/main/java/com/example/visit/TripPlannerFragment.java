@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
@@ -21,6 +20,7 @@ import com.example.visit.database.TripPost;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +29,8 @@ import retrofit2.Retrofit;
 
 public class TripPlannerFragment extends Fragment {
 
-    public TripPlannerFragment() { }
+    public TripPlannerFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,10 +97,7 @@ public class TripPlannerFragment extends Fragment {
 
         countryButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new CountryFragment());
-                fragmentTransaction.commit();
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new CountryFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -111,10 +109,8 @@ public class TripPlannerFragment extends Fragment {
                 args.putString("key", TripPlanning.getCountry());
                 CityFragment fragmentCity = new CityFragment();
                 fragmentCity.setArguments(args);
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragmentCity);
-                fragmentTransaction.commit();
+
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), fragmentCity, true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -122,10 +118,7 @@ public class TripPlannerFragment extends Fragment {
 
         locationButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new AccommodationFragment());
-                fragmentTransaction.commit();
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new AccommodationFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -133,10 +126,7 @@ public class TripPlannerFragment extends Fragment {
 
         travellingModeButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new TravellingModeFragment());
-                fragmentTransaction.commit();
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TravellingModeFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -144,10 +134,7 @@ public class TripPlannerFragment extends Fragment {
 
         dateButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new DateFragment());
-                fragmentTransaction.commit();
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new DateFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -155,10 +142,7 @@ public class TripPlannerFragment extends Fragment {
 
         necessitiesButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new TravellingNecessitiesFragment());
-                fragmentTransaction.commit();
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TravellingNecessitiesFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -166,10 +150,7 @@ public class TripPlannerFragment extends Fragment {
 
         participantsButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new ParticipantsFragment());
-                fragmentTransaction.commit();
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new ParticipantsFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }

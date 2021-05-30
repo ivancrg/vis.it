@@ -9,9 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 public class AccommodationFragment extends Fragment {
 
@@ -38,43 +39,29 @@ public class AccommodationFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_accommodation);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
-        if(TripPlanning.getLocation() != null) {
+        if (TripPlanning.getLocation() != null) {
             accommodationEdit.setText(TripPlanning.getLocation());
         }
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                //destination string holds the city user picked
-                String accommodation = accommodationEdit.getText().toString();
-                if (accommodation.length() > 0){
-                    TripPlanning.setLocation(accommodation);
+        next.setOnClickListener(view -> {
+            //destination string holds the city user picked
+            String accommodation = Objects.requireNonNull(accommodationEdit.getText()).toString();
+            if (accommodation.length() > 0) {
+                TripPlanning.setLocation(accommodation);
 
-                    FragmentTransaction fragmentTransaction = getActivity()
-                            .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new TravellingModeFragment());
-                    fragmentTransaction.commit();
-                } else {
-                    Toast.makeText(view.getContext(), "Input accommodation!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
-                fragmentTransaction.commit();
+                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingModeFragment(), true);
+            } else {
+                Toast.makeText(view.getContext(), "Input accommodation!", Toast.LENGTH_LONG).show();
             }
         });
 
-        continue_exploring.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                // TODO
-                //needs to be forwarded to Explore fragment
-            }
+        cancel.setOnClickListener(view -> {
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+        });
+
+        continue_exploring.setOnClickListener(view -> {
+            // TODO
+            //needs to be forwarded to Explore fragment
         });
 
         return view;

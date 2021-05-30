@@ -12,6 +12,8 @@
     <color name="colorDisabled">#8fcbff</color>
     <color name="darkBlueTopBar">#0034b8</color>
     <color name="darkBlueNavigationHeader">#0034b8</color>
+    <color name="fragment_background_color">#ffffff</color>
     <color name="blue">#0034b8</color>
+    <color name="weather">#034C75</color>
 
 </resources>

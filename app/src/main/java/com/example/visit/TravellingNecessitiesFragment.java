@@ -8,9 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 public class TravellingNecessitiesFragment extends Fragment {
 
@@ -37,42 +38,27 @@ public class TravellingNecessitiesFragment extends Fragment {
         Button cancel = (Button) view.findViewById(R.id.cancel_necessities);
         TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
 
-        if(TripPlanning.getNecessities() != null) {
+        if (TripPlanning.getNecessities() != null) {
             necessitiesEdit.setText(TripPlanning.getNecessities());
         }
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                //destination string holds the city user picked
-                String necessities = necessitiesEdit.getText().toString();
-                //  if user writes something in textbox, save it, but it is not required
-                if (necessities.length() > 0) {
-                    TripPlanning.setNecessities(necessities);
-                }
+        next.setOnClickListener(view -> {
+            //destination string holds the city user picked
+            String necessities = Objects.requireNonNull(necessitiesEdit.getText()).toString();
+            //  if user writes something in textbox, save it, but it is not required
+            if (necessities.length() > 0) {
+                TripPlanning.setNecessities(necessities);
+            }
 
-                    FragmentTransaction fragmentTransaction = getActivity()
-                            .getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new ParticipantsFragment());
-                    fragmentTransaction.commit();
-            }
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new ParticipantsFragment(), true);
         });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                FragmentTransaction fragmentTransaction = getActivity()
-                        .getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new TripPlannerFragment());
-                fragmentTransaction.commit();
-            }
+        cancel.setOnClickListener(view -> {
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                // TODO
-                //needs to be forwarded to Explore fragment
-            }
+        continue_exploring.setOnClickListener(view -> {
+            // TODO
+            //needs to be forwarded to Explore fragment
         });
 
         return view;
@@ -82,5 +68,4 @@ public class TravellingNecessitiesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 }

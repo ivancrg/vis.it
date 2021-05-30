@@ -5,7 +5,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -28,7 +27,6 @@ public interface HerokuAPI {
     @POST("register")
     Call<RegisterPost> register(@Body RegisterPost post);
 
-
     @PATCH("updateUser/{username}")
     Call<UpdatePatch> updateData(@Path("username") String username, @Body UpdatePatch patch);
 
@@ -38,4 +36,12 @@ public interface HerokuAPI {
     @POST("insertTrip")
     Call<TripPost> postTrip(@Body TripPost tripPost);
 
+    @GET("getUsersTrips")
+    Call<TripsGet> getUsersTrips(@Query("username") String username);
+
+    @PATCH("addOnTrip/{username}")
+    Call<CurrentTripPatch> addCurrentTrip(@Path("username") String username, @Body CurrentTripPatch patch);
+
+    @GET("readOnTrip")
+    Call<CurrentTripGet> getCurrentTrip(@Query("username") String username);
 }

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/fragment_background_color">
 
     <RelativeLayout
         android:id="@+id/tripPlannerHeader"
@@ -52,24 +53,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorDisabled"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/cityLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:hint="@string/city"
-            android:text="@string/city">
+            android:text="@string/city"
+            android:visibility="invisible">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/cityEdit"
-                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:visibility="invisible" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </RelativeLayout>
@@ -122,7 +123,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripPlannerHeader" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
