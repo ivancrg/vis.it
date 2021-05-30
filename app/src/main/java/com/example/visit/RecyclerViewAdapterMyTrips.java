@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerViewAdapterMyTrips.RecyclerViewHolderMyTrips> {
     private ArrayList<RecyclerViewItemMyTrips> tripsList;
     private static FragmentManager fragmentManager;
-    private String dateDisplay;
 
     public RecyclerViewAdapterMyTrips(FragmentManager fragmentManager, ArrayList<RecyclerViewItemMyTrips> tripsList) {
         RecyclerViewAdapterMyTrips.fragmentManager = fragmentManager;
@@ -40,7 +39,7 @@ public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerVie
         holder.countryTextView.setText(currentItem.getCountry());
         holder.cityTextView.setText(currentItem.getCity());
 
-        dateDisplay = currentItem.getDateOfDeparture().split("T")[0];
+        String dateDisplay = currentItem.getDateOfDeparture().split("T")[0];
         holder.dateTextView.setText(dateDisplay);
 
         holder.position = position;

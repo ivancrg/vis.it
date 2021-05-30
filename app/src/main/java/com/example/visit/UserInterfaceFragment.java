@@ -166,7 +166,6 @@ public class UserInterfaceFragment extends Fragment {
                 }
 
                 UpdatePatch updatePatchResponse = response.body();
-                //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
 
                 assert updatePatchResponse != null;
                 if ("user_updated".equals(updatePatchResponse.getFeedback())) {

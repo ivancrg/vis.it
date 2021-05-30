@@ -186,6 +186,8 @@ public class RegisterFragment extends Fragment {
                         // User is registered
                         Toast.makeText(view.getContext(), "Congratulations, you have been successfully registered.", Toast.LENGTH_LONG).show();
                         break;
+                    default:
+                        Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 }
             }
 

@@ -37,15 +37,18 @@ public class TravellingMusicFragment extends Fragment {
     }
 
     public static TravellingMusicFragment newInstance() {
-        TravellingMusicFragment fragment = new TravellingMusicFragment();
-        Bundle args = new Bundle();
-        return fragment;
+        return new TravellingMusicFragment();
     }
 
     View view;
-    TextView playerPosition, playerDuration, name;
+    TextView playerPosition;
+    TextView playerDuration;
+    TextView name;
     SeekBar seekBar;
-    ImageView rewind, play, fastForward, pause;
+    ImageView rewind;
+    ImageView play;
+    ImageView fastForward;
+    ImageView pause;
     ImageView avatar;
     String track = "";
     Button next;
@@ -109,9 +112,6 @@ public class TravellingMusicFragment extends Fragment {
                                 JSONObject song = musicArr.getJSONObject(rand);
                                 track = song.getJSONObject("hub").getJSONArray("actions")
                                         .getJSONObject(1).getString("uri");
-
-                                //change image of player to the artist
-                                String image = song.getJSONObject("share").getString("avatar");
 
                                 //show song title
                                 String title = song.getJSONObject("share").getString("subject");

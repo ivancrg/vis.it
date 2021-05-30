@@ -20,9 +20,7 @@ public class TravellingNecessitiesFragment extends Fragment {
     }
 
     public static TravellingNecessitiesFragment newInstance() {
-        TravellingNecessitiesFragment fragment = new TravellingNecessitiesFragment();
-        Bundle args = new Bundle();
-        return fragment;
+        return new TravellingNecessitiesFragment();
     }
 
     View view;
@@ -36,7 +34,7 @@ public class TravellingNecessitiesFragment extends Fragment {
         TextInputEditText necessitiesEdit = (TextInputEditText) view.findViewById(R.id.necessitiesEdit);
         Button next = (Button) view.findViewById(R.id.next_necessities);
         Button cancel = (Button) view.findViewById(R.id.cancel_necessities);
-        TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
+        TextView continueExploring = (TextView) view.findViewById(R.id.continue_text);
 
         if (TripPlanning.getNecessities() != null) {
             necessitiesEdit.setText(TripPlanning.getNecessities());
@@ -56,7 +54,7 @@ public class TravellingNecessitiesFragment extends Fragment {
             MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(view -> {
+        continueExploring.setOnClickListener(view -> {
             // TODO
             //needs to be forwarded to Explore fragment
         });

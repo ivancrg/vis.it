@@ -38,8 +38,7 @@ public class CityFragment extends Fragment {
     }
 
     public static CityFragment newInstance() {
-        CityFragment fragment = new CityFragment();
-        return fragment;
+        return new CityFragment();
     }
 
     View view;
@@ -61,12 +60,11 @@ public class CityFragment extends Fragment {
         TextInputEditText city = (TextInputEditText) view.findViewById(R.id.cityEdit);
         Button next = (Button) view.findViewById(R.id.next_city);
         Button cancel = (Button) view.findViewById(R.id.cancel_city);
-        TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
+        TextView continueExploring = (TextView) view.findViewById(R.id.continue_text);
 
         // data is chosen country
         Bundle args = this.getArguments();
         String data = args.getString("key");
-        String country = data;
 
         if (data == null) {
             // country is not chosen
@@ -143,10 +141,9 @@ public class CityFragment extends Fragment {
 
         next.setOnClickListener(view -> {
             //destination string holds the city user picked
-            String destination_city = Objects.requireNonNull(city.getText()).toString();
-            String city_string = spinner.getSelectedItem().toString();
-            if (city_string.length() > 0) {
-                TripPlanning.setCity(city_string);
+            String cityString = spinner.getSelectedItem().toString();
+            if (cityString.length() > 0) {
+                TripPlanning.setCity(cityString);
                 MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new AccommodationFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "Choose destination city!", Toast.LENGTH_LONG).show();
@@ -157,7 +154,7 @@ public class CityFragment extends Fragment {
             MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(view -> {
+        continueExploring.setOnClickListener(view -> {
             // TODO
             //needs to be forwarded to Explore fragment
         });

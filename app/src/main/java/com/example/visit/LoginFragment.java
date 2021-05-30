@@ -30,7 +30,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class LoginFragment extends Fragment {
-    private EditText usernameEditText, passwordEditText;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
 
     // GifImageView for GIF that shows up while waiting for API to respond
     private pl.droidsonroids.gif.GifImageView loadingImageView;
@@ -123,7 +124,6 @@ public class LoginFragment extends Fragment {
                 }
 
                 LoginPost postResponse = response.body();
-                //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
 
                 assert postResponse != null;
                 if (postResponse.getFeedback().equals("database_error")) {

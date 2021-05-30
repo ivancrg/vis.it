@@ -32,16 +32,16 @@ public class CountryFragment extends Fragment {
 
         Button next = view.findViewById(R.id.next_country);
         Button cancel = view.findViewById(R.id.cancel_country);
-        TextView continue_exploring = view.findViewById(R.id.continue_text);
+        TextView continueExploring = view.findViewById(R.id.continue_text);
 
         next.setOnClickListener(view -> {
             //destination string holds the country user picked
             if (country.getCpViewHelper().getSelectedCountry().getValue() != null) {
-                String destination_country = country.getCpViewHelper().getSelectedCountry().getValue().component3();
-                TripPlanning.setCountry(destination_country);
+                String destinationCountry = country.getCpViewHelper().getSelectedCountry().getValue().component3();
+                TripPlanning.setCountry(destinationCountry);
 
                 Bundle args = new Bundle();
-                args.putString("key", destination_country);
+                args.putString("key", destinationCountry);
                 CityFragment fragmentCity = new CityFragment();
                 fragmentCity.setArguments(args);
 
@@ -55,7 +55,7 @@ public class CountryFragment extends Fragment {
             MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(view -> {
+        continueExploring.setOnClickListener(view -> {
             // TODO
             //needs to be forwarded to Explore fragment
         });

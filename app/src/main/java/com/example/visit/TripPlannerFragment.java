@@ -20,7 +20,6 @@ import com.example.visit.database.TripPost;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -199,18 +198,12 @@ public class TripPlannerFragment extends Fragment {
                 }
 
                 TripPost postResponse = response.body();
-                //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
 
                 assert postResponse != null;
-                switch (postResponse.getFeedback()) {
-                    case "database_error":
-                        // Database error server-side
-                        Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
-                        break;
-                    case "trip_inserted":
-                        // Trip is inserted
-                        Toast.makeText(view.getContext(), "Congratulations, you successfully saved a trip!", Toast.LENGTH_LONG).show();
-                        break;
+                if ("database_error".equals(postResponse.getFeedback())) {// Database error server-side
+                    Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
+                } else if ("trip_inserted".equals(postResponse.getFeedback())) {// Trip is inserted
+                    Toast.makeText(view.getContext(), "Congratulations, you successfully saved a trip!", Toast.LENGTH_LONG).show();
                 }
             }
 

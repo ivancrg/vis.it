@@ -10,12 +10,12 @@ import com.google.gson.annotations.SerializedName;
         private String feedback;
 
         @SerializedName("trip_id")
-        private String trip_id;
+        private String tripId;
 
 
         public CurrentTripPatch(String username, String tripId) {
             this.username = username;
-            this.trip_id = tripId;
+            this.tripId = tripId;
         }
 
         public String getFeedback() {
@@ -27,7 +27,7 @@ import com.google.gson.annotations.SerializedName;
         }
 
         public String getTripId() {
-            return trip_id;
+            return tripId;
         }
 
 

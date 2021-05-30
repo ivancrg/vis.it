@@ -21,9 +21,7 @@ public class TravellingModeFragment extends Fragment {
     }
 
     public static TravellingModeFragment newInstance() {
-        TravellingModeFragment fragment = new TravellingModeFragment();
-        Bundle args = new Bundle();
-        return fragment;
+        return new TravellingModeFragment();
     }
 
     View view;
@@ -37,7 +35,7 @@ public class TravellingModeFragment extends Fragment {
         TextInputEditText modeEdit = (TextInputEditText) view.findViewById(R.id.modeEdit);
         Button next = (Button) view.findViewById(R.id.next_mode);
         Button cancel = (Button) view.findViewById(R.id.cancel_mode);
-        TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
+        TextView continueExploring = (TextView) view.findViewById(R.id.continue_text);
 
         if (TripPlanning.getTravellingMode() != null) {
             modeEdit.setText(TripPlanning.getTravellingMode());
@@ -59,7 +57,7 @@ public class TravellingModeFragment extends Fragment {
             MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(view -> {
+        continueExploring.setOnClickListener(view -> {
             // TODO
             //needs to be forwarded to Explore fragment
         });
