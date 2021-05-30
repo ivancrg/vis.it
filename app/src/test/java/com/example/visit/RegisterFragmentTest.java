@@ -1,5 +1,6 @@
 package com.example.visit;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -79,5 +80,10 @@ class RegisterFragmentTest {
         System.out.println(firstName + ", " + lastName + ", " + email + ", " + username + ", " + password + " ==> " + valid);
 
         assertEquals(Boolean.valueOf(expectedResult), valid);
+    }
+
+    @AfterAll
+    public static void afterAll(){
+        System.out.println("All tests executed.");
     }
 }

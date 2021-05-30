@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -47,4 +48,15 @@ public interface HerokuAPI {
 
     @GET("connectionTest")
     Call<ConnectionTestResponse> testConnection(@Query("testString") String testString);
+
+    // Only difference to @POST("insertTrip") is that we receive both feedback and ID of inserted trip
+    // They can be combined to one path, but I didn't want to change /insertTrip one day before the control point
+    @POST("insertTripResponseID")
+    Call<TripPost> postTripGetID(@Body TripPost tripPost);
+
+    @GET("getTripById")
+    Call<TripPost> getTripById(@Query("id") int id);
+
+    @DELETE("deleteTripById")
+    Call<String> deleteTripById(@Query("id") int id);
 }
