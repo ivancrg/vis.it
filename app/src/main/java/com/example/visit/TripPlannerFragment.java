@@ -97,7 +97,7 @@ public class TripPlannerFragment extends Fragment {
 
         countryButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new CountryFragment(), true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new CountryFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -110,7 +110,7 @@ public class TripPlannerFragment extends Fragment {
                 CityFragment fragmentCity = new CityFragment();
                 fragmentCity.setArguments(args);
 
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentCity, true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), fragmentCity, true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -118,7 +118,7 @@ public class TripPlannerFragment extends Fragment {
 
         locationButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new AccommodationFragment(), true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new AccommodationFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -126,7 +126,7 @@ public class TripPlannerFragment extends Fragment {
 
         travellingModeButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingModeFragment(), true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TravellingModeFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -134,7 +134,7 @@ public class TripPlannerFragment extends Fragment {
 
         dateButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new DateFragment(), true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new DateFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -142,7 +142,7 @@ public class TripPlannerFragment extends Fragment {
 
         necessitiesButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingNecessitiesFragment(), true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TravellingNecessitiesFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }
@@ -150,7 +150,7 @@ public class TripPlannerFragment extends Fragment {
 
         participantsButton.setOnClickListener(v -> {
             if (LoggedUser.getIsLoggedIn()) {
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new ParticipantsFragment(), true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new ParticipantsFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
             }

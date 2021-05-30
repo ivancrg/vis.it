@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -76,9 +75,7 @@ public class RecyclerViewAdapterMyTrips extends RecyclerView.Adapter<RecyclerVie
                 ChosenTrip.setData(trip);
 
                 if (LoggedUser.getIsLoggedIn()) {
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, new TripDetailsFragment());
-                    fragmentTransaction.commit();
+                    MainActivity.changeFragment(fragmentManager, new TripDetailsFragment(), true);
                 } else {
                     Toast.makeText(itemView.getContext(), "You are currently not logged in.", Toast.LENGTH_LONG).show();
                 }

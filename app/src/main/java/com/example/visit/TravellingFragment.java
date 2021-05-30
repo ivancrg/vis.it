@@ -155,7 +155,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void showDestinationOnMap() {
+    private void getShowDestinationCoordinates() {
         // Get current trip from database
         Retrofit retrofit = Database.getRetrofit();
         HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
@@ -198,6 +198,11 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
                             destinationCityLng = address.getLongitude();
                             destinationCoordinates = new LatLng(destinationCityLat, destinationCityLng);
 
+                            distanceToDestination = SphericalUtil.computeDistanceBetween(deviceCoordinates, destinationCoordinates);
+
+                            // Updates the progress in progress bar
+                            refreshProgressBarValue(distanceToDestination);
+
                             // Actually showing the destination on map
                             googleMap.addMarker(new MarkerOptions()
                                     .position(destinationCoordinates)
@@ -238,15 +243,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
 
             deviceCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
 
-            // Retrieves distance in meters
-            distanceToDestination = SphericalUtil.computeDistanceBetween(deviceCoordinates, destinationCoordinates);
-
-            // Updates the progress in progress bar
-            refreshProgressBarValue(distanceToDestination);
-
-            if (args != null) {
-                Toast.makeText(getContext(), distanceToDestination / 1000.0 + "km", Toast.LENGTH_SHORT).show();
-            }
+            getShowDestinationCoordinates();
         };
 
         if (locationPermissionGranted) {
@@ -400,6 +397,8 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
                 getLocationPermission();
             }
         }
+
+        initGeolocation();
     }
 
     @Override
@@ -417,9 +416,6 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NotNull GoogleMap map) {
         googleMap = map;
-
-        // Showing destination coordinates
-        showDestinationOnMap();
 
         // Showing device location
         if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) !=
