@@ -1,4 +1,6 @@
-package com.example.visit;
+package com.example.visit.planning;
+
+import com.example.visit.travelling.RecyclerViewItemMyTrips;
 
 public class ChosenTrip {
 

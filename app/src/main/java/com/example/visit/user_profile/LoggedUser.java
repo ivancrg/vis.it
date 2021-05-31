@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.user_profile;
 
 import com.example.visit.database.User;
 

@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.user_profile;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.LoginPost;
@@ -30,18 +32,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class LoginFragment extends Fragment {
-    private EditText usernameEditText, passwordEditText;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
 
     // GifImageView for GIF that shows up while waiting for API to respond
     private pl.droidsonroids.gif.GifImageView loadingImageView;
 
     public LoginFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -52,7 +50,7 @@ public class LoginFragment extends Fragment {
 
         if (LoggedUser.getIsLoggedIn()) {
             Toast.makeText(view.getContext(), "Welcome, " + LoggedUser.getUsername(), Toast.LENGTH_LONG).show();
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new UserInterfaceFragment(), false);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new UserInterfaceFragment(), false);
         }
 
         final EditText username = (EditText) view.findViewById(R.id.loginFragmentUsername);
@@ -70,10 +68,12 @@ public class LoginFragment extends Fragment {
         TextWatcher loginEnabledWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // we don't use this
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // we don't use this
             }
 
             @Override
@@ -94,7 +94,7 @@ public class LoginFragment extends Fragment {
         });
 
         registerLink.setOnClickListener(view12 -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new RegisterFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new RegisterFragment(), true);
         });
 
         return view;
@@ -123,7 +123,6 @@ public class LoginFragment extends Fragment {
                 }
 
                 LoginPost postResponse = response.body();
-                //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
 
                 assert postResponse != null;
                 if (postResponse.getFeedback().equals("database_error")) {

@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.planning;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -21,9 +24,7 @@ public class DateFragment extends Fragment {
     }
 
     public static DateFragment newInstance() {
-        DateFragment fragment = new DateFragment();
-        Bundle args = new Bundle();
-        return fragment;
+        return new DateFragment();
     }
 
     View view;
@@ -37,7 +38,7 @@ public class DateFragment extends Fragment {
         DatePicker datePicker = (DatePicker) view.findViewById(R.id.datePicker);
         Button next = (Button) view.findViewById(R.id.next_date);
         Button cancel = (Button) view.findViewById(R.id.cancel_date);
-        TextView continue_exploring = (TextView) view.findViewById(R.id.continue_text);
+        TextView continueExploring = (TextView) view.findViewById(R.id.continue_text);
 
         datePicker.setMinDate(System.currentTimeMillis() - 1000);
 
@@ -57,7 +58,7 @@ public class DateFragment extends Fragment {
             MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
-        continue_exploring.setOnClickListener(view -> {
+        continueExploring.setOnClickListener(view -> {
             // TODO
             //needs to be forwarded to Explore fragment
         });

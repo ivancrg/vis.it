@@ -1,5 +1,7 @@
 package com.example.visit.database;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -13,20 +15,27 @@ public class TripPost {
     private String location;
     private String necessities;
     private String creator;
-    private String travelling_mode;
-    private String date_of_departure;
-    private String participants_description;
+
+    @SerializedName("travelling_mode")
+    private String travellingMode;
+
+    @SerializedName("date_of_departure")
+    private String dateOfDeparture;
+
+    @SerializedName("participants_description")
+    private String participantsDescription;
+
     private String feedback;
 
-    public TripPost(String country, String city, String location, String travelling_mode, LocalDate date_of_departure, String necessities,
-                    String participants_description, String creator) {
+    public TripPost(String country, String city, String location, String travellingMode, LocalDate dateOfDeparture, String necessities,
+             String participantsDescription, String creator) {
         this.country = country;
         this.city = city;
         this.location = location;
-        this.travelling_mode = travelling_mode;
-        this.date_of_departure = Date.valueOf(date_of_departure.toString()).toString();
+        this.travellingMode = travellingMode;
+        this.dateOfDeparture = Date.valueOf(dateOfDeparture.toString()).toString();
         this.necessities = necessities;
-        this.participants_description = participants_description;
+        this.participantsDescription = participantsDescription;
         this.creator = creator;
     }
 
@@ -54,16 +63,16 @@ public class TripPost {
         return creator;
     }
 
-    public String getTravelling_mode() {
-        return travelling_mode;
+    public String getTravellingMode() {
+        return travellingMode;
     }
 
-    public String getDate_of_departure() {
-        return date_of_departure;
+    public String getDateOfDeparture() {
+        return dateOfDeparture;
     }
 
-    public String getParticipants_description() {
-        return participants_description;
+    public String getParticipantsDescription() {
+        return participantsDescription;
     }
 
     public String getFeedback() {
@@ -94,16 +103,16 @@ public class TripPost {
         this.creator = creator;
     }
 
-    public void setTravelling_mode(String travelling_mode) {
-        this.travelling_mode = travelling_mode;
+    public void setTravellingMode(String travellingMode) {
+        this.travellingMode = travellingMode;
     }
 
-    public void setDate_of_departure(String date_of_departure) {
-        this.date_of_departure = date_of_departure;
+    public void setDateOfDeparture(String dateOfDeparture) {
+        this.dateOfDeparture = dateOfDeparture;
     }
 
-    public void setParticipants_description(String participants_description) {
-        this.participants_description = participants_description;
+    public void setParticipantsDescription(String participantsDescription) {
+        this.participantsDescription = participantsDescription;
     }
 
     public void setFeedback(String feedback) {
@@ -117,7 +126,7 @@ public class TripPost {
         java.util.Date parsed = null;
 
         try {
-            parsed = format.parse(date_of_departure);
+            parsed = format.parse(dateOfDeparture);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             return "";
@@ -136,20 +145,20 @@ public class TripPost {
         System.out.println(country + " " + tripPost.getCountry() + " " + country.equals(tripPost.getCountry()));
         System.out.println(city + " " + tripPost.getCity() + " " + city.equals(tripPost.getCity()));
         System.out.println(location + " " + tripPost.getLocation() + " " + location.equals(tripPost.getLocation()));
-        System.out.println(travelling_mode + " " + tripPost.getTravelling_mode() + " " + travelling_mode.equals(tripPost.getTravelling_mode()));
-        System.out.println(date_of_departure + " " + tripPost.getDate_of_departure() + " " + date_of_departure.equals(tripPost.getDate_of_departure()));
-        System.out.println(date_of_departure + " " + tripPost.getDateInSQLFormat() + " " + date_of_departure.equals(tripPost.getDateInSQLFormat()));
+        System.out.println(travellingMode + " " + tripPost.getTravellingMode() + " " + travellingMode.equals(tripPost.getTravellingMode()));
+        System.out.println(dateOfDeparture + " " + tripPost.getDateOfDeparture() + " " + dateOfDeparture.equals(tripPost.getDateOfDeparture()));
+        System.out.println(dateOfDeparture + " " + tripPost.getDateInSQLFormat() + " " + dateOfDeparture.equals(tripPost.getDateInSQLFormat()));
         System.out.println(necessities + " " + tripPost.getNecessities() + " " + necessities.equals(tripPost.getNecessities()));
-        System.out.println(participants_description + " " + tripPost.getParticipants_description() + " " + participants_description.equals(tripPost.getParticipants_description()));
+        System.out.println(participantsDescription + " " + tripPost.getParticipantsDescription() + " " + participantsDescription.equals(tripPost.getParticipantsDescription()));
         System.out.println(creator + " " + tripPost.getCreator() + " " + creator.equals(tripPost.getCreator()));
 
         if (country.equals(tripPost.getCountry()) &&
                 city.equals(tripPost.getCity()) &&
                 location.equals(tripPost.getLocation()) &&
-                travelling_mode.equals(tripPost.getTravelling_mode()) &&
-                (date_of_departure.equals(tripPost.getDate_of_departure()) ||  date_of_departure.equals(tripPost.getDateInSQLFormat())) &&
+                travellingMode.equals(tripPost.getTravellingMode()) &&
+                (dateOfDeparture.equals(tripPost.getDateOfDeparture()) ||  dateOfDeparture.equals(tripPost.getDateInSQLFormat())) &&
                 necessities.equals(tripPost.getNecessities()) &&
-                participants_description.equals(tripPost.getParticipants_description()) &&
+                participantsDescription.equals(tripPost.getParticipantsDescription()) &&
                 creator.equals(tripPost.getCreator()))
             return true;
 
@@ -165,9 +174,9 @@ public class TripPost {
                 ", location='" + location + '\'' +
                 ", necessities='" + necessities + '\'' +
                 ", creator='" + creator + '\'' +
-                ", travelling_mode='" + travelling_mode + '\'' +
-                ", date_of_departure='" + date_of_departure + '\'' +
-                ", participants_description='" + participants_description + '\'' +
+                ", travellingMode='" + travellingMode + '\'' +
+                ", dateOfDeparture='" + dateOfDeparture + '\'' +
+                ", participantsDescription='" + participantsDescription + '\'' +
                 ", feedback='" + feedback + '\'' +
                 '}';
     }
