@@ -41,11 +41,6 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
@@ -53,7 +48,7 @@ public class LoginFragment extends Fragment {
 
         if (LoggedUser.getIsLoggedIn()) {
             Toast.makeText(view.getContext(), "Welcome, " + LoggedUser.getUsername(), Toast.LENGTH_LONG).show();
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new UserInterfaceFragment(), false);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new UserInterfaceFragment(), false);
         }
 
         final EditText username = (EditText) view.findViewById(R.id.loginFragmentUsername);
@@ -71,10 +66,12 @@ public class LoginFragment extends Fragment {
         TextWatcher loginEnabledWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // we don't use this
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // we don't use this
             }
 
             @Override
@@ -95,7 +92,7 @@ public class LoginFragment extends Fragment {
         });
 
         registerLink.setOnClickListener(view12 -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new RegisterFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new RegisterFragment(), true);
         });
 
         return view;
