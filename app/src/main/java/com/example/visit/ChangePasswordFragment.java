@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -44,16 +43,10 @@ public class ChangePasswordFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_change_password, container, false);
 
-        TextView changePasswordText = (TextView) view.findViewById(R.id.changePasswordTextView);
         TextInputEditText newPassword = (TextInputEditText) view.findViewById(R.id.newPasswordTextInputEditText);
         TextInputEditText confirmNewPassword = (TextInputEditText) view.findViewById(R.id.confirmNewPasswordTextInputEditText);
         Button confirm = (Button) view.findViewById(R.id.confirmButton);
@@ -65,10 +58,12 @@ public class ChangePasswordFragment extends Fragment {
         TextWatcher confirmEnabledWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // we don't need this event
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // we don't need this event
             }
 
             @Override
@@ -92,7 +87,7 @@ public class ChangePasswordFragment extends Fragment {
 
         cancel.setOnClickListener(v -> {
             //back to user interface fragment
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new UserInterfaceFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new UserInterfaceFragment(), true);
         });
         return view;
     }
@@ -138,7 +133,6 @@ public class ChangePasswordFragment extends Fragment {
                 }
 
                 UpdatePasswordPatch postResponse = response.body();
-                //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
 
                 assert postResponse != null;
 
@@ -156,6 +150,6 @@ public class ChangePasswordFragment extends Fragment {
             }
         });
 
-        MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new UserInterfaceFragment(), false);
+        MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new UserInterfaceFragment(), false);
     }
 }

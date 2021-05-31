@@ -56,18 +56,32 @@ public class TravellingWeatherFragment extends Fragment {
     }
 
     public static TravellingWeatherFragment newInstance() {
-        TravellingWeatherFragment fragment = new TravellingWeatherFragment();
-        Bundle args = new Bundle();
-        return fragment;
+        return new TravellingWeatherFragment();
     }
 
     View view;
-    TextView location, description, temperature, humidity, pressure, windSpeed, windDirection;
+    TextView location;
+    TextView description;
+    TextView temperature;
+    TextView humidity;
+    TextView pressure;
+    TextView windSpeed;
+    TextView windDirection;
     ImageView image;
-    AnyChartView chart1, chart2, chart3, chart4, chart5;
-    LinearLayout linearLayout1, linearLayout2, linearLayout3, linearLayout4, linearLayout5;
-    double lat, lon;
-    String icon, destinationCity;
+    AnyChartView chart1;
+    AnyChartView chart2;
+    AnyChartView chart3;
+    AnyChartView chart4;
+    AnyChartView chart5;
+    LinearLayout linearLayout1;
+    LinearLayout linearLayout2;
+    LinearLayout linearLayout3;
+    LinearLayout linearLayout4;
+    LinearLayout linearLayout5;
+    double lat;
+    double lon;
+    String icon;
+    String destinationCity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -143,7 +157,7 @@ public class TravellingWeatherFragment extends Fragment {
                 // Making sure that the first letter of the description is always
                 // upper case and all the other letters lower case
                 String desc = Character.toUpperCase(weatherData.getCurrentWeatherData().getWeatherDescription().get(0).getDescription().charAt(0))
-                                                    + weatherData.getCurrentWeatherData().getWeatherDescription().get(0).getDescription().substring(1).toLowerCase();
+                        + weatherData.getCurrentWeatherData().getWeatherDescription().get(0).getDescription().substring(1).toLowerCase();
 
                 // Display current weather conditions
                 description.setText(desc);
@@ -513,7 +527,7 @@ public class TravellingWeatherFragment extends Fragment {
     }
 
     // Creating chart 5 - 7 day probability of precipitation + rain/snow volume
-    private void createChart5(ArrayList<DailyForecastData> dailyForecastData){
+    private void createChart5(ArrayList<DailyForecastData> dailyForecastData) {
         // Similar setup as in all other chart-related methods
 
         APIlib.getInstance().setActiveAnyChartView(chart5);
@@ -555,7 +569,7 @@ public class TravellingWeatherFragment extends Fragment {
         extraYAxis.title("Probability");
 
         List<DataEntry> data = new ArrayList<>();
-        for(DailyForecastData dataItem : dailyForecastData){
+        for (DailyForecastData dataItem : dailyForecastData) {
             data.add(new TemperaturePrecipitationDataEntry(dataItem.getTimeddMM(),
                     dataItem.getProbabilityOfPrecipitation() * 100,
                     dataItem.getRainVolume(),
@@ -606,11 +620,11 @@ public class TravellingWeatherFragment extends Fragment {
                 .stroke("red")
                 .size(4d);
         line.tooltip()
-            .position("right")
-            .anchor(Anchor.LEFT_CENTER)
-            .offsetX(5d)
-            .offsetY(5d)
-            .format("POP: {%Value}{groupsSeparator: }%");
+                .position("right")
+                .anchor(Anchor.LEFT_CENTER)
+                .offsetX(5d)
+                .offsetY(5d)
+                .format("POP: {%Value}{groupsSeparator: }%");
         line.stroke("red");
 
         cartesian.legend().enabled(true);
@@ -633,9 +647,9 @@ public class TravellingWeatherFragment extends Fragment {
             setValue("fullTime", fullTime);
         }
     }
-    
+
     private static class PrecipitationDataEntry extends ValueDataEntry {
-        PrecipitationDataEntry(String x, Number value, String fullTime){
+        PrecipitationDataEntry(String x, Number value, String fullTime) {
             super(x, value);
             setValue("fullTime", fullTime);
         }
@@ -648,11 +662,6 @@ public class TravellingWeatherFragment extends Fragment {
             setValue("value3", value3);
             setValue("fullTime", fullTime);
         }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
 }
