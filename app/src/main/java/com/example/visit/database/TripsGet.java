@@ -1,6 +1,6 @@
 package com.example.visit.database;
 
-import com.example.visit.RecyclerViewItemMyTrips;
+import com.example.visit.travelling.RecyclerViewItemMyTrips;
 
 import java.util.ArrayList;
 

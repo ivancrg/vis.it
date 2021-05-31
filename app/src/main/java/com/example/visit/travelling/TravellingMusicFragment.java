@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.travelling;
 
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.visit.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

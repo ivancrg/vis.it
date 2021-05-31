@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".TripDetailsFragment">
+        tools:context=".travelling.TripDetailsFragment">
 
         <RelativeLayout
             android:id="@+id/tripDetailsHeader"

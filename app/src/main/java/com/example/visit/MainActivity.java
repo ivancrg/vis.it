@@ -15,6 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.visit.planning.TripPlannerFragment;
+import com.example.visit.travelling.TravellingFragment;
+import com.example.visit.user_profile.LoggedUser;
+import com.example.visit.user_profile.LoginFragment;
+import com.example.visit.user_profile.UserInterfaceFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

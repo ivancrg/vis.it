@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.travelling;
 
 import com.google.gson.annotations.SerializedName;
 

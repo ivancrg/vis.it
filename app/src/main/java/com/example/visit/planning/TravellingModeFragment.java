@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.planning;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,18 +10,20 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
-public class AccommodationFragment extends Fragment {
+public class TravellingModeFragment extends Fragment {
 
-    public AccommodationFragment() {
+    public TravellingModeFragment() {
         // Required empty public constructor
     }
 
-    public static AccommodationFragment newInstance() {
-        return new AccommodationFragment();
+    public static TravellingModeFragment newInstance() {
+        return new TravellingModeFragment();
     }
 
     View view;
@@ -30,26 +32,26 @@ public class AccommodationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_accommodation, container, false);
+        view = inflater.inflate(R.layout.fragment_travelling_mode, container, false);
 
-        TextInputEditText accommodationEdit = (TextInputEditText) view.findViewById(R.id.accommodationEdit);
-        Button next = (Button) view.findViewById(R.id.next_accommodation);
-        Button cancel = (Button) view.findViewById(R.id.cancel_accommodation);
+        TextInputEditText modeEdit = (TextInputEditText) view.findViewById(R.id.modeEdit);
+        Button next = (Button) view.findViewById(R.id.next_mode);
+        Button cancel = (Button) view.findViewById(R.id.cancel_mode);
         TextView continueExploring = (TextView) view.findViewById(R.id.continue_text);
 
-        if (TripPlanning.getLocation() != null) {
-            accommodationEdit.setText(TripPlanning.getLocation());
+        if (TripPlanning.getTravellingMode() != null) {
+            modeEdit.setText(TripPlanning.getTravellingMode());
         }
 
         next.setOnClickListener(view -> {
             //destination string holds the city user picked
-            String accommodation = Objects.requireNonNull(accommodationEdit.getText()).toString();
-            if (accommodation.length() > 0) {
-                TripPlanning.setLocation(accommodation);
+            String mode = Objects.requireNonNull(modeEdit.getText()).toString();
+            if (mode.length() > 0) {
+                TripPlanning.setTravellingMode(mode);
 
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingModeFragment(), true);
+                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new DateFragment(), true);
             } else {
-                Toast.makeText(view.getContext(), "Input accommodation!", Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), "Input travelling mode!", Toast.LENGTH_LONG).show();
             }
         });
 

@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.planning;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,22 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
-public class TravellingModeFragment extends Fragment {
+public class TravellingNecessitiesFragment extends Fragment {
 
-    public TravellingModeFragment() {
+    public TravellingNecessitiesFragment() {
         // Required empty public constructor
     }
 
-    public static TravellingModeFragment newInstance() {
-        return new TravellingModeFragment();
+    public static TravellingNecessitiesFragment newInstance() {
+        return new TravellingNecessitiesFragment();
     }
 
     View view;
@@ -30,29 +31,27 @@ public class TravellingModeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_travelling_mode, container, false);
+        view = inflater.inflate(R.layout.fragment_travelling_necessities, container, false);
 
-        TextInputEditText modeEdit = (TextInputEditText) view.findViewById(R.id.modeEdit);
-        Button next = (Button) view.findViewById(R.id.next_mode);
-        Button cancel = (Button) view.findViewById(R.id.cancel_mode);
+        TextInputEditText necessitiesEdit = (TextInputEditText) view.findViewById(R.id.necessitiesEdit);
+        Button next = (Button) view.findViewById(R.id.next_necessities);
+        Button cancel = (Button) view.findViewById(R.id.cancel_necessities);
         TextView continueExploring = (TextView) view.findViewById(R.id.continue_text);
 
-        if (TripPlanning.getTravellingMode() != null) {
-            modeEdit.setText(TripPlanning.getTravellingMode());
+        if (TripPlanning.getNecessities() != null) {
+            necessitiesEdit.setText(TripPlanning.getNecessities());
         }
 
         next.setOnClickListener(view -> {
             //destination string holds the city user picked
-            String mode = Objects.requireNonNull(modeEdit.getText()).toString();
-            if (mode.length() > 0) {
-                TripPlanning.setTravellingMode(mode);
-
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new DateFragment(), true);
-            } else {
-                Toast.makeText(view.getContext(), "Input travelling mode!", Toast.LENGTH_LONG).show();
+            String necessities = Objects.requireNonNull(necessitiesEdit.getText()).toString();
+            //  if user writes something in textbox, save it, but it is not required
+            if (necessities.length() > 0) {
+                TripPlanning.setNecessities(necessities);
             }
-        });
 
+            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new ParticipantsFragment(), true);
+        });
         cancel.setOnClickListener(view -> {
             MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
@@ -69,5 +68,4 @@ public class TravellingModeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 }

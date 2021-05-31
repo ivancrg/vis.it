@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.travelling;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -26,6 +26,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.user_profile.LoggedUser;
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 import com.example.visit.database.CurrentTripGet;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;

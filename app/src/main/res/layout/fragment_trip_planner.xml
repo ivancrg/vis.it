@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".TripPlannerFragment">
+        tools:context=".planning.TripPlannerFragment">
 
         <RelativeLayout
             android:id="@+id/tripPlannerHeader"

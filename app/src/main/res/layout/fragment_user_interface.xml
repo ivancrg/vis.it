@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".UserInterfaceFragment">
+        tools:context=".user_profile.UserInterfaceFragment">
 
         <RelativeLayout
             android:id="@+id/user_interface_header"

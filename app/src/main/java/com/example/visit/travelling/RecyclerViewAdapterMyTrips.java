@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.travelling;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.visit.user_profile.LoggedUser;
+import com.example.visit.MainActivity;
+import com.example.visit.R;
+import com.example.visit.planning.ChosenTrip;
 
 import java.util.ArrayList;
 

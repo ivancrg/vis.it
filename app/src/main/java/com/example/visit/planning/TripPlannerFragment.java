@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.planning;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.user_profile.LoggedUser;
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.TripPost;

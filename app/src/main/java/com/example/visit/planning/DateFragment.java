@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.planning;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 
 import java.time.LocalDate;
 import java.util.Objects;

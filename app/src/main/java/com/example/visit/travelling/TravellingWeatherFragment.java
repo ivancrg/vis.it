@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.travelling;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +32,7 @@ import com.anychart.enums.ScaleStackMode;
 import com.anychart.enums.TooltipPositionMode;
 import com.anychart.graphics.vector.Stroke;
 import com.anychart.scales.Linear;
+import com.example.visit.R;
 import com.example.visit.weather.DailyForecastData;
 import com.example.visit.weather.HourlyForecastData;
 import com.example.visit.weather.MinutelyForecastData;

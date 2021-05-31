@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.planning;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
