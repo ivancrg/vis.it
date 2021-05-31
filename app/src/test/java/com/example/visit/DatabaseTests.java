@@ -11,11 +11,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -41,7 +38,7 @@ public class DatabaseTests {
         Call<ConnectionTestResponse> call = herokuAPI.testConnection(testStringToServer);
         ConnectionTestResponse connectionTestResponse;
 
-        try{
+        try {
             Response<ConnectionTestResponse> response = call.execute();
 
             // Response code marks the completion of request as successful
@@ -50,7 +47,7 @@ public class DatabaseTests {
 
             System.out.println("Expected: " + expectedResponseFromServer + " ==> Received: " + connectionTestResponse.getFeedback());
             assertEquals(expectedResponseFromServer, connectionTestResponse.getFeedback());
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("onFailure: Something went wrong. ==> " + e.getMessage());
         }
     }
@@ -78,7 +75,7 @@ public class DatabaseTests {
         Call<TripPost> call = herokuAPI.postTripGetID(tripPost);
         TripPost tripPostResponse;
 
-        try{
+        try {
             Response<TripPost> response = call.execute();
 
             // Response code marks the completion of request as successful
@@ -86,11 +83,11 @@ public class DatabaseTests {
             tripPostResponse = response.body();
 
             boolean trip_is_inserted_correctly = "trip_inserted".equals(tripPostResponse.getFeedback()) && checkTripById(tripPostResponse.getId(), tripPost);
-            if(trip_is_inserted_correctly) insertedTripIDs.add(tripPostResponse.getId());
+            if (trip_is_inserted_correctly) insertedTripIDs.add(tripPostResponse.getId());
 
             System.out.println("Expected: 'trip_inserted' ==> Received: " + tripPostResponse.getFeedback());
             assertTrue(trip_is_inserted_correctly);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("onFailure databaseTripInsertion: Something went wrong. ==> " + e.getMessage());
         }
     }
@@ -105,7 +102,7 @@ public class DatabaseTests {
         Call<TripPost> call = herokuAPI.getTripById(insertedTripID);
         TripPost tripPostResponse;
 
-        try{
+        try {
             Response<TripPost> response = call.execute();
 
             // Response code marks the completion of request as successful
@@ -114,7 +111,7 @@ public class DatabaseTests {
 
             System.out.println("Expected: " + inputTrip.toString() + " ==> Received: " + tripPostResponse.toString());
             return tripPostResponse.contentEquals(inputTrip);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("onFailure checkTripById: Something went wrong. ==> " + e.getMessage());
         }
 
@@ -122,29 +119,29 @@ public class DatabaseTests {
     }
 
     @AfterAll
-    public static void afterAll(){
+    public static void afterAll() {
         // This method deletes all the inserted trips according to list of IDs
 
         Retrofit retrofit = Database.getRetrofit();
         HerokuAPI herokuAPI = retrofit.create(HerokuAPI.class);
 
-        for(Integer id : insertedTripIDs){
+        for (Integer id : insertedTripIDs) {
             Call<String> call = herokuAPI.deleteTripById(id);
             String responseString;
 
-            try{
+            try {
                 Response<String> response = call.execute();
 
                 // Response code marks the completion of request as successful
                 assert response.body() != null;
                 responseString = response.body();
 
-                if(responseString.equals("trip_deleted")){
+                if (responseString.equals("trip_deleted")) {
                     System.out.println("Trip " + id + " successfully deleted.");
-                } else{
+                } else {
                     System.out.println("Error occurred while deleting trip " + id + ".");
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("onFailure afterAll: Something went wrong. ==> " + e.getMessage());
             }
         }
