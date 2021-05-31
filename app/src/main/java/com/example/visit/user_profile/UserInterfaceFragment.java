@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.user_profile;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,10 +15,13 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.UpdatePatch;
 import com.example.visit.database.User;
+import com.example.visit.travelling.MyTripsFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -166,7 +169,6 @@ public class UserInterfaceFragment extends Fragment {
                 }
 
                 UpdatePatch updatePatchResponse = response.body();
-                //Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
 
                 assert updatePatchResponse != null;
                 if ("user_updated".equals(updatePatchResponse.getFeedback())) {

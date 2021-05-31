@@ -6,14 +6,18 @@ public class UpdatePatch {
 
     private String username;
     private String email;
-    private String first_name;
-    private String last_name;
 
-    public UpdatePatch(String username, String email, String first_name, String last_name) {
+    @SerializedName("first_name")
+    private String firstName;
+
+    @SerializedName("last_name")
+    private String lastName;
+
+    public UpdatePatch(String username, String email, String firstName, String lastName) {
         this.username = username;
         this.email = email;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     @SerializedName("feedback")
@@ -28,8 +32,8 @@ public class UpdatePatch {
         return "UpdatePatch{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
+                ", first_name='" + firstName + '\'' +
+                ", last_name='" + lastName + '\'' +
                 ", feedback='" + feedback + '\'' +
                 '}';
     }

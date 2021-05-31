@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.travelling;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -24,9 +24,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.user_profile.LoggedUser;
+import com.example.visit.MainActivity;
+import com.example.visit.R;
 import com.example.visit.database.CurrentTripGet;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
@@ -62,10 +64,10 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     private boolean locationPermissionGranted = true;
     private MapView mapView;
     private GoogleMap googleMap;
-    private LatLng homeCoordinates, deviceCoordinates, destinationCoordinates;
+    // private LatLng homeCoordinates;
+    private LatLng deviceCoordinates;
+    private LatLng destinationCoordinates;
     private Double distanceToDestination;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
     private ProgressBar progressBar;
     private TextView progressBarTextView;
 
@@ -73,16 +75,12 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     Bundle args;
-    String destinationCity, destinationCountry;
+    String destinationCity;
+    String destinationCountry;
     double destinationCityLat = 0;
     double destinationCityLng = 0;
-    RecyclerViewItemMyTrips trip_details;
+    RecyclerViewItemMyTrips tripDetails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,7 +92,6 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         ImageView weatherIcon = (ImageView) view.findViewById(R.id.travellingFragmentWeatherIcon);
         ImageView musicIcon = (ImageView) view.findViewById(R.id.travellingFragmentMusicIcon);
         ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
-        DrawerLayout drawerLayout = view.findViewById(R.id.main_drawer_layout);
         progressBar = view.findViewById(R.id.travellingFragmentProgressBar);
         progressBarTextView = view.findViewById(R.id.travellingFragmentProgressBarText);
 
@@ -182,9 +179,9 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
                     MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new MyTripsFragment(), false);
                 } else if (currentTripGet.getFeedback().equals("currently_on_trip")) {
                     // GET destination country and city from database
-                    trip_details = currentTripGet.getTripDetails();
-                    destinationCity = trip_details.getCity();
-                    destinationCountry = trip_details.getCountry();
+                    tripDetails = currentTripGet.getTripDetails();
+                    destinationCity = tripDetails.getCity();
+                    destinationCountry = tripDetails.getCountry();
 
                     //Get destination city lat and long from name
                     Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
@@ -237,8 +234,9 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initGeolocation() {
-        locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
-        locationListener = location -> {
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        // Location listener - it defines what is executed when our location changes by specified parameters
+        LocationListener locationListener = location -> {
             // Location listener - it defines what is executed when our location changes by specified parameters
 
             deviceCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
@@ -254,7 +252,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
 
-        locationManager.requestLocationUpdates("gps", 5 * 1000, 10, locationListener);
+        locationManager.requestLocationUpdates("gps", (long) 5 * 1000, 10, locationListener);
     }
 
     // Pretty self-explanatory, gets the whole checking process rolling
@@ -285,9 +283,9 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     // Returns true if the device GPS is enabled
     // Returns false and calls buildAlertMessageNoGPS method otherwise
     public boolean isGPSEnabled() {
-        final LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        final LocationManager lm = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
 
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGPS();
             return false;
         }
@@ -317,12 +315,8 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ENABLE_GPS: {
-                if (!locationPermissionGranted) {
-                    getLocationPermission();
-                }
-            }
+        if (requestCode == PERMISSIONS_REQUEST_ENABLE_GPS && !locationPermissionGranted) {
+            getLocationPermission();
         }
     }
 
@@ -344,14 +338,9 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         locationPermissionGranted = false;
 
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty
-                if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    locationPermissionGranted = true;
-                }
-            }
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION && grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {// If request is cancelled, the result arrays are empty
+            locationPermissionGranted = true;
         }
     }
 

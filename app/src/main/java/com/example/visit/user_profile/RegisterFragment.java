@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.user_profile;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.R;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.RegisterPost;
@@ -186,6 +187,8 @@ public class RegisterFragment extends Fragment {
                         // User is registered
                         Toast.makeText(view.getContext(), "Congratulations, you have been successfully registered.", Toast.LENGTH_LONG).show();
                         break;
+                    default:
+                        Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 }
             }
 

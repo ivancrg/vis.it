@@ -1,15 +1,15 @@
-package com.example.visit;
+package com.example.visit.travelling;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+
+import com.example.visit.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,9 +34,7 @@ public class TravellingTimeFragment extends Fragment {
     }
 
     public static TravellingTimeFragment newInstance() {
-        TravellingTimeFragment fragment = new TravellingTimeFragment();
-        Bundle args = new Bundle();
-        return fragment;
+        return new TravellingTimeFragment();
     }
 
     View view;
@@ -45,7 +43,8 @@ public class TravellingTimeFragment extends Fragment {
     TextView destinationTime;
     String time = "00:00";
     String currentTimeDate;
-    double latitude, longitude;
+    double latitude;
+    double longitude;
     Timer timer;
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.visit;
+package com.example.visit.planning;
 
 import com.example.visit.database.Trip;
 
