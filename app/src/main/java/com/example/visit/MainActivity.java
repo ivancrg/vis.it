@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.visit.destination.DestinationFragment;
 import com.example.visit.planning.TripPlannerFragment;
 import com.example.visit.travelling.TravellingFragment;
 import com.example.visit.user_profile.LoggedUser;
@@ -85,11 +86,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         else if (itemId == R.id.nav_travelling) {
-            changeFragment(getSupportFragmentManager(), new TravellingFragment(), true);
+            if (LoggedUser.getIsLoggedIn()) {
+                changeFragment(getSupportFragmentManager(), new TravellingFragment(), true);
+            } else {
+                Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
         else if (itemId == R.id.nav_on_location) {
-            //changeFragment(getSupportFragmentManager(), new ON_LOCATION_FRAGMENT_CLASS_NAME(), true);
-            return false;
+            if (LoggedUser.getIsLoggedIn()) {
+                changeFragment(getSupportFragmentManager(), new DestinationFragment(), true);
+            } else {
+                Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
         else if (itemId == R.id.nav_account) {
             if (LoggedUser.getIsLoggedIn()) {
