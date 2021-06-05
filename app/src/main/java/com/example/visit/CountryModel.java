@@ -2,13 +2,12 @@ package com.example.visit;
 
 public class CountryModel {
     private int country_id;
+    private int country_pop;
     private String country_name;
     private String country_code;
     private String country_flag;
     private String country_currency;
-    private int country_pop;
     private String country_image;
-    private double bigmac_index;
     private String country_desc;
     private String country_hemisphere;
     private String language_top;
@@ -16,6 +15,7 @@ public class CountryModel {
     private String country_timezone;
     private String call_code;
     private String geolocation;
+    private double bigmac_index;
 
 
     public CountryModel(int country_id, String country_name, String country_code, String country_flag, String country_currency,

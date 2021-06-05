@@ -1,15 +1,14 @@
 package com.example.visit;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 
@@ -36,8 +35,6 @@ public class CountryInfoFragment extends Fragment {
     private TextView countryLanguage;
     private TextView countryCapital;
     private TextClock localTime;
-
-
 
 
     public CountryInfoFragment (CountryModel country, ArrayList<CountryModel> countryModelList) {
@@ -76,6 +73,7 @@ public class CountryInfoFragment extends Fragment {
         countryLanguage = countryInfoView.findViewById(R.id.country_info_language);
         localTime = countryInfoView.findViewById(R.id.country_info_local_time_clock);
 
+        // Filling the elements with data stored in the CountryModel
         Glide.with(getContext()).asBitmap().load(country.getGeolocation()).into(countryGeolocation);
         Glide.with(getContext()).asBitmap().load(country.getCountry_flag()).into(countryFlag);
         countryCurrency.setText("Currency: " + country.getCountry_currency());

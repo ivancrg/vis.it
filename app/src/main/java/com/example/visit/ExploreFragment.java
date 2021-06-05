@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +17,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.visit.recyclerView.CountryRecyclerViewAdapter;
 import com.example.visit.recyclerView.CountryRecyclerViewItem;
@@ -26,20 +29,14 @@ import com.example.visit.recyclerView.HorizontalRecyclerViewAdapter;
 import com.example.visit.recyclerView.HorizontalRecyclerViewItem;
 import com.example.visit.recyclerView.RecyclerViewClickInterface;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Vector;
-import java.util.concurrent.ThreadLocalRandom;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Vector;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ExploreFragment extends Fragment implements RecyclerViewClickInterface {
     private RecyclerView cityView;
@@ -90,7 +87,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
     TextView winterCategoryTitle;
     TextView winterCategorySubtitle;
 
-
+    // Recycler View items lists
     ArrayList<ArticleModel> articleList;
     ArrayList<CountryModel> countryList;
     ArrayList<CityModel> cityList;
@@ -132,24 +129,17 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
+        // Horizontal items are placed to ArrayList<ArrayList<HorizontalRecyclerViewItem>>
+        // Vertical items are placed to ArrayList<VerticalRecyclerViewItem>
+        // All elements of ArrayList<ArrayList<HorizontalRecyclerViewItem>> are members of ArrayList<VerticalRecyclerViewItem>
 
-
-        // TODO implementation of real data
-        // Horizontal items should be placed to ArrayList<ArrayList<HorizontalRecyclerViewItem>>
-        // Vertical items should be placed to ArrayList<VerticalRecyclerViewItem>
-        // All elements of ArrayList<ArrayList<HorizontalRecyclerViewItem>> should be members of ArrayList<VerticalRecyclerViewItem>
-
-        // vertical is used to represent horizontal recycler view items
+        // Vertical is used to represent horizontal recycler view items
 
         cityElement = view.findViewById(R.id.explore_cities_item);
         cityCategoryTitle = cityElement.findViewById(R.id.verticalRecyclerViewItemTitle);
         cityCategoryText = cityElement.findViewById(R.id.verticalRecyclerViewItemText);
         cityCategoryTitle.setText(R.string.cityCategoryTitle);
         cityCategoryText.setText(R.string.cityCategorySubtitle);
-
-        /*ArrayList<VerticalRecyclerViewItem> summerAndWinterCategory = new ArrayList<>();
-        summerAndWinterCategory.add(new VerticalRecyclerViewItem("Smell the sea and feel the sky", "Best summer vacation spots", summerItemList));
-        summerAndWinterCategory.add(new VerticalRecyclerViewItem("The joys of winter", "Text", winterItemList));*/
 
         countryElement = view.findViewById(R.id.explore_countries_item);
         countryCategoryTitle = countryElement.findViewById(R.id.verticalRecyclerViewItemTitle);
@@ -191,7 +181,6 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         countryView.setLayoutManager(countryLayoutManager);
         countryView.setAdapter(countryAdapter);
 
-
         summerLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         summerAdapter = new HorizontalRecyclerViewAdapter(summerItemList, getContext());
         summerView.setLayoutManager(summerLayoutManager);
@@ -203,7 +192,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         winterView.setAdapter(winterAdapter);
 
 
-        //Filling articles with data
+        //Filling the articles with data
         travelTipsArticle = view.findViewById(R.id.travel_tips_article);
         articleButtonTop = travelTipsArticle.findViewById(R.id.article_background_button);
         articleTitleTop = travelTipsArticle.findViewById(R.id.article_title);
@@ -217,6 +206,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         return view;
     }
 
+    // OnClick method for articles
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -245,40 +235,30 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                 }
             }
         });
-
     }
 
+    // Filling the countries recycle viewer
     private void setCountries() {
+
+        // Php file which returns the country data
         final String URL_COUNTRIES = "https://visitcountryapi.000webhostapp.com/exploreCountries.php";
 
-
+        // Sending the data request
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_COUNTRIES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    //converting the string to json array object
+                    // Converting the string to json array object
                     JSONArray array = new JSONArray(response);
                     Log.d("RESPONSE", "Response COUNTRY success " + response);
 
-
+                    // Randomly picking countries to display
                     Vector<Integer> countryIndexVector = new Vector<Integer>();
-                    Random rand = new Random();
-
-                    for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
-                        if(countryIndexVector.isEmpty()) {
-                            countryIndexVector.add(rand.nextInt(59));
-                        } else {
-                            int countryIndex = rand.nextInt(59);
-                            while(countryIndexVector.contains(countryIndex)) {
-                                countryIndex = rand.nextInt(59);
-                            }
-                            countryIndexVector.add(countryIndex);
-                        }
-                    }
-
+                    countryIndexVector = randomNumGen(0 , array.length());
 
                     Log.d("COUNTRY", "Country index" + countryIndexVector);
 
+                    // Creating objects for the country data
                     for(int ind : countryIndexVector) {
                         JSONObject countryObject = array.getJSONObject(ind);
                         countryList.add(new CountryModel(countryObject.getInt("country_id"),
@@ -319,12 +299,14 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         Volley.newRequestQueue(getContext()).add(stringRequest);
     }
 
+    // Filling the article CardView
     private void setArticles() {
+        // Php file that returns the data
         final String URL_ARTICLES = "https://visitcountryapi.000webhostapp.com/exploreArticles.php";
 
         Log.d("RESPONSE ARTICLES", "Request started");
 
-
+        // Sending the data request
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ARTICLES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -333,39 +315,22 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                     JSONArray array = new JSONArray(response);
                     Log.d("RESPONSE", "Response ARTICLE success " + response);
 
+                    // Randomly choosing two articles to display
+                    Vector<Integer> articleIndexVector = new Vector<Integer>();
+                    articleIndexVector = randomNumGen(0 , array.length());
 
-                    int articleIndex, prevIndex;
-                    Random rand = new Random();
-                    articleIndex = rand.nextInt(10);
+                    Log.d("RESPONSE", "Article index" + articleIndexVector);
 
-                    Log.d("RESPONSE", "Article index" + articleIndex);
+                    for(int ind : articleIndexVector) {
+                        JSONObject articleObject = array.getJSONObject(ind);
+                        articleList.add(new ArticleModel(ind,articleObject.getString("title"),
+                                articleObject.getString("subtitle"),
+                                articleObject.getString("link"),
+                                articleObject.getString("image_url").replace("\\",""),
+                                articleObject.getString("type")));
 
-                    JSONObject articleObject = array.getJSONObject(articleIndex);
-
-                    articleList.add(new ArticleModel(articleIndex,
-                            articleObject.getString("title"),
-                            articleObject.getString("subtitle"),
-                            articleObject.getString("link").replace("\\", ""),
-                            articleObject.getString("image_url").replace("\\", ""),
-                            articleObject.getString("type")));
-
-
-                    prevIndex = articleIndex;
-                    while (prevIndex == articleIndex) {
-                        articleIndex = rand.nextInt(10);
+                        Log.d("TITLE", articleObject.getString("title"));
                     }
-                    Log.d("RESPONSE", String.valueOf(articleIndex));
-
-                    articleObject = array.getJSONObject(articleIndex);
-
-                    articleList.add(new ArticleModel(articleIndex,
-                            articleObject.getString("title"),
-                            articleObject.getString("subtitle"),
-                            articleObject.getString("link").replace("\\", ""),
-                            articleObject.getString("image_url").replace("\\", ""),
-                            articleObject.getString("type")));
-
-                    Log.d("RESPONSE ARTICLE", articleObject.getString("title"));
 
                     Log.d("RESPONSE ARTICLE", Boolean.toString(articleList.isEmpty()));
 
@@ -384,12 +349,12 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         Volley.newRequestQueue(getContext()).add(stringRequest);
     }
 
+    // Filling the article elements with data
     private void fillData() {
         if(!articleList.isEmpty()) {
             articleTitleTop.setText(articleList.get(0).getTitle());
             articleSubtitleTop.setText(articleList.get(0).getSubtitle());
             Glide.with(getContext()).load(articleList.get(0).getImageUrl()).centerCrop().into(articleButtonTop);
-
 
             articleTitleBottom.setText(articleList.get(1).getTitle());
             articleSubtitleBottom.setText(articleList.get(1).getSubtitle());
@@ -397,10 +362,11 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         }
     }
 
-
     private void setCities() {
+        // Php file that returns the city data
         final String URL_CITIES = "https://visitcountryapi.000webhostapp.com/exploreCities.php";
 
+        // Sending the data request
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_CITIES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -409,22 +375,9 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                     JSONArray array = new JSONArray(response);
                     Log.d("RESPONSE", "Response CITY success " + response);
 
-
+                    // Selecting random cities to display
                     Vector<Integer> cityIndexVector = new Vector<Integer>();
-                    Random rand = new Random();
-
-                    for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
-                        if(cityIndexVector.isEmpty()) {
-                            cityIndexVector.add(rand.nextInt(196));
-                        } else {
-                            int cityIndex = rand.nextInt(196);
-                            while(cityIndexVector.contains(cityIndex)) {
-                                cityIndex = rand.nextInt(196);
-                            }
-                            cityIndexVector.add(cityIndex);
-                        }
-                    }
-
+                    cityIndexVector = randomNumGen(0 , array.length());
 
                     Log.d("CITY", "City index" + cityIndexVector);
 
@@ -455,8 +408,10 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
     }
 
     private void setSummerAndWinter() {
+        // Php file which returns the Summer and Winter places data
         final String URL_PLACES = "https://visitcountryapi.000webhostapp.com/exploreSummerWinter.php";
 
+        // Sending the data request
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_PLACES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -465,35 +420,12 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                     JSONArray array = new JSONArray(response);
                     Log.d("RESPONSE", "Response SUMMER WINTER success " + response);
 
-
+                    // Randomly selecting data to display
                     Vector<Integer> summerIndexVector = new Vector<Integer>();
                     Vector<Integer> winterIndexVector = new Vector<>();
-                    Random rand = new Random();
-
-                    for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
-                        if(summerIndexVector.isEmpty()) {
-                            summerIndexVector.add(rand.nextInt(15));
-                        } else {
-                            int summerIndex = rand.nextInt(15);
-                            while(summerIndexVector.contains(summerIndex)) {
-                                summerIndex = rand.nextInt(15);
-                            }
-                            summerIndexVector.add(summerIndex);
-                        }
-                    }
-
-                    for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
-                        if(winterIndexVector.isEmpty()) {
-                            winterIndexVector.add(ThreadLocalRandom.current().nextInt(16, 30));
-                        } else {
-                            int winterIndex = ThreadLocalRandom.current().nextInt(16, 30);
-                            while(summerIndexVector.contains(winterIndex)) {
-                                winterIndex = ThreadLocalRandom.current().nextInt(16, 30);
-                            }
-                            winterIndexVector.add(winterIndex);
-                        }
-                    }
-
+                    int halfLenght = array.length()/2;
+                    summerIndexVector = randomNumGen(0 , halfLenght);
+                    winterIndexVector = randomNumGen(halfLenght+1,array.length());
 
                     Log.d("SUMMER", "Summer index" + summerIndexVector);
                     Log.d("WINTER", "Winter index" + winterIndexVector);
@@ -542,10 +474,9 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         Volley.newRequestQueue(getContext()).add(stringRequest);
     }
 
-
+    // Country RecyclerView OnClick method
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(getContext(), "Country clicked " + countriesList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
         Fragment countryInfoFrag = new CountryInfoFragment(countryList.get(position), countryList);
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, countryInfoFrag).addToBackStack(null);
@@ -554,5 +485,25 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
 
     @Override
     public void onLongItemClick(int position) {
+    }
+
+    // Method generating random indexes, to display data
+    public Vector<Integer> randomNumGen(int origin, int limit)
+    {
+        Vector<Integer> IndexVector = new Vector<Integer>();
+        Random rand = new Random();
+
+        for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
+            if(IndexVector.isEmpty()) {
+                IndexVector.add(ThreadLocalRandom.current().nextInt(origin,limit ));
+            } else {
+                int index = ThreadLocalRandom.current().nextInt(origin, limit);
+                while(IndexVector.contains(index)) {
+                    index = ThreadLocalRandom.current().nextInt(origin, limit);
+                }
+                IndexVector.add(index);
+            }
+        }
+        return IndexVector;
     }
 }
