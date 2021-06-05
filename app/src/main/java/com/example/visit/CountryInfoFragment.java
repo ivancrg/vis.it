@@ -35,6 +35,7 @@ public class CountryInfoFragment extends Fragment {
     private TextView countryLanguage;
     private TextView countryCapital;
     private TextClock localTime;
+    private TextView countryDesc;
 
 
     public CountryInfoFragment (CountryModel country, ArrayList<CountryModel> countryModelList) {
@@ -72,6 +73,7 @@ public class CountryInfoFragment extends Fragment {
         countryCapital = countryInfoView.findViewById(R.id.country_info_captial_city);
         countryLanguage = countryInfoView.findViewById(R.id.country_info_language);
         localTime = countryInfoView.findViewById(R.id.country_info_local_time_clock);
+        countryDesc = countryInfoView.findViewById(R.id.country_info_description);
 
         // Filling the elements with data stored in the CountryModel
         Glide.with(getContext()).asBitmap().load(country.getGeolocation()).into(countryGeolocation);
@@ -81,6 +83,7 @@ public class CountryInfoFragment extends Fragment {
         countryLanguage.setText("Language: " + country.getLanguage_top());
         countryCapital.setText("Capital: " + country.getCapital_city());
         localTime.setTimeZone(country.getCountry_timezone());
+        countryDesc.setText(country.getCountry_desc());
 
         return view;
     }

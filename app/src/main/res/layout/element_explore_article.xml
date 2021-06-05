@@ -22,6 +22,7 @@
 
         <TextView
             android:id="@+id/article_title"
+            android:fontFamily="@font/tektonpro_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -37,6 +38,7 @@
 
         <TextView
             android:id="@+id/article_subtitle"
+            android:fontFamily="@font/tektonpro_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

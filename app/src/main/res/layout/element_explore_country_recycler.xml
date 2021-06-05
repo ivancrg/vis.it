@@ -37,7 +37,7 @@
             android:id="@+id/exploreCountryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:fontFamily="@font/tektonpro_bold"
             android:layout_marginStart="4dp"
             android:layout_marginTop="164dp"
             android:background="@drawable/background_rounded_black_transparent"

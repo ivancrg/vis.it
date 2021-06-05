@@ -41,7 +41,8 @@ They consist of card views which will be scrollable horizontally.
             android:text="@string/horizontal_recycler_view_title_placeholder"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:fontFamily="@font/tektonpro_bold"/>
 
         <TextView
             android:id="@+id/horizontalRecyclerViewItemText"

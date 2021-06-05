@@ -38,6 +38,7 @@
             android:text="@string/explore_title"
             android:textColor="@color/white"
             android:textSize="@dimen/exploreScreenTitleFontSize"
+            android:fontFamily="@font/tektonpro_bold"
             android:textStyle="bold" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -27,6 +27,7 @@
             android:src="@drawable/visitcompass2"/>
         <TextView
             android:background="@drawable/background_rounded_black_transparent"
+            android:fontFamily="@font/tektonpro_bold"
             android:paddingHorizontal="10dp"
             android:id="@+id/country_info_title"
             android:layout_width="wrap_content"
