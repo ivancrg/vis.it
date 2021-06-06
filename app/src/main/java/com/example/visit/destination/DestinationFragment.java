@@ -69,15 +69,26 @@ public class DestinationFragment extends Fragment {
     }
 
     private void startConfetti(){
+        // Creates, configures and starts the confetti animation
+
         confetti.build()
+                // Selecting the shapes' available colors
                 .addColors(Color.YELLOW, Color.GREEN, Color.RED, Color.BLUE, Color.CYAN)
+                // Selecting the shapes' available directions
                 .setDirection(0.0, 359.0)
+                // Selecting the shapes' speed interval
                 .setSpeed(1f, 5f)
+                // Fade out: enable/disable
                 .setFadeOutEnabled(true)
+                // Selecting the time it takes for a shape to disappear
                 .setTimeToLive(2000L)
+                // Selecting the shapes
                 .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE, starShape, carShape, exploreShape, locationShape, airplaneShape)
+                // Selecting the shapes' size interval
                 .addSizes(new Size(16, 35f))
+                // Selecting the animation's initial position
                 .setPosition(-50f, confetti.getWidth() + 50f, -50f, -50f)
+                // Selecting the animation's duration and number of generated PPS
                 .streamFor(300, 5000L);
 
         if ((Math.random() <= 0.5)) {
