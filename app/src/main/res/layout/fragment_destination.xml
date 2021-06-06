@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/destinationFragmentRootConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".destination.DestinationFragment">
+
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/destinationFragmentConfetti"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/destinationFragmentOnDestination"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/on_destination"
+        app:layout_constraintBottom_toBottomOf="@id/destinationFragmentRootConstraintLayout"
+        app:layout_constraintEnd_toEndOf="@id/destinationFragmentRootConstraintLayout"
+        app:layout_constraintStart_toStartOf="@id/destinationFragmentRootConstraintLayout"
+        app:layout_constraintTop_toTopOf="@id/destinationFragmentRootConstraintLayout" />
+
+    <TextView
+        android:id="@+id/destinationFragmentClickMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/click_me"
+        android:textColor="@color/darkBlueTopBar"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/destinationFragmentOnDestination"
+        app:layout_constraintEnd_toEndOf="@id/destinationFragmentRootConstraintLayout"
+        app:layout_constraintStart_toStartOf="@id/destinationFragmentRootConstraintLayout" />
+
+    <TextView
+        android:id="@+id/destinationFragmentWIPLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:text="@string/wip"
+        android:textColor="@color/darkBlueTopBar"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/destinationFragmentRootConstraintLayout"
+        app:layout_constraintEnd_toEndOf="@id/destinationFragmentRootConstraintLayout"
+        app:layout_constraintStart_toStartOf="@id/destinationFragmentRootConstraintLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

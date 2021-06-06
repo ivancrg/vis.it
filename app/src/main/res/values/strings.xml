@@ -129,5 +129,7 @@
     <string name="windSpeedLabel">Wind speed</string>
     <string name="windDirectionLabel">Wind direction</string>
     <string name="descriptionLabel">Loading description...</string>
+    <string name="wip">This feature is still WIP.</string>
+    <string name="click_me">Click me</string>
 
 </resources>

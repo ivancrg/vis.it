@@ -26,6 +26,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.visit.destination.DestinationFragment;
 import com.example.visit.user_profile.LoggedUser;
 import com.example.visit.MainActivity;
 import com.example.visit.R;
@@ -70,6 +71,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
     private Double distanceToDestination;
     private ProgressBar progressBar;
     private TextView progressBarTextView;
+    private Button onDestinationButton;
 
     public TravellingFragment() {
         // Required empty public constructor
@@ -94,6 +96,7 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
         ImageView clockIcon = (ImageView) view.findViewById(R.id.travellingFragmentClockIcon);
         progressBar = view.findViewById(R.id.travellingFragmentProgressBar);
         progressBarTextView = view.findViewById(R.id.travellingFragmentProgressBarText);
+        onDestinationButton = view.findViewById(R.id.travellingFragmentArrivedButton);
 
         initGoogleMap(savedInstanceState);
         initGeolocation();
@@ -124,6 +127,10 @@ public class TravellingFragment extends Fragment implements OnMapReadyCallback {
             fragmentTimeTravelling.setArguments(args);
 
             MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), fragmentTimeTravelling, true);
+        });
+
+        onDestinationButton.setOnClickListener(v -> {
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new DestinationFragment(), false);
         });
 
         return view;
