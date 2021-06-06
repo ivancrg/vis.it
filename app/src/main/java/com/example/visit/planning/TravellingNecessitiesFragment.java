@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.visit.MainActivity;
 import com.example.visit.R;
+import com.example.visit.explore.ExploreFragment;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
@@ -57,8 +58,7 @@ public class TravellingNecessitiesFragment extends Fragment {
         });
 
         continueExploring.setOnClickListener(view -> {
-            // TODO
-            //needs to be forwarded to Explore fragment
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new ExploreFragment(), true);
         });
 
         return view;

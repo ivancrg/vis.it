@@ -1,0 +1,1 @@
+{"vis.it.app":{"name":"vis.it.app","packages":{"com.example.visit.weather":{"packageName":"com.example.visit.weather","isAll":false,"classes":["Lcom.example.visit.weather.DailyForecastData"]}}}}
