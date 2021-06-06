@@ -117,10 +117,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         summerItemList = new ArrayList<>();
         winterItemList = new ArrayList<>();
 
-        setArticles();
-        setCountries();
-        setCities();
-        setSummerAndWinter();
+
     }
 
     @Override
@@ -129,9 +126,10 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
-        // Horizontal items are placed to ArrayList<ArrayList<HorizontalRecyclerViewItem>>
-        // Vertical items are placed to ArrayList<VerticalRecyclerViewItem>
-        // All elements of ArrayList<ArrayList<HorizontalRecyclerViewItem>> are members of ArrayList<VerticalRecyclerViewItem>
+        setArticles();
+        setCountries();
+        setCities();
+        setSummerAndWinter();
 
         // Vertical is used to represent horizontal recycler view items
 
@@ -254,13 +252,13 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
 
                     // Randomly picking countries to display
                     Vector<Integer> countryIndexVector = new Vector<Integer>();
-                    countryIndexVector = randomNumGen(0 , array.length());
+                    countryIndexVector = randomNumGen(0 , array.length(), NUM_OF_RECYCLER_ITEMS);
 
                     Log.d("COUNTRY", "Country index" + countryIndexVector);
 
                     // Creating objects for the country data
-                    for(int ind : countryIndexVector) {
-                        JSONObject countryObject = array.getJSONObject(ind);
+                    for(int i = 0; i < array.length(); i++) {
+                        JSONObject countryObject = array.getJSONObject(i);
                         countryList.add(new CountryModel(countryObject.getInt("country_id"),
                                 countryObject.getString("country_name"),
                                 countryObject.getString("country_code"),
@@ -280,8 +278,9 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                         Log.d("COUNTRY POPULATION", countryObject.getString("country_name") + " POP: " + countryObject.getInt("country_pop"));
                     }
 
-                    for(CountryModel country : countryList) {
-                        countriesList.add(new CountryRecyclerViewItem(country.getCountry_image(), country.getCountry_flag(), country.getCountry_name(), "", country.getCountry_id()));
+                    for(int ind : countryIndexVector) {
+                        countriesList.add(new CountryRecyclerViewItem(countryList.get(ind).getCountry_image(), countryList.get(ind).getCountry_flag(),
+                                countryList.get(ind).getCountry_name(), "", countryList.get(ind).getCountry_id()));
                     }
                     Log.d("CHANGED SET", "Notify dataset changed");
                     countryAdapter.notifyDataSetChanged();
@@ -317,7 +316,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
 
                     // Randomly choosing two articles to display
                     Vector<Integer> articleIndexVector = new Vector<Integer>();
-                    articleIndexVector = randomNumGen(0 , array.length());
+                    articleIndexVector = randomNumGen(0 , array.length(), 2);
 
                     Log.d("RESPONSE", "Article index" + articleIndexVector);
 
@@ -377,7 +376,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
 
                     // Selecting random cities to display
                     Vector<Integer> cityIndexVector = new Vector<Integer>();
-                    cityIndexVector = randomNumGen(0 , array.length());
+                    cityIndexVector = randomNumGen(0 , array.length(), NUM_OF_RECYCLER_ITEMS);
 
                     Log.d("CITY", "City index" + cityIndexVector);
 
@@ -424,8 +423,8 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
                     Vector<Integer> summerIndexVector = new Vector<Integer>();
                     Vector<Integer> winterIndexVector = new Vector<>();
                     int halfLenght = array.length()/2;
-                    summerIndexVector = randomNumGen(0 , halfLenght);
-                    winterIndexVector = randomNumGen(halfLenght+1,array.length());
+                    summerIndexVector = randomNumGen(0 , halfLenght, NUM_OF_RECYCLER_ITEMS);
+                    winterIndexVector = randomNumGen(halfLenght+1, array.length(), NUM_OF_RECYCLER_ITEMS);
 
                     Log.d("SUMMER", "Summer index" + summerIndexVector);
                     Log.d("WINTER", "Winter index" + winterIndexVector);
@@ -477,7 +476,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
     // Country RecyclerView OnClick method
     @Override
     public void onItemClick(int position) {
-        Fragment countryInfoFrag = new CountryInfoFragment(countryList.get(position), countryList);
+        Fragment countryInfoFrag = new CountryInfoFragment(countryList.get(countriesList.get(position).getId() - 1), countryList);
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, countryInfoFrag).addToBackStack(null);
         transaction.commit();
@@ -488,12 +487,12 @@ public class ExploreFragment extends Fragment implements RecyclerViewClickInterf
     }
 
     // Method generating random indexes, to display data
-    public Vector<Integer> randomNumGen(int origin, int limit)
+    public Vector<Integer> randomNumGen(int origin, int limit, int numOfItems)
     {
         Vector<Integer> IndexVector = new Vector<Integer>();
         Random rand = new Random();
 
-        for(int i = 0; i < NUM_OF_RECYCLER_ITEMS; i++) {
+        for(int i = 0; i < numOfItems; i++) {
             if(IndexVector.isEmpty()) {
                 IndexVector.add(ThreadLocalRandom.current().nextInt(origin,limit ));
             } else {
