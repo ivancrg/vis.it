@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.visit.destination.DestinationFragment;
+import com.example.visit.explore.ExploreFragment;
 import com.example.visit.planning.TripPlannerFragment;
 import com.example.visit.travelling.TravellingFragment;
 import com.example.visit.user_profile.LoggedUser;
@@ -59,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // Method used for changing MainActivity's fragments inside of the R.id.fragment_container view
     // with the possibility to add removed fragments to stack
-    public static void changeFragment(FragmentManager fragmentManager, Fragment fragment, boolean addToBackStack){
-        if(addToBackStack)
+    public static void changeFragment(FragmentManager fragmentManager, Fragment fragment, boolean addToBackStack) {
+        if (addToBackStack)
             fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
         else
             fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
@@ -74,50 +75,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // and delete return false to make selection in navigation drawer visible
 
         if (itemId == R.id.nav_explore) {
-            //changeFragment(getSupportFragmentManager(), new NEWS_EXPLORE_FRAGMENT_CLASS_NAME(), true);
-            return false;
-        }
-        else if (itemId == R.id.nav_add_plan) {
+            changeFragment(getSupportFragmentManager(), new ExploreFragment(), true);
+        } else if (itemId == R.id.nav_add_plan) {
             if (LoggedUser.getIsLoggedIn()) {
                 changeFragment(getSupportFragmentManager(), new TripPlannerFragment(), true);
             } else {
                 Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
                 return false;
             }
-        }
-        else if (itemId == R.id.nav_travelling) {
+        } else if (itemId == R.id.nav_travelling) {
             if (LoggedUser.getIsLoggedIn()) {
                 changeFragment(getSupportFragmentManager(), new TravellingFragment(), true);
             } else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new LoginFragment()).commit();
                 Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
-                return false;
             }
-        }
-        else if (itemId == R.id.nav_on_location) {
+        } else if (itemId == R.id.nav_on_location) {
             if (LoggedUser.getIsLoggedIn()) {
                 changeFragment(getSupportFragmentManager(), new DestinationFragment(), true);
             } else {
                 Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
                 return false;
             }
-        }
-        else if (itemId == R.id.nav_account) {
+        } else if (itemId == R.id.nav_account) {
             if (LoggedUser.getIsLoggedIn()) {
                 changeFragment(getSupportFragmentManager(), new UserInterfaceFragment(), true);
             } else {
                 Toast.makeText(this, "You are currently not logged in.", Toast.LENGTH_LONG).show();
                 return false;
             }
-        }
-        else if (itemId == R.id.nav_settings) {
+        } else if (itemId == R.id.nav_settings) {
             //changeFragment(getSupportFragmentManager(), new SETTINGS_FRAGMENT_CLASS_NAME(), true);
             return false;
-        }
-        else if (itemId == R.id.nav_share) {
+        } else if (itemId == R.id.nav_share) {
             //changeFragment(getSupportFragmentManager(), new SHARE_FRAGMENT_CLASS_NAME(), true);
             return false;
-        }
-        else if (itemId == R.id.nav_contact_support) {
+        } else if (itemId == R.id.nav_contact_support) {
             //changeFragment(getSupportFragmentManager(), new SUPPORT_FRAGMENT_CLASS_NAME(), true);
             return false;
         }

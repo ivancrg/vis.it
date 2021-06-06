@@ -115,13 +115,13 @@ public class TravellingTimeFragment extends Fragment {
                         JSONObject timeObject = new JSONObject(myResponse);
                         time = timeObject.get("formatted").toString();
 
-                        if (time != null){
+                        if (time != null) {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    try{
+                                    try {
                                         destinationTime.setText(time.substring(time.length() - 8, time.length() - 3));
-                                    } catch (StringIndexOutOfBoundsException e){
+                                    } catch (StringIndexOutOfBoundsException e) {
                                         // If this error happens emulator needs to be restarted
                                         Toast.makeText(getContext(), "Time not available!", Toast.LENGTH_SHORT).show();
                                         destinationTime.setText("          ");
@@ -132,7 +132,7 @@ public class TravellingTimeFragment extends Fragment {
                             Toast.makeText(getContext(), "Time not available!", Toast.LENGTH_SHORT).show();
                         }
 
-                        } catch (JSONException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -148,7 +148,7 @@ public class TravellingTimeFragment extends Fragment {
 
     // Stop updating time after back key pressed
     @Override
-    public void onDetach(){
+    public void onDetach() {
         super.onDetach();
         timer.cancel();
     }

@@ -14,7 +14,6 @@ import com.example.visit.MainActivity;
 import com.example.visit.R;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 
 public class DateFragment extends Fragment {
@@ -51,11 +50,11 @@ public class DateFragment extends Fragment {
             LocalDate date = LocalDate.of(year, month, day);
             TripPlanning.setDateOfDeparture(date);
 
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingNecessitiesFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TravellingNecessitiesFragment(), true);
         });
 
         cancel.setOnClickListener(view -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
         continueExploring.setOnClickListener(view -> {

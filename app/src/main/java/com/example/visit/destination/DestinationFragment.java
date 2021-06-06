@@ -68,7 +68,7 @@ public class DestinationFragment extends Fragment {
         return view;
     }
 
-    private void startConfetti(){
+    private void startConfetti() {
         // Creates, configures and starts the confetti animation
 
         confetti.build()
@@ -98,11 +98,11 @@ public class DestinationFragment extends Fragment {
         }
     }
 
-    private void animateVibrate(View v){
-        ObjectAnimator rotate = ObjectAnimator.ofFloat(v, "rotation", 0f, 15f, 0f, -15f, 0f); // rotate o degree then 15 degree and so on for one loop of rotation.
+    private void animateVibrate(View v) {
+        ObjectAnimator rotate = ObjectAnimator.ofFloat(v, "rotation", 0f, 15f, 0f, -15f, 0f); // Rotate 15 degrees then -15 degrees and so on for one loop of rotation
 
-        rotate.setRepeatCount(15); // repeat the loop 20 times
-        rotate.setDuration(200); // animation play time 100 ms
+        rotate.setRepeatCount(15); // Repeat the loop 15 times
+        rotate.setDuration(200); // Animation play time 200 ms
         rotate.start();
     }
 }

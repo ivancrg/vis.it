@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="0dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bigmac_relative_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/tektonpro_bold"
+            android:layout_height="wrap_content"
+            android:id="@+id/bigmac_title"
+            android:text="Purchasing Power Calculator"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/tektonpro_bold"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bigmac_title"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/country_of_origin"
+            android:text="Country of origin:"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/countryInfoGeneralDataSize"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:fontFamily="@font/tektonpro_bold"
+            android:id="@+id/country_of_origin_dropdown"
+            android:layout_toEndOf="@+id/country_of_origin"
+            android:layout_below="@+id/bigmac_title"
+            android:layout_marginTop="10dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"/>
+
+        <Button
+            android:id="@+id/calculate_button"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:background="@drawable/button_calculate"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/tektonpro_bold"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:text="$Calculate$"
+            android:layout_below="@id/country_of_origin_dropdown"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:id="@+id/calculate_result_separator"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="5dp"
+            android:background="@android:color/darker_gray"
+            android:layout_below="@+id/calculate_button"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:fontFamily="@font/tektonpro_bold"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calculate_result_separator"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/calculator_result"
+            android:text="@string/bigmac_result_text"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/countryInfoGeneralDataSize"/>
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>

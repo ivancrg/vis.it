@@ -26,13 +26,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.visit.destination.DestinationFragment;
-import com.example.visit.user_profile.LoggedUser;
 import com.example.visit.MainActivity;
 import com.example.visit.R;
 import com.example.visit.database.CurrentTripGet;
 import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
+import com.example.visit.destination.DestinationFragment;
+import com.example.visit.user_profile.LoggedUser;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.GoogleMap;

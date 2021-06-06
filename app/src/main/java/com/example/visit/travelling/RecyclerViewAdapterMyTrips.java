@@ -11,10 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.visit.user_profile.LoggedUser;
 import com.example.visit.MainActivity;
 import com.example.visit.R;
 import com.example.visit.planning.ChosenTrip;
+import com.example.visit.user_profile.LoggedUser;
 
 import java.util.ArrayList;
 

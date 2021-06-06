@@ -20,11 +20,10 @@ import com.example.visit.database.Database;
 import com.example.visit.database.HerokuAPI;
 import com.example.visit.database.LoginPost;
 import com.example.visit.database.User;
+import com.example.visit.explore.ExploreFragment;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,7 +49,7 @@ public class LoginFragment extends Fragment {
 
         if (LoggedUser.getIsLoggedIn()) {
             Toast.makeText(view.getContext(), "Welcome, " + LoggedUser.getUsername(), Toast.LENGTH_LONG).show();
-            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new UserInterfaceFragment(), false);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new ExploreFragment(), false);
         }
 
         final EditText username = (EditText) view.findViewById(R.id.loginFragmentUsername);
@@ -191,7 +190,7 @@ public class LoginFragment extends Fragment {
                     LoggedUser.setData(user);
                     LoggedUser.setIsLoggedIn(true);
 
-                    MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new UserInterfaceFragment(), false);
+                    MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new ExploreFragment(), false);
                 } else {
                     Toast.makeText(view.getContext(), "Sorry, there was an error.", Toast.LENGTH_LONG).show();
                 }

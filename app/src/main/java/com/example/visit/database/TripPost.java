@@ -28,7 +28,7 @@ public class TripPost {
     private String feedback;
 
     public TripPost(String country, String city, String location, String travellingMode, LocalDate dateOfDeparture, String necessities,
-             String participantsDescription, String creator) {
+                    String participantsDescription, String creator) {
         this.country = country;
         this.city = city;
         this.location = location;
@@ -119,7 +119,7 @@ public class TripPost {
         this.feedback = feedback;
     }
 
-    public String getDateInSQLFormat(){
+    public String getDateInSQLFormat() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
 
@@ -141,7 +141,6 @@ public class TripPost {
     public boolean contentEquals(TripPost tripPost) throws ParseException {
 
 
-
         System.out.println(country + " " + tripPost.getCountry() + " " + country.equals(tripPost.getCountry()));
         System.out.println(city + " " + tripPost.getCity() + " " + city.equals(tripPost.getCity()));
         System.out.println(location + " " + tripPost.getLocation() + " " + location.equals(tripPost.getLocation()));
@@ -156,7 +155,7 @@ public class TripPost {
                 city.equals(tripPost.getCity()) &&
                 location.equals(tripPost.getLocation()) &&
                 travellingMode.equals(tripPost.getTravellingMode()) &&
-                (dateOfDeparture.equals(tripPost.getDateOfDeparture()) ||  dateOfDeparture.equals(tripPost.getDateInSQLFormat())) &&
+                (dateOfDeparture.equals(tripPost.getDateOfDeparture()) || dateOfDeparture.equals(tripPost.getDateInSQLFormat())) &&
                 necessities.equals(tripPost.getNecessities()) &&
                 participantsDescription.equals(tripPost.getParticipantsDescription()) &&
                 creator.equals(tripPost.getCreator()))

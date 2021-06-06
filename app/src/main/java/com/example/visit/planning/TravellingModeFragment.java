@@ -49,14 +49,14 @@ public class TravellingModeFragment extends Fragment {
             if (mode.length() > 0) {
                 TripPlanning.setTravellingMode(mode);
 
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new DateFragment(), true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new DateFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "Input travelling mode!", Toast.LENGTH_LONG).show();
             }
         });
 
         cancel.setOnClickListener(view -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
         continueExploring.setOnClickListener(view -> {

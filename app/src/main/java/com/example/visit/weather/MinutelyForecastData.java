@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class MinutelyForecastData {
-    // Time of the forecasted data, unix, UTC
+    // Time of the forecast data, unix, UTC
     @SerializedName("dt")
     private Double time;
 
@@ -22,7 +22,7 @@ public class MinutelyForecastData {
     }
 
     // Converts forecast's time (dt) to local (device's timezone) HH:mm format
-    public String getTimeHHmm(){
+    public String getTimeHHmm() {
         long timeLong = (long) (time * 1000);
         Date date = new Date(timeLong);
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");

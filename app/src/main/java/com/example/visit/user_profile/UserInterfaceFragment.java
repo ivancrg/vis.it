@@ -27,8 +27,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,7 +59,7 @@ public class UserInterfaceFragment extends Fragment {
         Button myTrips = (Button) view.findViewById(R.id.myTripsButton);
         loadingImageView = (pl.droidsonroids.gif.GifImageView) view.findViewById(R.id.userInterfaceFragmentLoading);
 
-        NavigationView navigationView = (NavigationView) Objects.requireNonNull(getActivity()).findViewById(R.id.navigation_view);
+        NavigationView navigationView = (NavigationView) requireActivity().findViewById(R.id.navigation_view);
         View headerView = navigationView.getHeaderView(0);
         TextView navigationLabelFullName = (TextView) headerView.findViewById(R.id.navigation_full_name);
         TextView navigationLabelUsername = (TextView) headerView.findViewById(R.id.navigation_username);
@@ -115,11 +113,11 @@ public class UserInterfaceFragment extends Fragment {
         });
 
         changePassword.setOnClickListener(v -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new ChangePasswordFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new ChangePasswordFragment(), true);
         });
 
         myTrips.setOnClickListener(v -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new MyTripsFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new MyTripsFragment(), true);
         });
 
         return view;

@@ -49,14 +49,14 @@ public class AccommodationFragment extends Fragment {
             if (accommodation.length() > 0) {
                 TripPlanning.setLocation(accommodation);
 
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TravellingModeFragment(), true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TravellingModeFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "Input accommodation!", Toast.LENGTH_LONG).show();
             }
         });
 
         cancel.setOnClickListener(view -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
         continueExploring.setOnClickListener(view -> {

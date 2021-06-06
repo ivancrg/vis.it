@@ -96,8 +96,8 @@
     <string name="on_destination">On destination!</string>
     <string name="on_the_go">On the go…</string>
 
-    <string name="loading_location">Loading location...</string>
-    <string name="loading">Loading...</string>
+    <string name="loading_location">Loading location…</string>
+    <string name="loading">Loading…</string>
 
     <!-- Strings related to fragments inside travelling screen -->
     <string name="music_title">Music</string>
@@ -128,8 +128,22 @@
     <string name="pressureLabel">Pressure</string>
     <string name="windSpeedLabel">Wind speed</string>
     <string name="windDirectionLabel">Wind direction</string>
-    <string name="descriptionLabel">Loading description...</string>
+    <string name="descriptionLabel">Loading description…</string>
     <string name="wip">This feature is still WIP.</string>
     <string name="click_me">Click me</string>
 
+    <!-- String related to explore fragment -->
+    <string name="explore_title">Adventure awaits…</string>
+    <string name="vertical_recycler_view_button_text">More…</string>
+    <string name="vertical_recycler_view_title_placeholder">Title</string>
+    <string name="horizontal_recycler_view_title_placeholder">Title</string>
+    <string name="countryCategoryTitle">Interesting countries to explore</string>
+    <string name="countryCategorySubtitle">Discover the beauty of different cultures and places</string>
+    <string name="cityCategoryTitle">Explore vibrant new places</string>
+    <string name="cityCategorySubtitle">Worlds most interesting cities</string>
+    <string name="summerCategoryTitle">Smell the sea and feel the sky</string>
+    <string name="summerCategorySubtitle">Best summer vacation spots</string>
+    <string name="winterCategoryTitle">The joys of winter</string>
+    <string name="winterCategorySubtitle">Enjoy these popular winter vacation spots</string>
+    <string name="bigmac_result_text">Purchasing power of $100 dollars in your home country VS abroad based on the Big Mac Index.</string>
 </resources>

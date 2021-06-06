@@ -14,8 +14,6 @@ import com.example.visit.MainActivity;
 import com.example.visit.R;
 import com.hbb20.CountryPickerView;
 
-import java.util.Objects;
-
 public class CountryFragment extends Fragment {
 
     public CountryFragment() {
@@ -47,14 +45,14 @@ public class CountryFragment extends Fragment {
                 CityFragment fragmentCity = new CityFragment();
                 fragmentCity.setArguments(args);
 
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), fragmentCity, true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), fragmentCity, true);
             } else {
                 Toast.makeText(view.getContext(), "Choose destination country!", Toast.LENGTH_LONG).show();
             }
         });
 
         cancel.setOnClickListener(view -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
         continueExploring.setOnClickListener(view -> {

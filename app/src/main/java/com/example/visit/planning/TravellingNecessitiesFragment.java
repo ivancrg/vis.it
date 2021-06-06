@@ -43,17 +43,17 @@ public class TravellingNecessitiesFragment extends Fragment {
         }
 
         next.setOnClickListener(view -> {
-            //destination string holds the city user picked
+            // Destination string holds the city user picked
             String necessities = Objects.requireNonNull(necessitiesEdit.getText()).toString();
-            //  if user writes something in textbox, save it, but it is not required
+            // If user writes something in textbox, save it, but it is not required
             if (necessities.length() > 0) {
                 TripPlanning.setNecessities(necessities);
             }
 
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new ParticipantsFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new ParticipantsFragment(), true);
         });
         cancel.setOnClickListener(view -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
         continueExploring.setOnClickListener(view -> {

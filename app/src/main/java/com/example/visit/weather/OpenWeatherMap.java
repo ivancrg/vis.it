@@ -7,12 +7,12 @@ public abstract class OpenWeatherMap {
     private static final String BASE_URL = "https://api.openweathermap.org";
     private static final String API_KEY = "498a9c26d96534a84e001c916b65855c";
 
-    public class UNITS{
+    public class UNITS {
         public static final String METRIC = "metric";
         public static final String IMPERIAL = "imperial";
     }
 
-    public static Retrofit getRetrofit(){
+    public static Retrofit getRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl(OpenWeatherMap.getBASE_URL())
                 .addConverterFactory(GsonConverterFactory.create())

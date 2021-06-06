@@ -145,7 +145,7 @@ public class HourlyForecastData {
     }
 
     // Converts forecast's time (dt) to local (device's timezone) dd.MM.yyyy. @ HH:mm format
-    public String getDateTime(){
+    public String getDateTime() {
         long timeLong = (long) (time * 1000);
         Date date = new Date(timeLong);
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy. @ HH:mm");
@@ -155,7 +155,7 @@ public class HourlyForecastData {
     }
 
     // Converts forecast's time (dt) to local (device's timezone) HH:mm format
-    public String getTimeHHmm(){
+    public String getTimeHHmm() {
         long timeLong = (long) (time * 1000);
         Date date = new Date(timeLong);
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");

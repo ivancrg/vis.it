@@ -23,6 +23,9 @@ allprojects {
             url 'https://raw.github.com/zeeshanejaz/unirest-android/mvn-repo'
         }
         maven { url 'https://jitpack.io' }
+        maven {
+            url "https://maven.google.com"
+        }
     }
 }
 

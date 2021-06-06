@@ -13,8 +13,6 @@ import com.example.visit.MainActivity;
 import com.example.visit.R;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.Objects;
-
 public class ParticipantsFragment extends Fragment {
 
     public ParticipantsFragment() {
@@ -50,11 +48,11 @@ public class ParticipantsFragment extends Fragment {
                 TripPlanning.setParticipantsDescription(participants);
             }
 
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
         cancel.setOnClickListener(view -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
         continueExploring.setOnClickListener(view -> {

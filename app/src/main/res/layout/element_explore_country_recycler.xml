@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="horizontal"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="0dp"
+    app:cardUseCompatPadding="true">
+
+    <FrameLayout
+        android:id="@+id/explore_country_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <ImageView
+            android:id="@+id/exploreCountryImage"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:id="@+id/exploreCountryFlag"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/exploreCountryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/tektonpro_bold"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="164dp"
+            android:background="@drawable/background_rounded_black_transparent"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/horizontal_recycler_view_title_placeholder"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

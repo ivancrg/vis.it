@@ -23,7 +23,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -130,7 +129,7 @@ public class CityFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(getContext(), "Country not available, please pick another country!", Toast.LENGTH_SHORT).show();
-                            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new CountryFragment(), false);
+                            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new CountryFragment(), false);
                         }
                     });
                 }
@@ -146,14 +145,14 @@ public class CityFragment extends Fragment {
             String cityString = spinner.getSelectedItem().toString();
             if (cityString.length() > 0) {
                 TripPlanning.setCity(cityString);
-                MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new AccommodationFragment(), true);
+                MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new AccommodationFragment(), true);
             } else {
                 Toast.makeText(view.getContext(), "Choose destination city!", Toast.LENGTH_LONG).show();
             }
         });
 
         cancel.setOnClickListener(view -> {
-            MainActivity.changeFragment(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), new TripPlannerFragment(), true);
+            MainActivity.changeFragment(requireActivity().getSupportFragmentManager(), new TripPlannerFragment(), true);
         });
 
         continueExploring.setOnClickListener(view -> {

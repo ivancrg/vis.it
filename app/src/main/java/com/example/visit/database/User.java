@@ -53,7 +53,7 @@ public class User {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "User{"
                 + "firstName = " + firstName
                 + "lastName = " + lastName
